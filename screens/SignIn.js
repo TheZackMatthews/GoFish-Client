@@ -16,7 +16,7 @@ import {
 import { COLORS, SIZES, FONTS } from "../constants/theme";
 import images from "../images";
 
-function SignIn() {
+function SignIn({navigation}) {
   firebaseClient();
   const showPassword = false;
   const [email, setEmail] = useState("");
@@ -25,9 +25,11 @@ function SignIn() {
 
   const submitHandler = async (e) => {
       try {
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        let result = await firebase.auth().signInWithEmailAndPassword(email, password)
+        console.log(result)
         setEmail('');
         setPassword('');
+        navigation.navigate('Profile')
       } catch(error) {
           setErrorM(error.message)
       }
@@ -43,9 +45,11 @@ function SignIn() {
       >
         {/* Username */}
         <View style={{ marginTop: SIZES.padding * 3 }}>
+        {errorM && <Text>{errorM}</Text>}
           <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>
             Email
           </Text>
+
           <TextInput
             onChangeText={(text) => setEmail(text)}
             defaultValue={email}
@@ -120,7 +124,7 @@ function SignIn() {
             justifyContent: "center",
             marginTop: SIZES.padding * 5,
           }}
-          onPress={() => console.log("sign in...")}
+          onPress={submitHandler}
         >
           <Text style={{ color: COLORS.white, ...FONTS.h3 }}>Sign In</Text>
         </TouchableOpacity>
@@ -138,7 +142,7 @@ function SignIn() {
           marginTop: SIZES.padding,
           paddingHorizontal: SIZES.padding * 2,
         }}
-        onPress={() => console.log("Sign Up")}
+        onPress={() => navigation.navigate('SignUp')}
       >
         <Text
           style={{ alignSelf: "flex-end", color: COLORS.black, ...FONTS.h4 }}

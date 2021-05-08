@@ -19,8 +19,9 @@ export default function App() {
             screenOptions={{headerShown: false }}
             initialRouteName='SignIn'>
           <Stack.Screen name="SignIn" component={SignIn} />
-          {/* <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="ProjectProfile" component={ProjectProfile} /> */}
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="ProjectProfile" component={ProjectProfile} />
+          <Stack.Screen name="Profile" component={UserProfile} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
