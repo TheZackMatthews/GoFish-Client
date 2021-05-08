@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {SignIn, SignUp, EditUserInfo, ProjectMap, ProjectProfile, ReferenceInfo, UserMap, UserProfile} from './screens/index.js'
+import {SignIn, SignUp, EditUserInfo, ProjectMap, ProjectProfile, ReferenceInfo, UserMap, UserProfile, Fish1, FishAlive1,FishAlive2} from './screens/index.js'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -16,8 +16,8 @@ export default function App() {
        
       <Stack.Navigator 
       screenOptions={{headerShown: false }}
-                initialRouteName='SignIn'>
-      <Stack.Screen name="SignIn" component={SignIn} />
+                initialRouteName='FishAlive2'>
+      <Stack.Screen name="FishAlive2" component={FishAlive2} />
       {/* <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="ProjectProfile" component={ProjectProfile} /> */}
     </Stack.Navigator>
