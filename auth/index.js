@@ -9,7 +9,7 @@ const AuthProvider = ({children}) => {
   firebaseClient();
   const [ user, setUser ] = useState(null);
   const [ loading, setLoading ] = useState(true);
-  
+
   useEffect(() => {
     setLoading(false)
     return firebase.auth().onIdTokenChanged(async (user) => {

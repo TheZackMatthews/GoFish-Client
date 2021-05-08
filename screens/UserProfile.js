@@ -1,14 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../auth'
-import { StyleSheet, Text, View } from 'react-native';
+import { firebaseClient } from '../auth/firebaseClient';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import firebase from 'firebase/app';
+import "firebase/auth";
 
-function UserProfile(props) {
-  const context = useAuth();
-  console.log(context)
+function UserProfile({navigation}) {
+  firebaseClient();
+  const [ errorM, setErrorM ] = useState('');
+  const { user } = useAuth();
+
+  const submitHandler = async () => {
+    try {
+      setErrorM('');
+      await firebase.auth().signOut();
+      navigation.navigate('SignIn')
+    } catch (error) {
+      setErrorM(error.message)
+    }
+  }
+
   return (
-    <View>
-      <Text>UserProfile</Text>
-    </View>
+    user ? (
+      <View>
+        {!!errorM && <Text>{errorM}</Text>}
+        <Text>UserProfile</Text>
+        <TouchableOpacity
+          onPress={submitHandler}
+        >
+          <Text>Button</Text>
+        </TouchableOpacity>
+      </View>
+    ) : (
+      <View>
+        {!!errorM && <Text>{errorM}</Text>}
+      </View>
+    )
   );
 }
 const styles = StyleSheet.create({

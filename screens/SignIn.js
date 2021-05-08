@@ -21,7 +21,7 @@ function SignIn({navigation}) {
   const showPassword = false;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorM, setErrorM] = useState(null);
+  const [errorM, setErrorM] = useState('');
 
   const submitHandler = async (e) => {
       try {
@@ -45,7 +45,7 @@ function SignIn({navigation}) {
       >
         {/* Username */}
         <View style={{ marginTop: SIZES.padding * 3 }}>
-        {errorM && <Text>{errorM}</Text>}
+        {!!errorM && <Text>{errorM}</Text>}
           <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>
             Email
           </Text>
