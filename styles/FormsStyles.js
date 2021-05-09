@@ -60,6 +60,10 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: SIZES.padding * 5,
   },
+  submitView: { 
+    marginLeft: SIZES.padding * 3,
+    marginRight: SIZES.padding * 3,
+  },
   buttonText: { color: COLORS.white, ...FONTS.h3 }
 })
 

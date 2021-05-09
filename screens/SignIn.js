@@ -3,18 +3,16 @@ import { firebaseClient } from "../auth/firebaseClient";
 import firebase from "firebase/app";
 import "firebase/auth";
 import {
-  StyleSheet,
   Text,
   View,
   KeyboardAvoidingView,
   ScrollView,
-  renderForm,
-  Image,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
+import { TextInput } from 'react-native-paper';
+import GoFishLogo from '../components/GoFishLogo';
 import { COLORS, SIZES, FONTS } from "../constants/theme";
-import images from "../images";
+import { styles } from '../styles/FormsStyles'
 
 function SignIn({navigation}) {
   firebaseClient();
@@ -38,65 +36,25 @@ function SignIn({navigation}) {
 
   function renderForm() {
     return (
-      <View
-        style={{
-          marginTop: SIZES.padding,
-          marginHorizontal: SIZES.padding * 3,
-        }}
-      >
-        {/* Username */}
-        <View style={{ marginTop: SIZES.padding * 3 }}>
+      <View style={styles.outsideView}>
+        <View style={styles.view}>
         {!!errorM && <Text>{errorM}</Text>}
-          <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>
-            Email
-          </Text>
-
           <TextInput
             onChangeText={(text) => setEmail(text)}
             defaultValue={email}
-            style={{
-              marginVertical: SIZES.padding,
-              borderBottomColor: COLORS.white,
-              borderBottomWidth: 1,
-              height: 40,
-              color: COLORS.white,
-              ...FONTS.body3,
-            }}
-            placeholder="Enter Email"
-            placeholderTextColor={COLORS.white}
-            selectionColor={COLORS.white}
+            label="Email"
           />
         </View>
 
-        {/* Password */}
-        <View style={{ marginTop: SIZES.padding * 2 }}>
-          <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>
-            Password
-          </Text>
+        <View style={styles.view}>
           <TextInput
             onChangeText={text => setPassword(text)}
             defaultValue={password}
-            style={{
-              marginVertical: SIZES.padding,
-              borderBottomColor: COLORS.white,
-              borderBottomWidth: 1,
-              height: 40,
-              color: COLORS.white,
-              ...FONTS.body3,
-            }}
-            placeholder="Enter Password"
-            placeholderTextColor={COLORS.white}
-            selectionColor={COLORS.white}
+            label="Password"
             secureTextEntry={!showPassword}
           />
           <TouchableOpacity
-            style={{
-              position: "absolute",
-              right: 0,
-              bottom: 10,
-              height: 30,
-              width: 30,
-            }}
+            style={styles.button}
             // onPress={() => setShowPassword(!showPassword)}
           >
             {/* <Image
@@ -115,19 +73,11 @@ function SignIn({navigation}) {
 
   function renderButton() {
     return (
-      <View style={{ margin: SIZES.padding * 3 }}>
+      <View style={styles.submitView}>
         <TouchableOpacity
-          style={{
-            height: 60,
-            backgroundColor: COLORS.black,
-            borderRadius: SIZES.radius,
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: SIZES.padding * 5,
-          }}
-          onPress={submitHandler}
-        >
-          <Text style={{ color: COLORS.white, ...FONTS.h3 }}>Sign In</Text>
+          style={styles.submitButton}
+          onPress={submitHandler}>
+          <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
       </View>
     );
@@ -136,18 +86,9 @@ function SignIn({navigation}) {
   function renderSignUpLink() {
     return (
       <TouchableOpacity
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          alignSelf: "center",
-          marginTop: SIZES.padding,
-          paddingHorizontal: SIZES.padding * 2,
-        }}
-        onPress={() => navigation.navigate('SignUp')}
-      >
-        <Text
-          style={{ alignSelf: "flex-end", color: COLORS.black, ...FONTS.h4 }}
-        >
+        style={styles.signInLink}
+        onPress={() => navigation.navigate('SignUp')}>
+        <Text style={styles.textP}>
           Create Account
         </Text>
       </TouchableOpacity>
@@ -156,11 +97,7 @@ function SignIn({navigation}) {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
-        <View style={styles.headContainer}>
-          <Text style={styles.firstHeader}>GO Fish</Text>
-          <Image source={images.logo} style={styles.logo} />
-          <Text style={styles.signIn}>Sign In</Text>
-        </View>
+        <GoFishLogo title="Sign in" />
         {renderForm()}
         {renderButton()}
         {renderSignUpLink()}
@@ -170,29 +107,5 @@ function SignIn({navigation}) {
     </KeyboardAvoidingView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.lime,
-  },
-  headContainer: {
-    alignItems: "center",
-  },
-  firstHeader: {
-    marginBottom: SIZES.padding,
-    color: COLORS.lightGreen,
-    fontSize: SIZES.largeTitle,
-    marginTop: SIZES.padding * 4,
-  },
-  logo: {
-    width: 60,
-    height: 60,
-  },
-  signIn: {
-    marginTop: SIZES.padding * 5,
-    color: COLORS.lightGreen,
-    fontSize: SIZES.h1,
-  },
-});
 
 export default SignIn;
