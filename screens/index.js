@@ -6,8 +6,9 @@ import ProjectProfile from  './ProjectProfile';
 import ReferenceInfo from  './ReferenceInfo';
 import UserMap from  './UserMap';
 import UserProfile from  './UserProfile';
+import Camera from '../components/camera/Camera'
 
 export {
-  SignIn, SignUp, EditUserInfo, ProjectMap, ProjectProfile, ReferenceInfo, UserMap, UserProfile
+  Camera, SignIn, SignUp, EditUserInfo, ProjectMap, ProjectProfile, ReferenceInfo, UserMap, UserProfile
 }
 
