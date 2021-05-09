@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { TextInput } from 'react-native-paper';
+import GoFishLogo from '../components/GoFishLogo'
 import { COLORS, SIZES, FONTS } from "../constants/theme";
 import images from "../images";
 import { styles } from '../styles/FormsStyles'
@@ -58,7 +59,6 @@ function SignUp({navigation}) {
     }
   }
 
-  console.log(signUp)
   function renderForm() {
     return (
       <View style={styles.outsideView}>
@@ -147,11 +147,7 @@ function SignUp({navigation}) {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
-        <View style={styles.headContainer}>
-          <Text style={styles.firstHeader}>GO Fish</Text>
-          <Image source={images.logo} style={styles.logo} />
-          <Text style={styles.signUp}>Sign Up</Text>
-        </View>
+        <GoFishLogo title="Sign Up"></GoFishLogo>
         {renderForm()}
         {renderButton()}
         {renderSignInLink()}
