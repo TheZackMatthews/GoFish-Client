@@ -30,8 +30,9 @@ function SignIn({navigation}) {
         setEmail('');
         setPassword('');
         navigation.navigate('Profile')
-      } catch(error) {
+      } catch (error) {
           setErrorM(error.message)
+          throw new Error(error.message)
       }
   }
 
