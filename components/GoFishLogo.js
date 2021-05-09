@@ -7,8 +7,8 @@ import { styles } from "../styles/FormsStyles";
 const GoFishLogo = ({ title }) => {
   return (
     <View style={styles.headContainer}>
-      <Text style={styles.firstHeader}>Go Fish</Text>
-      <Image style={styles.logo} source={images.logo} />
+      {/* <Text style={styles.firstHeader}>Go Fish</Text> */}
+      <Image style={styles.logo2} source={images.logo2} />
       <Text style={styles.signUp}>{title}</Text>
     </View>
   );

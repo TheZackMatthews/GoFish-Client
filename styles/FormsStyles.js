@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   },
   headContainer: {
     alignItems: "center",
+    marginTop: 100,
   },
   firstHeader: {
     marginBottom: SIZES.padding,
@@ -64,7 +65,11 @@ export const styles = StyleSheet.create({
     marginLeft: SIZES.padding * 3,
     marginRight: SIZES.padding * 3,
   },
-  buttonText: { color: COLORS.white, ...FONTS.h3 }
+  buttonText: { color: COLORS.white, ...FONTS.h3 },
+  logo2: {
+    width: 350,
+    height: 170,
+  },
 })
 
 

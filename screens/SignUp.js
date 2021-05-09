@@ -11,7 +11,7 @@ import {
 import { TextInput } from 'react-native-paper';
 import GoFishLogo from '../components/GoFishLogo'
 import { COLORS, SIZES, FONTS } from "../constants/theme";
-import images from "../images";
+
 import { styles } from '../styles/FormsStyles'
 import { firebaseClient } from '../auth/firebaseClient';
 import firebase from 'firebase/app';
@@ -123,7 +123,7 @@ function SignUp({navigation}) {
 
   function renderButton() {
     return (
-      <View style={{ margin: SIZES.padding * 3 }}>
+      <View style={styles.submitView}>
         <TouchableOpacity
           style={styles.submitButton}
           onPress={submitHandler}>
@@ -147,7 +147,7 @@ function SignUp({navigation}) {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
-        <GoFishLogo title="Sign Up"></GoFishLogo>
+        <GoFishLogo title="Sign Up"/>
         {renderForm()}
         {renderButton()}
         {renderSignInLink()}
