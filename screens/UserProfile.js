@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../redux/actions/userActions";
 import { useAuth } from "../auth";
 import {
   KeyboardAvoidingView,
   ScrollView,
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { Title, Button, List } from "react-native-paper";
@@ -16,16 +14,21 @@ import { styles } from "../styles/UserStyles";
 function UserProfile({ navigation }) {
   const [errorM, setErrorM] = useState("");
   const { user } = useAuth();
+  console.log(user)
   const dispatch = useDispatch();
 
   const submitHandler = async () => {
     setErrorM("");
     let result = await dispatch(logOutUser(setErrorM));
-
+    console.log(result)
     if (result && result.payload) {
       navigation.navigate("SignIn");
     }
   };
+
+  const buttonHandler = (type) => {
+    console.log(type)
+  }
 
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
@@ -41,7 +44,6 @@ function UserProfile({ navigation }) {
               title="Name"
               description="Kimberly Innes"
               style={{width: 350}}
-              onPress={() => console.log('prssed')}
               left={() => <List.Icon icon="face-outline" />}
             />
             <List.Item
@@ -57,10 +59,10 @@ function UserProfile({ navigation }) {
           </List.Section>
           </View>
           <View style={styles.buttons}>
-          <Button mode="outlined" onPress={submitHandler}>
+          <Button mode="outlined" onPress={() => buttonHandler('edit info')}>
             Edit Info
           </Button>
-          <Button mode="outlined" onPress={submitHandler}>
+          <Button mode="outlined" onPress={() => buttonHandler('preferences')}>
             Preferences
           </Button>
         </View>
@@ -70,17 +72,18 @@ function UserProfile({ navigation }) {
             <List.Item
               title="Chinook Salmon Monitoring"
               style={{width: 350}}
-              onPress={() => console.log('prssed')}
+              onPress={() => buttonHandler('Chinook Salmon Monitoring')}
               left={() => <List.Icon color="#000" icon="fish" />}
             />
             <List.Item
               title="Vegetation Monitoring"
+              onPress={() => buttonHandler('Vegetation Monitoring')}
               left={() => <List.Icon color="#000" icon="tree-outline" />}
             />
           </List.Section>
           </View>
           <View style={styles.buttons}>
-          <Button mode="outlined" onPress={submitHandler}>
+          <Button mode="outlined" onPress={() => buttonHandler('user map')}>
             User Map
           </Button>
           <Button mode="outlined" onPress={submitHandler}>
