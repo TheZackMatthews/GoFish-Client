@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'react-devtools-extension';
+import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import reducers from './reducers';
 
@@ -10,7 +9,7 @@ function initStore(initialState) {
   return createStore(
     reducers,
     initialState,
-    composeWithDevTools(applyMiddleware(thunkMiddleware))
+    compose(applyMiddleware(thunkMiddleware))
   )
 }
 
