@@ -45,12 +45,12 @@ function noteInput(num){
             }}
         >
             {/* Note */}
-            <View style={{ marginTop: SIZES.padding * 3 }}>
+            <View style={{ marginTop: SIZES.padding * 20 }}>
                 <TextInput
                     style={{
                         marginVertical: SIZES.padding,
-                        borderBottomColor: COLORS.white,
-                        borderBottomWidth: 1,
+                        borderColor: COLORS.white,
+                        borderWidth: 1,
                         height: 40,
                         color: COLORS.white,
                         ...FONTS.body3

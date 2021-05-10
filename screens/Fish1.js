@@ -26,10 +26,11 @@ function renderNavigationButton(key) {
       <View style={{ margin: SIZES.padding*2, alignItems: key==='Back'? 'flex-start':'flex-end'}}>
           <TouchableOpacity
               style={{
-                  height: 60,
+                  height: 10,
+                  
                   backgroundColor: COLORS.yellow,
                   borderRadius: SIZES.radius,
-                  padding: 50,
+                  padding: 20,
                   alignItems: 'center',
                   justifyContent: 'center',
                   

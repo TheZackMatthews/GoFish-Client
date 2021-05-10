@@ -16,8 +16,8 @@ export default function App() {
        
       <Stack.Navigator 
       screenOptions={{headerShown: false }}
-                initialRouteName='FishAlive2'>
-      <Stack.Screen name="FishAlive2" component={FishAlive2} />
+                initialRouteName='Fish1'>
+      <Stack.Screen name="Fish1" component={Fish1} />
       {/* <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="ProjectProfile" component={ProjectProfile} /> */}
     </Stack.Navigator>
