@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser, getUser } from "../redux/actions/userActions";
-import { useAuth } from "../auth";
 import {
   KeyboardAvoidingView,
   ScrollView,
