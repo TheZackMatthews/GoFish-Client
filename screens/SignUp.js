@@ -51,15 +51,6 @@ function SignUp({ navigation }) {
     if (result && result.payload) {
       navigation.navigate('Profile')
     }
-    // try {
-    //   const result = await firebase
-    //     .auth()
-    //     .createUserWithEmailAndPassword(email, password);
-    //   // send UID to database
-    //   navigation.navigate("Profile");
-    // } catch (error) {
-    //   setErrorM(error.message);
-    // }
   };
 
   function renderForm() {
