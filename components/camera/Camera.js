@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
-import CameraButton from './CameraButton'
+import CameraButton from './CameraButton';
+import PreviewPhoto from './PreviewPhoto';
 
 const CameraComponent = () => {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [ hasPermission, setHasPermission ] = useState(null);
+  const [ startCamera, setStartCamera ] = useState(false);
+  const [ type, setType ] = useState(Camera.Constants.Type.back);
+  const [ previewVisible, setPreviewVisible ] = useState(false);
+  const [ capturedImage, setCapturedImage ] = useState(null);
+
+  let camera;
 
   useEffect(() => {
     (async () => {
@@ -13,6 +19,23 @@ const CameraComponent = () => {
       setHasPermission(status === 'granted');
     })();
   }, []);
+
+  const takePicture = async () => {
+    if (!camera) return;
+    const photo = await camera.takePictureAsync();
+    setPreviewVisible(true);
+    setCapturedImage(photo);
+  }
+
+  const retakePicture = () => {
+    console.log('retake')
+    setCapturedImage(null);
+    setPreviewVisible(false);
+  }
+
+  const savePhoto = () => {
+    console.log('save photo')
+  }
 
   if (hasPermission === null) {
     return <View />;
@@ -22,9 +45,22 @@ const CameraComponent = () => {
   }
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
+      {previewVisible && capturedImage ? (
+        <PreviewPhoto 
+          photo={capturedImage} 
+          savePhoto={savePhoto}
+          retakePicture={retakePicture}
+          />
+      ) : (
+      <Camera 
+        style={styles.camera} 
+        type={type}
+        ref={(r) => camera = r}
+        >
         <View style={styles.buttonContainer}>
-          <CameraButton />
+          <CameraButton 
+            takePicture={takePicture}
+            />
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -38,6 +74,7 @@ const CameraComponent = () => {
           </TouchableOpacity>
         </View>
       </Camera>
+      )}
     </View>
   );
 }
@@ -50,6 +87,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+    width: '100%',
   },
   buttonContainer: {
     flex: 1,
