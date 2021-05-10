@@ -1,5 +1,6 @@
 // user action types
-export const GET_FB_USER = 'GET_FB_USER'
+export const LOG_IN = 'LOG_IN'
+export const LOG_OUT = 'LOG_OUT'
 
 // survey action types
 
@@ -8,3 +9,5 @@ export const GET_FB_USER = 'GET_FB_USER'
 
 
 // map action types
+
+

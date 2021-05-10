@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { logOutUser } from '../redux/actions/userActions';
 import { useAuth } from '../auth'
 import { firebaseClient } from '../auth/firebaseClient';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -9,14 +11,14 @@ function UserProfile({navigation}) {
   firebaseClient();
   const [ errorM, setErrorM ] = useState('');
   const { user } = useAuth();
+  const dispatch = useDispatch();
 
   const submitHandler = async () => {
-    try {
-      setErrorM('');
-      await firebase.auth().signOut();
+    setErrorM('');
+    let result = await dispatch(logOutUser(setErrorM));
+    
+    if (result && result.payload) {
       navigation.navigate('SignIn')
-    } catch (error) {
-      setErrorM(error.message)
     }
   }
 

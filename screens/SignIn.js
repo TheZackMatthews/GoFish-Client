@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { firebaseClient } from "../auth/firebaseClient";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { TextInput } from 'react-native-paper';
 import GoFishLogo from '../components/GoFishLogo';
-import { COLORS, SIZES, FONTS } from "../constants/theme";
 import { styles } from '../styles/FormsStyles'
 import { logInUser } from '../redux/actions/userActions'
 
@@ -23,21 +22,19 @@ function SignIn({navigation}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorM, setErrorM] = useState('');
-
+  
   const submitHandler = async (e) => {
-
-    let result = await dispatch(logInUser(email, password))
-    // let result = await firebase.auth().signInWithEmailAndPassword(email, password)
-        // console.log(result)
     setEmail('');
     setPassword('');
-    navigation.navigate('Profile')
-    if (result) {
-      setErrorM(result)
-      throw new Error(error.message)
-    }
+    let result = await dispatch(logInUser(email, password, setErrorM))
     
+    if (result && result.payload) {
+      // this returns the UID for the user. we should add this to the database.
+      navigation.navigate('Profile')
+    }
   }
+
+    
 
   function renderForm() {
     return (
@@ -46,7 +43,7 @@ function SignIn({navigation}) {
         {!!errorM && <Text>{errorM}</Text>}
           <TextInput
             onChangeText={(text) => setEmail(text)}
-            defaultValue={email}
+            value={email}
             label="Email"
           />
         </View>
@@ -54,7 +51,7 @@ function SignIn({navigation}) {
         <View style={styles.view}>
           <TextInput
             onChangeText={text => setPassword(text)}
-            defaultValue={password}
+            value={password}
             label="Password"
             secureTextEntry={!showPassword}
           />
