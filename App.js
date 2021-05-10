@@ -11,6 +11,7 @@ export default function App() {
 
   console.log('App is working')
   const Stack = createStackNavigator();
+ 
 
   return (
     <AuthProvider>
@@ -19,7 +20,7 @@ export default function App() {
         <NavigationContainer >
           <Stack.Navigator
             screenOptions={{headerShown: false }}
-            initialRouteName='Camera'>
+            initialRouteName='SignUp'>
           <Stack.Screen name="SignIn" component={SignIn} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="ProjectProfile" component={ProjectProfile} />

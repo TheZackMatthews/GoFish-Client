@@ -3,13 +3,15 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import CameraButton from './CameraButton';
 import PreviewPhoto from './PreviewPhoto';
+import firebasePhotos from '../../auth/firebasePhotos';
+import { useAuth } from '../../auth'
 
 const CameraComponent = () => {
   const [ hasPermission, setHasPermission ] = useState(null);
-  const [ startCamera, setStartCamera ] = useState(false);
   const [ type, setType ] = useState(Camera.Constants.Type.back);
   const [ previewVisible, setPreviewVisible ] = useState(false);
   const [ capturedImage, setCapturedImage ] = useState(null);
+  const { user } = useAuth();
 
   let camera;
 
@@ -33,8 +35,13 @@ const CameraComponent = () => {
     setPreviewVisible(false);
   }
 
-  const savePhoto = () => {
-    console.log('save photo')
+  
+  const savePhoto = async () => {
+    
+    
+    await firebasePhotos(capturedImage, user.uid)
+    console.log('save')
+    
   }
 
   if (hasPermission === null) {
