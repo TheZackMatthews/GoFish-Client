@@ -4,14 +4,14 @@ import { COLORS, SIZES, FONTS } from "../constants/theme";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.lime,
   },
   headContainer: {
     alignItems: "center",
+    marginTop: 100,
   },
   firstHeader: {
     marginBottom: SIZES.padding,
-    color: COLORS.lightGreen,
+    color: 'black',
     fontSize: SIZES.largeTitle,
     marginTop: SIZES.padding * 4,
   },
@@ -21,15 +21,15 @@ export const styles = StyleSheet.create({
   },
   signUp: {
     marginTop: SIZES.padding * 5,
-    color: COLORS.lightGreen,
+    color: 'black',
     fontSize: SIZES.h1,
   },
   textInputStyle: {
     marginVertical: SIZES.padding,
-    borderBottomColor: COLORS.white,
+    
     borderBottomWidth: 1,
     height: 40,
-    color: COLORS.white,
+    
     ...FONTS.body3,
   },
   button: {
@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     width: 30,
   },
   view: { marginTop: SIZES.padding * 2 },
-  label: { color: COLORS.lightGreen, ...FONTS.body3 },
+  label: { ...FONTS.body3 },
   outsideView: {
     marginTop: SIZES.padding,
     marginHorizontal: SIZES.padding * 3,
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     marginTop: SIZES.padding,
     paddingHorizontal: SIZES.padding * 2,
   },
-  textP: { alignSelf: "flex-end", color: COLORS.black, ...FONTS.h4 },
+  textP: { alignSelf: "flex-end", ...FONTS.h4 },
   submitButton: {
     height: 60,
     backgroundColor: COLORS.black,
@@ -61,7 +61,15 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: SIZES.padding * 5,
   },
-  buttonText: { color: COLORS.white, ...FONTS.h3 }
+  submitView: { 
+    marginLeft: SIZES.padding * 3,
+    marginRight: SIZES.padding * 3,
+  },
+  buttonText: { color: COLORS.white, ...FONTS.h3 },
+  logo2: {
+    width: 350,
+    height: 170,
+  },
 })
 
 

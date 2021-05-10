@@ -6,11 +6,12 @@ import {
   ScrollView,
   renderForm,
   Image,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
+import { TextInput } from 'react-native-paper';
+import GoFishLogo from '../components/GoFishLogo'
 import { COLORS, SIZES, FONTS } from "../constants/theme";
-import images from "../images";
+
 import { styles } from '../styles/FormsStyles'
 import { firebaseClient } from '../auth/firebaseClient';
 import firebase from 'firebase/app';
@@ -58,47 +59,28 @@ function SignUp({navigation}) {
     }
   }
 
-  console.log(signUp)
   function renderForm() {
     return (
       <View style={styles.outsideView}>
         <View style={styles.view}>
             {!!errorM && <Text>{errorM}</Text>}
-          <Text style={styles.label}>
-            Full Name
-          </Text>
           <TextInput
-          onChangeText={nameChange}
-            style={styles.textInputStyle}
-            placeholder="Enter Full Name"
-            placeholderTextColor={COLORS.white}
-            selectionColor={COLORS.white}
+            onChangeText={nameChange}
+            label="Full name"
           />
         </View>
         <View style={styles.view}>
-          <Text style={styles.label}>
-            Email
-          </Text>
           <TextInput
-          onChangeText={emailChange}
-            style={styles.textInputStyle}
-            placeholder="Enter email"
-            placeholderTextColor={COLORS.white}
-            selectionColor={COLORS.white}
+            onChangeText={emailChange}
+            label="Email"
           />
         </View>
 
         <View style={styles.view}>
-          <Text style={styles.label}>
-            Password
-          </Text>
           <TextInput
           onChangeText={passwordChange}
-            style={styles.textInputStyle}
-            placeholder="Enter Password"
-            placeholderTextColor={COLORS.white}
-            selectionColor={COLORS.white}
             secureTextEntry={!showPassword}
+            label="Password"
           />
           <TouchableOpacity
             style={styles.button}
@@ -115,18 +97,11 @@ function SignUp({navigation}) {
           </TouchableOpacity>
         </View>
 
-        {/*Confirm Password */}
         <View style={styles.view}>
-          <Text style={styles.label}>
-            Confirm Password
-          </Text>
           <TextInput
           onChangeText={passwordConfirmChange}
-            style={styles.textInputStyle}
-            placeholder="Reenter Password"
-            placeholderTextColor={COLORS.white}
-            selectionColor={COLORS.white}
             secureTextEntry={!showPassword}
+            label="Confirm password"
           />
           <TouchableOpacity
             style={styles.button}
@@ -148,7 +123,7 @@ function SignUp({navigation}) {
 
   function renderButton() {
     return (
-      <View style={{ margin: SIZES.padding * 3 }}>
+      <View style={styles.submitView}>
         <TouchableOpacity
           style={styles.submitButton}
           onPress={submitHandler}>
@@ -172,11 +147,7 @@ function SignUp({navigation}) {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
-        <View style={styles.headContainer}>
-          <Text style={styles.firstHeader}>GO Fish</Text>
-          <Image source={images.logo} style={styles.logo} />
-          <Text style={styles.signUp}>Sign Up</Text>
-        </View>
+        <GoFishLogo title="Sign Up"/>
         {renderForm()}
         {renderButton()}
         {renderSignInLink()}
