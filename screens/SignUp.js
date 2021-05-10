@@ -8,77 +8,74 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { TextInput } from 'react-native-paper';
-import GoFishLogo from '../components/GoFishLogo'
-import { COLORS, SIZES, FONTS } from "../constants/theme";
+import { useDispatch } from "react-redux";
+import { TextInput } from "react-native-paper";
+import { createUser } from '../redux/actions/userActions';
+import GoFishLogo from "../components/GoFishLogo";
+import { styles } from "../styles/FormsStyles";
 
-import { styles } from '../styles/FormsStyles'
-import { firebaseClient } from '../auth/firebaseClient';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-
-function SignUp({navigation}) {
-    firebaseClient();
-  const [ signUp, setSignUp ] = useState("");
-  const [ errorM, setErrorM ] = useState('');
+function SignUp({ navigation }) {
+  const [signUp, setSignUp] = useState("");
+  const [errorM, setErrorM] = useState("");
   const showPassword = false;
+  const dispatch = useDispatch();
 
   const nameChange = (text) => {
-    setErrorM('');
-      setSignUp({ ...signUp, name: text })
-  }
+    setErrorM("");
+    setSignUp({ ...signUp, name: text });
+  };
 
   const emailChange = (text) => {
-      setErrorM('');
-      setSignUp({ ...signUp, email: text })
-  }
+    setErrorM("");
+    setSignUp({ ...signUp, email: text });
+  };
 
   const passwordChange = (text) => {
-    setErrorM('');
-      setSignUp({ ...signUp, password: text })
-  }
+    setErrorM("");
+    setSignUp({ ...signUp, password: text });
+  };
 
   const passwordConfirmChange = (text) => {
-    setErrorM('');
-      setSignUp({ ...signUp, confirmPassword: text })
-  }
+    setErrorM("");
+    setSignUp({ ...signUp, confirmPassword: text });
+  };
 
   const submitHandler = async () => {
-    const { name, email, password, confirmPassword } = signUp;
-    setErrorM('');
+    const { password, confirmPassword } = signUp;
+    setErrorM("");
     if (password !== confirmPassword) {
-        setErrorM('Passwords do not match.')
-        return;
+      setErrorM("Passwords do not match.");
+      return;
     }
-    try {
-        const result = await firebase.auth().createUserWithEmailAndPassword(email, password);
-        // send UID to database
-        navigation.navigate('Profile')
-    } catch (error) {
-        setErrorM(error.message)
+    let result = await dispatch(createUser(signUp, setErrorM));
+    if (result && result.payload) {
+      navigation.navigate('Profile')
     }
-  }
+    // try {
+    //   const result = await firebase
+    //     .auth()
+    //     .createUserWithEmailAndPassword(email, password);
+    //   // send UID to database
+    //   navigation.navigate("Profile");
+    // } catch (error) {
+    //   setErrorM(error.message);
+    // }
+  };
 
   function renderForm() {
     return (
       <View style={styles.outsideView}>
         <View style={styles.view}>
-            {!!errorM && <Text>{errorM}</Text>}
-          <TextInput
-            onChangeText={nameChange}
-            label="Full name"
-          />
+          {!!errorM && <Text>{errorM}</Text>}
+          <TextInput onChangeText={nameChange} label="Full name" />
         </View>
         <View style={styles.view}>
-          <TextInput
-            onChangeText={emailChange}
-            label="Email"
-          />
+          <TextInput onChangeText={emailChange} label="Email" />
         </View>
 
         <View style={styles.view}>
           <TextInput
-          onChangeText={passwordChange}
+            onChangeText={passwordChange}
             secureTextEntry={!showPassword}
             label="Password"
           />
@@ -99,7 +96,7 @@ function SignUp({navigation}) {
 
         <View style={styles.view}>
           <TextInput
-          onChangeText={passwordConfirmChange}
+            onChangeText={passwordConfirmChange}
             secureTextEntry={!showPassword}
             label="Confirm password"
           />
@@ -124,9 +121,7 @@ function SignUp({navigation}) {
   function renderButton() {
     return (
       <View style={styles.submitView}>
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={submitHandler}>
+        <TouchableOpacity style={styles.submitButton} onPress={submitHandler}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -137,17 +132,16 @@ function SignUp({navigation}) {
     return (
       <TouchableOpacity
         style={styles.signInLink}
-        onPress={() => navigation.navigate('SignIn')}>
-        <Text style={styles.textP}>
-          Already have an account? Log in.
-        </Text>
+        onPress={() => navigation.navigate("SignIn")}
+      >
+        <Text style={styles.textP}>Already have an account? Log in.</Text>
       </TouchableOpacity>
     );
   }
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
-        <GoFishLogo title="Sign Up"/>
+        <GoFishLogo title="Sign Up" />
         {renderForm()}
         {renderButton()}
         {renderSignInLink()}

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { firebaseClient } from "../auth/firebaseClient";
-import firebase from "firebase/app";
-import "firebase/auth";
+import { useDispatch } from 'react-redux';
 import {
   Text,
   View,
@@ -16,7 +13,6 @@ import { styles } from '../styles/FormsStyles'
 import { logInUser } from '../redux/actions/userActions'
 
 function SignIn({navigation}) {
-  firebaseClient();
   const dispatch = useDispatch();
   const showPassword = false;
   const [email, setEmail] = useState("");
@@ -26,15 +22,11 @@ function SignIn({navigation}) {
   const submitHandler = async (e) => {
     setEmail('');
     setPassword('');
-    let result = await dispatch(logInUser(email, password, setErrorM))
-    
+    let result = await dispatch(logInUser(email, password, setErrorM))  
     if (result && result.payload) {
-      // this returns the UID for the user. we should add this to the database.
       navigation.navigate('Profile')
     }
   }
-
-    
 
   function renderForm() {
     return (
