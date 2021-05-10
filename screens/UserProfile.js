@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutUser } from "../redux/actions/userActions";
+import { logOutUser, getUser } from "../redux/actions/userActions";
 import { useAuth } from "../auth";
 import {
   KeyboardAvoidingView,
@@ -13,9 +13,14 @@ import { styles } from "../styles/UserStyles";
 
 function UserProfile({ navigation }) {
   const [errorM, setErrorM] = useState("");
-  const { user } = useAuth();
-  console.log(user)
+  
   const dispatch = useDispatch();
+  
+  const user = useSelector(state => state.user)
+  console.log(user)
+  useEffect(() => {
+    if (!user) dispatch(getUser())
+  },[])
 
   const submitHandler = async () => {
     setErrorM("");

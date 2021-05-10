@@ -1,4 +1,4 @@
-import { LOG_IN, LOG_OUT, NEW_USER } from "./actionTypes";
+import { GET_USER, LOG_IN, LOG_OUT, NEW_USER } from "./actionTypes";
 import { firebaseClient } from "../../auth/firebaseClient";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -69,5 +69,34 @@ export const createUser = (signUp, setErrorM) => (dispatch) => {
 // get user (if authenticated but user is not in redux)
 export const getUser = () => (dispatch) => {
   firebaseClient();
-  return firebase.auth().onIdTokenChanged();
+  return firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      return dispatch({
+        type: GET_USER,
+        payload: {
+          uid: user.uid,
+          email: user.email,
+        }
+      })
+    } else {
+      return dispatch({
+        type: GET_USER,
+        payload: ''
+      })
+    }
+  })
+ 
+    // .then(result => (
+    //   dispatch({
+    //     type: GET_USER,
+    //     payload: {
+    //       uid: result.user.uid,
+    //       email: result.user.email
+    //     }
+    //   })
+    // ))
+    // .catch(() => ({
+    //   type: GET_USER,
+    //   payload: '',
+    // }))
 };

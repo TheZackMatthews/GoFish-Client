@@ -1,7 +1,6 @@
-import { LOG_IN, LOG_OUT, NEW_USER } from '../actions/actionTypes'
+import { LOG_IN, LOG_OUT, NEW_USER, GET_USER } from '../actions/actionTypes'
 
 // user reducer
-
 export const userReducer = (state = '', { type, payload }) => {
   switch (type) {
     case LOG_IN:
@@ -9,6 +8,8 @@ export const userReducer = (state = '', { type, payload }) => {
     case LOG_OUT:
       return '';
     case NEW_USER:
+      return payload;
+    case GET_USER:
       return payload;
     default:
       return state;
