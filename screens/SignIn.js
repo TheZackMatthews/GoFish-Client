@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { firebaseClient } from "../auth/firebaseClient";
-import firebase from "firebase/app";
-import "firebase/auth";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from 'react-redux';
 import {
   Text,
   View,
@@ -11,27 +9,24 @@ import {
 } from "react-native";
 import { TextInput } from 'react-native-paper';
 import GoFishLogo from '../components/GoFishLogo';
-import { COLORS, SIZES, FONTS } from "../constants/theme";
 import { styles } from '../styles/FormsStyles'
+import { logInUser } from '../redux/actions/userActions'
 
 function SignIn({navigation}) {
-  firebaseClient();
+  const dispatch = useDispatch();
   const showPassword = false;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorM, setErrorM] = useState('');
-
+  
   const submitHandler = async (e) => {
-      try {
-        let result = await firebase.auth().signInWithEmailAndPassword(email, password)
-        // console.log(result)
-        setEmail('');
-        setPassword('');
-        navigation.navigate('Profile')
-      } catch (error) {
-          setErrorM(error.message)
-          throw new Error(error.message)
-      }
+
+    setEmail('');
+    setPassword('');
+    let result = await dispatch(logInUser(email, password, setErrorM))  
+    if (result && result.payload) {
+      navigation.navigate('Profile')
+    }
   }
 
   function renderForm() {
@@ -41,7 +36,7 @@ function SignIn({navigation}) {
         {!!errorM && <Text>{errorM}</Text>}
           <TextInput
             onChangeText={(text) => setEmail(text)}
-            defaultValue={email}
+            value={email}
             label="Email"
           />
         </View>
@@ -49,7 +44,7 @@ function SignIn({navigation}) {
         <View style={styles.view}>
           <TextInput
             onChangeText={text => setPassword(text)}
-            defaultValue={password}
+            value={password}
             label="Password"
             secureTextEntry={!showPassword}
           />
