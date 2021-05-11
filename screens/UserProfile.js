@@ -1,39 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { logOutUser, getUser } from "../redux/actions/userActions";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   KeyboardAvoidingView,
   ScrollView,
   Text,
   View,
-} from "react-native";
-import { Title, Button, List } from "react-native-paper";
-import { styles } from "../styles/UserStyles";
+} from 'react-native';
+import PropTypes from 'prop-types';
+import { Title, Button, List } from 'react-native-paper';
+import { logOutUser, getUser } from '../redux/actions/userActions';
+import { styles } from '../styles/UserStyles';
 
 function UserProfile({ navigation }) {
-  const [errorM, setErrorM] = useState("");
-  
+  const [errorM, setErrorM] = useState('');
+
   const dispatch = useDispatch();
-  
-  const user = useSelector(state => state.user)
-  console.log(user)
+
+  const user = useSelector((state) => state.user);
+  // eslint-disable-next-line no-console
+  console.log(user);
   useEffect(() => {
-    if (!user) dispatch(getUser())
-  },[])
+    if (!user) dispatch(getUser());
+  }, []);
 
   const submitHandler = async () => {
-    setErrorM("");
-    let result = await dispatch(logOutUser(setErrorM));
-    console.log(result)
+    setErrorM('');
+    const result = await dispatch(logOutUser(setErrorM));
+    // eslint-disable-next-line no-console
+    console.log(result);
     if (result && result.payload) {
-      navigation.navigate("SignIn");
+      navigation.navigate('SignIn');
     }
   };
 
   const buttonHandler = (type) => {
-    console.log(type)
-  }
-
+    // eslint-disable-next-line no-console
+    console.log(type);
+  };
 
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
@@ -48,7 +51,7 @@ function UserProfile({ navigation }) {
             <List.Item
               title="Name"
               description="Kimberly Innes"
-              style={{width: 350}}
+              style={{ width: 350 }}
               left={() => <List.Icon icon="face-outline" />}
             />
             <List.Item
@@ -62,8 +65,8 @@ function UserProfile({ navigation }) {
               left={() => <List.Icon color="#000" icon="file-phone-outline" />}
             />
           </List.Section>
-          </View>
-          <View style={styles.buttons}>
+        </View>
+        <View style={styles.buttons}>
           <Button mode="outlined" onPress={() => buttonHandler('edit info')}>
             Edit Info
           </Button>
@@ -71,12 +74,12 @@ function UserProfile({ navigation }) {
             Preferences
           </Button>
         </View>
-          <View style={styles.bodyContainer}>
+        <View style={styles.bodyContainer}>
           <List.Section>
             <List.Subheader>Projects</List.Subheader>
             <List.Item
               title="Chinook Salmon Monitoring"
-              style={{width: 350}}
+              style={{ width: 350 }}
               onPress={() => buttonHandler('Chinook Salmon Monitoring')}
               left={() => <List.Icon color="#000" icon="fish" />}
             />
@@ -86,8 +89,8 @@ function UserProfile({ navigation }) {
               left={() => <List.Icon color="#000" icon="tree-outline" />}
             />
           </List.Section>
-          </View>
-          <View style={styles.buttons}>
+        </View>
+        <View style={styles.buttons}>
           <Button mode="outlined" onPress={() => buttonHandler('user map')}>
             User Map
           </Button>
@@ -101,5 +104,17 @@ function UserProfile({ navigation }) {
     <View>{!!errorM && <Text>{errorM}</Text>}</View>
   );
 }
+
+UserProfile.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
+};
+
+UserProfile.defaultProps = {
+  navigation: {
+    navigate: () => null,
+  },
+};
 
 export default UserProfile;
