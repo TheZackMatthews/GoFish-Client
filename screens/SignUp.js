@@ -1,218 +1,146 @@
-import React from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView,renderForm, Image, TextInput, TouchableOpacity } from 'react-native';
-import { COLORS, SIZES, FONTS } from '../constants/theme';
-import images from '../images'
+import React, { useState } from "react";
+import {
+  Text,
+  View,
+  KeyboardAvoidingView,
+  ScrollView,
+  renderForm,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { useDispatch } from "react-redux";
+import { TextInput } from "react-native-paper";
+import { createUser } from '../redux/actions/userActions';
+import GoFishLogo from "../components/GoFishLogo";
+import { styles } from "../styles/FormsStyles";
 
-function SignUp() {
+function SignUp({ navigation }) {
+  const [signUp, setSignUp] = useState("");
+  const [errorM, setErrorM] = useState("");
+  const showPassword = false;
+  const dispatch = useDispatch();
+
+  const nameChange = (text) => {
+    setErrorM("");
+    setSignUp({ ...signUp, name: text });
+  };
+
+  const emailChange = (text) => {
+    setErrorM("");
+    setSignUp({ ...signUp, email: text });
+  };
+
+  const passwordChange = (text) => {
+    setErrorM("");
+    setSignUp({ ...signUp, password: text });
+  };
+
+  const passwordConfirmChange = (text) => {
+    setErrorM("");
+    setSignUp({ ...signUp, confirmPassword: text });
+  };
+
+  const submitHandler = async () => {
+    const { password, confirmPassword } = signUp;
+    setErrorM("");
+    if (password !== confirmPassword) {
+      setErrorM("Passwords do not match.");
+      return;
+    }
+    let result = await dispatch(createUser(signUp, setErrorM));
+    if (result && result.payload) {
+      navigation.navigate('Profile')
+    }
+  };
 
   function renderForm() {
     return (
-        <View
-            style={{
-                marginTop: SIZES.padding ,
-                marginHorizontal: SIZES.padding * 3,
-            }}
-        >
-            {/* Full Name */}
-            <View style={{ marginTop: SIZES.padding * 3 }}>
-                <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>Full Name</Text>
-                <TextInput
-                    style={{
-                        marginVertical: SIZES.padding,
-                        borderBottomColor: COLORS.white,
-                        borderBottomWidth: 1,
-                        height: 40,
-                        color: COLORS.white,
-                        ...FONTS.body3
-                    }}
-                    placeholder="Enter Full Name"
-                    placeholderTextColor={COLORS.white}
-                    selectionColor={COLORS.white}
-                />
-            </View>
-
-            {/* Username */}
-            <View style={{ marginTop: SIZES.padding * 3 }}>
-                <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>Username</Text>
-                <TextInput
-                    style={{
-                        marginVertical: SIZES.padding,
-                        borderBottomColor: COLORS.white,
-                        borderBottomWidth: 1,
-                        height: 40,
-                        color: COLORS.white,
-                        ...FONTS.body3
-                    }}
-                    placeholder="Enter User Name"
-                    placeholderTextColor={COLORS.white}
-                    selectionColor={COLORS.white}
-                />
-            </View>
-
-            
-
-            {/* Password */}
-            <View style={{ marginTop: SIZES.padding * 2 }}>
-                <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>Password</Text>
-                <TextInput
-                    style={{
-                        marginVertical: SIZES.padding,
-                        borderBottomColor: COLORS.white,
-                        borderBottomWidth: 1,
-                        height: 40,
-                        color: COLORS.white,
-                        ...FONTS.body3
-                    }}
-                    placeholder="Enter Password"
-                    placeholderTextColor={COLORS.white}
-                    selectionColor={COLORS.white}
-                    // secureTextEntry={!showPassword}
-                />
-                <TouchableOpacity
-                    style={{
-                        position: 'absolute',
-                        right: 0,
-                        bottom: 10,
-                        height: 30,
-                        width: 30
-                    }}
-                    // onPress={() => setShowPassword(!showPassword)}
-                >
-                    {/* <Image
-                        source={showPassword ? icons.disable_eye : icons.eye}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.white
-                        }}
-                    /> */}
-                </TouchableOpacity>
-            </View>
-
-            {/*Confirm Password */}
-            <View style={{ marginTop: SIZES.padding * 2 }}>
-                <Text style={{ color: COLORS.lightGreen, ...FONTS.body3 }}>Confirm Password</Text>
-                <TextInput
-                    style={{
-                        marginVertical: SIZES.padding,
-                        borderBottomColor: COLORS.white,
-                        borderBottomWidth: 1,
-                        height: 40,
-                        color: COLORS.white,
-                        ...FONTS.body3
-                    }}
-                    placeholder="Reenter Password"
-                    placeholderTextColor={COLORS.white}
-                    selectionColor={COLORS.white}
-                    // secureTextEntry={!showPassword}
-                />
-                <TouchableOpacity
-                    style={{
-                        position: 'absolute',
-                        right: 0,
-                        bottom: 10,
-                        height: 30,
-                        width: 30
-                    }}
-                    // onPress={() => setShowPassword(!showPassword)}
-                >
-                    {/* <Image
-                        source={showPassword ? icons.disable_eye : icons.eye}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.white
-                        }}
-                    /> */}
-                </TouchableOpacity>
-            </View>
+      <View style={styles.outsideView}>
+        <View style={styles.view}>
+          {!!errorM && <Text>{errorM}</Text>}
+          <TextInput onChangeText={nameChange} label="Full name" />
         </View>
-    )
-}
+        <View style={styles.view}>
+          <TextInput onChangeText={emailChange} label="Email" />
+        </View>
 
-function renderButton() {
-  return (
-      <View style={{ margin: SIZES.padding * 3 }}>
+        <View style={styles.view}>
+          <TextInput
+            onChangeText={passwordChange}
+            secureTextEntry={!showPassword}
+            label="Password"
+          />
           <TouchableOpacity
-              style={{
-                  height: 60,
-                  backgroundColor: COLORS.black,
-                  borderRadius: SIZES.radius,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginTop:SIZES.padding * 5
-              }}
-              onPress={() => console.log('sign up...')}
+            style={styles.button}
+            // onPress={() => setShowPassword(!showPassword)}
           >
-              <Text style={{ color: COLORS.white, ...FONTS.h3 }}>Sign Up</Text>
+            {/* <Image
+                        source={showPassword ? icons.disable_eye : icons.eye}
+                        style={{
+                            height: 20,
+                            width: 20,
+                            tintColor: COLORS.white
+                        }}
+                    /> */}
           </TouchableOpacity>
-      </View>
-  )
-}
+        </View>
 
-function renderSignInLink() {
+        <View style={styles.view}>
+          <TextInput
+            onChangeText={passwordConfirmChange}
+            secureTextEntry={!showPassword}
+            label="Confirm password"
+          />
+          <TouchableOpacity
+            style={styles.button}
+            // onPress={() => setShowPassword(!showPassword)}
+          >
+            {/* <Image
+                        source={showPassword ? icons.disable_eye : icons.eye}
+                        style={{
+                            height: 20,
+                            width: 20,
+                            tintColor: COLORS.white
+                        }}
+                    /> */}
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  function renderButton() {
+    return (
+      <View style={styles.submitView}>
+        <TouchableOpacity style={styles.submitButton} onPress={submitHandler}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  function renderSignInLink() {
+    return (
+      <TouchableOpacity
+        style={styles.signInLink}
+        onPress={() => navigation.navigate("SignIn")}
+      >
+        <Text style={styles.textP}>Already have an account? Log in.</Text>
+      </TouchableOpacity>
+    );
+  }
   return (
-    <TouchableOpacity
-        style={{
-            flexDirection: 'row',
-            alignItems: "center",
-            alignSelf:'center',
-            marginTop: SIZES.padding ,
-            paddingHorizontal: SIZES.padding * 2
-        }}
-        onPress={() => console.log("Sign Up")}
-    >
-        <Text style={{ alignSelf:'flex-end' , color: COLORS.black, ...FONTS.h4 }}>Already have an account? Log in.</Text>
-    </TouchableOpacity>
-)
-}
-  return (   
-    <KeyboardAvoidingView
-    behavior='height'
-    style={styles.container}
->
-        <ScrollView>
-          <View style={styles.headContainer}>
-            <Text style={styles.firstHeader}>GO Fish</Text>
-            <Image
-              source={images.logo}
-              style={styles.logo}
-            />
-            <Text style={styles.signUp}>Sign Up</Text>
-            </View>
-            {renderForm()}
-            {renderButton()}
-            {renderSignInLink()}
-        </ScrollView>
-    
-    {/* {renderAreaCodesModal()} */}
-</KeyboardAvoidingView>
+    <KeyboardAvoidingView behavior="height" style={styles.container}>
+      <ScrollView>
+        <GoFishLogo title="Sign Up" />
+        {renderForm()}
+        {renderButton()}
+        {renderSignInLink()}
+      </ScrollView>
+
+      {/* {renderAreaCodesModal()} */}
+    </KeyboardAvoidingView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.lime,
-  },
-  headContainer:{
-    alignItems:'center',
-
-  },
-  firstHeader:{  
-    marginBottom:SIZES.padding,  
-    color:COLORS.lightGreen,
-    fontSize:SIZES.largeTitle,
-    marginTop:SIZES.padding *4
-  },
-  logo:{
-    width:60, 
-    height:60, 
- },
-  signUp:{
-    marginTop:SIZES.padding*5,
-    color:COLORS.lightGreen,
-    fontSize:SIZES.h1
-  }
-})
 
 export default SignUp;

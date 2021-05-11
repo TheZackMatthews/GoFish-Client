@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 function ProjectProfile(props) {
+
   return (
     <View>
       <Text>ProjectProfile</Text>
@@ -9,7 +10,7 @@ function ProjectProfile(props) {
   );
 }
 const styles = StyleSheet.create({
-  
+
 })
 
 export default ProjectProfile;
