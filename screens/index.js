@@ -10,9 +10,6 @@ import Fish1 from './Fish1';
 import FishAlive1 from './FishAlive1';
 import FishAlive2 from './FishAlive2';
 import Camera from '../components/camera/Camera'
-import Fish1 from './Fish1';
-import FishAlive1 from './FishAlive1';
-import FishAlive2 from './FishAlive2';
 
 
 export {
