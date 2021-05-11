@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { Constants } from "expo";
-import * as Permissions from "expo-permissions";
-import * as Location from "expo-location";
-import MapView, { Marker } from "react-native-maps";
-import { StyleSheet, Text, Button, View, Dimensions } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { Constants } from 'expo';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+import MapView, { Marker } from 'react-native-maps';
+import {
+  StyleSheet, Text, Button, View, Dimensions,
+} from 'react-native';
+import MyLocationMapMarker from '../components/maps/MyLocationMarker';
 
 const CustomMarker = () => (
   <View
     style={{
       paddingVertical: 10,
       paddingHorizontal: 30,
-      backgroundColor: "#007bff",
-      borderColor: "#eee",
+      backgroundColor: '#007bff',
+      borderColor: '#eee',
       borderRadius: 5,
       elevation: 10,
     }}
   >
-    <Text style={{ color: "#fff" }}>CM</Text>
+    <Text style={{ color: '#fff' }}>CM</Text>
   </View>
 );
 
 const getLocationPermission = async () => {
-  const { status } = await Permissions.askAsync(Permissions.LOCATION);
-  if (status !== "granted") return false;
+  const { status } = await Location.requestForegroundPermissionsAsync();
+  if (status !== 'granted') return false;
   return true;
 };
 
@@ -34,7 +37,7 @@ export default function App() {
   const [buttons, setButtons] = useState({
     centerMap: false,
     addPin: false,
-    pinText: "Add Pin",
+    pinText: 'Add Pin',
   });
 
   // eslint-disable-next-line no-unused-expressions
@@ -42,10 +45,10 @@ export default function App() {
     const getLocPerm = async () => {
       const locPermission = await getLocationPermission();
       if (!locPermission) {
-        setCurrentLocation("Permission to access location was denied");
+        setCurrentLocation('Permission to access location was denied');
       } else {
         setHasLocationPermissions(true);
-        const loc = await Location.getCurrentPositionAsync({});
+        const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
         setCurrentLocation(loc);
         setMapRegion({
           latitude: loc.coords.latitude,
@@ -57,55 +60,52 @@ export default function App() {
     };
     if (hasLocationPermissions === null) getLocPerm();
   }),
-    [];
+  [];
 
   const onMapPress = (e) => {
     if (buttons.addPin) {
       setMarkers(
         markers.concat({
           coordinate: e.nativeEvent.coordinate,
-          key: markers[markers.length - 1]
-            ? markers[markers.length - 1].key + 1
-            : 1,
-        })
+          key: markers[markers.length - 1] ? markers[markers.length - 1].key + 1 : 1,
+        }),
       );
     }
   };
 
-  const onRegionChange = (region) => {
-    if (!buttons.centerMap) setMapRegion(region);
-  };
+  //  const onRegionChange = (region) => {
+  // if (!buttons.centerMap) setMapRegion(region);
+  //  };
 
   // useEffect(() => setCenter(false), [center]);
   const addPin = () => {
-    if (!buttons.addPin)
+    if (!buttons.addPin) {
       setButtons((prevButtons) => ({
         ...prevButtons,
         addPin: true,
-        pinText: "Scrap Pins",
+        pinText: 'Scrap Pins',
       }));
-    else {
+    } else {
       setButtons((prevButtons) => ({
         ...prevButtons,
         addPin: false,
-        pinText: "Add Pin",
+        pinText: 'Add Pin',
       }));
       setMarkers([]);
     }
   };
 
-  const centerMap = () => {
+  const centerMap = async () => {
     setButtons((prevButtons) => ({ ...prevButtons, centerMap: true }));
+    const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+    setCurrentLocation(loc);
     setMapRegion((prevRegion) => ({
       ...prevRegion,
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
     }));
     // hack to set center to false after map has finished panning
-    setTimeout(
-      () => setButtons((prevButtons) => ({ prevButtons, centerMap: false })),
-      300
-    );
+    setTimeout(() => setButtons((prevButtons) => ({ prevButtons, centerMap: false })), 300);
   };
 
   return currentLocation ? (
@@ -114,22 +114,22 @@ export default function App() {
         style={styles.map}
         region={mapRegion}
         onPress={(e) => onMapPress(e)}
-        onRegionChange={onRegionChange}
+        /* onRegionChange={onRegionChange} */
       >
-        <Marker coordinate={currentLocation.coords} />
+        <MyLocationMapMarker coordinate={currentLocation.coords} />
         {markers.map((marker) => (
           <Marker key={marker.key} coordinate={marker.coordinate} />
         ))}
       </MapView>
       <View
         style={{
-          position: "absolute", // use absolute position to show button on top of the map
-          top: "50%", // for center align
-          alignSelf: "flex-end", // for align to right
+          position: 'absolute', // use absolute position to show button on top of the map
+          top: '50%', // for center align
+          alignSelf: 'flex-end', // for align to right
         }}
       >
         <Button title="Center" onPress={() => centerMap()} />
-        <Button title={buttons.pinText} onPress={() => addPin()} />
+        <Button title="Add Pin" onPress={() => addPin()} />
       </View>
     </View>
   ) : (
@@ -140,12 +140,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   map: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 });
