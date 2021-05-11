@@ -17,4 +17,3 @@ export const surveyReducer = (state = '', { type, payload }) => {
       return state;
   }
 }
-
