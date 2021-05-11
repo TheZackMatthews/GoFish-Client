@@ -1,25 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+import { MediaLibrary } from 'expo-media-library';
 import CameraButton from './CameraButton';
 import PreviewPhoto from './PreviewPhoto';
-import firebasePhotos from '../../auth/firebasePhotos';
-import { useAuth } from '../../auth'
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../../redux/actions/userActions';
+import { savePhotoToCameraRoll } from '../../redux/actions/cameraActions';
 
 const CameraComponent = () => {
   const [ hasPermission, setHasPermission ] = useState(null);
   const [ type, setType ] = useState(Camera.Constants.Type.back);
   const [ previewVisible, setPreviewVisible ] = useState(false);
   const [ capturedImage, setCapturedImage ] = useState(null);
-  const { user } = useAuth();
-
+  
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user)
+  if (!user) dispatch(getUser())
+    
   let camera;
 
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
+      // const { cameraRollStatus } = await MediaLibrary.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
+   
   }, []);
 
   const takePicture = async () => {
@@ -38,8 +45,7 @@ const CameraComponent = () => {
   
   const savePhoto = async () => {
     
-    
-    await firebasePhotos(capturedImage, user.uid)
+    // dispatch(savePhotoToCameraRoll(capturedImage))
     console.log('save')
     
   }
