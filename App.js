@@ -51,7 +51,7 @@ export default function App() {
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName="SignUp"
+                initialRouteName="Profile"
               >
                 <Stack.Screen name="EditUserInfo" component={EditUserInfo} />
                 <Stack.Screen name="ReferenceInfo" component={ReferenceInfo} />
