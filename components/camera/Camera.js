@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+import { MediaLibrary } from 'expo-media-library';
 import CameraButton from './CameraButton';
 import PreviewPhoto from './PreviewPhoto';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/actions/userActions';
-import { savePhotoToFB } from '../../redux/actions/cameraActions';
+import { savePhotoToCameraRoll } from '../../redux/actions/cameraActions';
 
 const CameraComponent = () => {
   const [ hasPermission, setHasPermission ] = useState(null);
@@ -22,6 +23,7 @@ const CameraComponent = () => {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
+      // const { cameraRollStatus } = await MediaLibrary.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
    
@@ -43,7 +45,7 @@ const CameraComponent = () => {
   
   const savePhoto = async () => {
     
-    dispatch(savePhotoToFB(user, capturedImage))
+    // dispatch(savePhotoToCameraRoll(capturedImage))
     console.log('save')
     
   }
