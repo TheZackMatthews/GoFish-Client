@@ -9,7 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import { Title, Button, List } from 'react-native-paper';
 import { logOutUser, getUser } from '../redux/actions/userActions';
-import { styles } from '../styles/UserStyles';
+import styles from '../styles/UserStyles';
 
 function UserProfile({ navigation }) {
   const [errorM, setErrorM] = useState('');

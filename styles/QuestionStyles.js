@@ -3,20 +3,17 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    margin: 100,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
-  headContainer: {
-    alignItems: 'center',
-    marginTop: 100,
+  next: {
+    marginRight: 10,
   },
-  bodyContainer: {
-    alignItems: 'flex-start',
-    margin: 10,
-  },
-  buttons: {
+  btnContainer: {
     flexDirection: 'row',
+    alignContent: 'center',
     justifyContent: 'space-around',
-    alignItems: 'center',
-    margin: 10,
   },
 });
 

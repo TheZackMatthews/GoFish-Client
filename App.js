@@ -20,6 +20,7 @@ import {
   UserProfile,
   FishAlive1,
   FishAlive2,
+  FishOrRedd,
 } from './screens/index';
 import { useStore } from './redux/store';
 import AuthProvider from './auth';
@@ -51,20 +52,27 @@ export default function App() {
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName="Profile"
+                initialRouteName="FishOrRedd"
               >
+                {/* Auth Pages */}
+                <Stack.Screen name="SignIn" component={SignIn} />
+                <Stack.Screen name="SignUp" component={SignUp} />
+                {/* User Pages */}
                 <Stack.Screen name="EditUserInfo" component={EditUserInfo} />
-                <Stack.Screen name="ReferenceInfo" component={ReferenceInfo} />
+                <Stack.Screen name="Profile" component={UserProfile} />
+                {/* Map Pages */}
+                <Stack.Screen name="ProjectMap" component={ProjectMap} />
                 <Stack.Screen name="UserMap" component={UserMap} />
+                {/* Project Pages */}
+                <Stack.Screen name="ReferenceInfo" component={ReferenceInfo} />
+                <Stack.Screen name="ProjectProfile" component={ProjectProfile} />
+                {/* Camera Pages */}
+                <Stack.Screen name="Camera" component={Camera} />
+                {/* Question Pages */}
+                <Stack.Screen name="FishOrRedd" component={FishOrRedd} />
                 <Stack.Screen name="FishAlive1" component={FishAlive1} />
                 <Stack.Screen name="FishAlive2" component={FishAlive2} />
                 <Stack.Screen name="Fish1" component={Fish1} />
-                <Stack.Screen name="ProjectMap" component={ProjectMap} />
-                <Stack.Screen name="SignIn" component={SignIn} />
-                <Stack.Screen name="SignUp" component={SignUp} />
-                <Stack.Screen name="ProjectProfile" component={ProjectProfile} />
-                <Stack.Screen name="Profile" component={UserProfile} />
-                <Stack.Screen name="Camera" component={Camera} />
               </Stack.Navigator>
             </NavigationContainer>
           </View>

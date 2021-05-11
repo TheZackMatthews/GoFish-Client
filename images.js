@@ -8,4 +8,4 @@ export default {
   referenceImg,
   logo,
   logo2,
-}
+};
