@@ -1,55 +1,54 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Text,
   View,
   KeyboardAvoidingView,
   ScrollView,
-  renderForm,
-  Image,
   TouchableOpacity,
-} from "react-native";
-import { useDispatch } from "react-redux";
-import { TextInput } from "react-native-paper";
+} from 'react-native';
+import { useDispatch } from 'react-redux';
+import { TextInput } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import { createUser } from '../redux/actions/userActions';
-import GoFishLogo from "../components/GoFishLogo";
-import { styles } from "../styles/FormsStyles";
+import GoFishLogo from '../components/GoFishLogo';
+import { styles } from '../styles/FormsStyles';
 
 function SignUp({ navigation }) {
-  const [signUp, setSignUp] = useState("");
-  const [errorM, setErrorM] = useState("");
+  const [signUp, setSignUp] = useState('');
+  const [errorM, setErrorM] = useState('');
   const showPassword = false;
   const dispatch = useDispatch();
 
   const nameChange = (text) => {
-    setErrorM("");
+    setErrorM('');
     setSignUp({ ...signUp, name: text });
   };
 
   const emailChange = (text) => {
-    setErrorM("");
+    setErrorM('');
     setSignUp({ ...signUp, email: text });
   };
 
   const passwordChange = (text) => {
-    setErrorM("");
+    setErrorM('');
     setSignUp({ ...signUp, password: text });
   };
 
   const passwordConfirmChange = (text) => {
-    setErrorM("");
+    setErrorM('');
     setSignUp({ ...signUp, confirmPassword: text });
   };
 
   const submitHandler = async () => {
     const { password, confirmPassword } = signUp;
-    setErrorM("");
+    setErrorM('');
     if (password !== confirmPassword) {
-      setErrorM("Passwords do not match.");
+      setErrorM('Passwords do not match.');
       return;
     }
-    let result = await dispatch(createUser(signUp, setErrorM));
+    const result = await dispatch(createUser(signUp, setErrorM));
     if (result && result.payload) {
-      navigation.navigate('Profile')
+      navigation.navigate('Profile');
     }
   };
 
@@ -123,7 +122,7 @@ function SignUp({ navigation }) {
     return (
       <TouchableOpacity
         style={styles.signInLink}
-        onPress={() => navigation.navigate("SignIn")}
+        onPress={() => navigation.navigate('SignIn')}
       >
         <Text style={styles.textP}>Already have an account? Log in.</Text>
       </TouchableOpacity>
@@ -142,5 +141,13 @@ function SignUp({ navigation }) {
     </KeyboardAvoidingView>
   );
 }
+
+SignUp.propTypes = {
+  navigation: PropTypes.func,
+};
+
+SignUp.defaultProps = {
+  navigation: () => null,
+};
 
 export default SignUp;
