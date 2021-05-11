@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import BackNext from '../../components/questions/BackNext';
@@ -6,16 +6,30 @@ import TwoAnswer from '../../components/questions/TwoAnswer';
 import styles from '../../styles/QuestionStyles';
 
 const FishOrRedd = ({ navigation }) => {
+  const [selected, setSelected] = useState(null);
+  const question = 'Did you find a fish or a redd?';
+  const answer1 = 'Fish';
+  const answer2 = 'Redd';
+
   const navigationHandler = (direction) => {
     if (direction === 'back') {
       navigation.navigate('Profile');
+    } else if (selected === answer1) {
+      navigation.navigate('Fish1');
+    } else if (selected === answer2) {
+      navigation.navigate('Fish2');
     } else {
-      navigation.navigate('SignIn');
+      alert('Please choose an option!');
     }
   };
   return (
     <View style={styles.container}>
-      <TwoAnswer question="Did you find a fish or a redd?" answer1="Fish" answer2="Redd" />
+      <TwoAnswer
+        question={question}
+        answer1={answer1}
+        answer2={answer2}
+        choose={setSelected}
+      />
       <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
     </View>
   );

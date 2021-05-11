@@ -1,19 +1,6 @@
 /* eslint-disable no-console */
-import axios from "axios"
-import { NEW_FIELD_VISIT, UPDATE_ENTRY, SAVE_SURVEY } from './actionTypes'
-
-export const initializeSurvey = (user) => dispatch => {
-  // here, we could add the initial info:
-  // location info from map for starting location
-  // what format do we want the time in?
-  return dispatch({
-    type: NEW_SURVEY,
-    payload: {
-      user,
-      started_at: Date.now()
-    }
-  })
-}
+import axios from 'axios';
+import { NEW_FIELD_VISIT, UPDATE_ENTRY, SAVE_SURVEY } from './actionTypes';
 
 // creek_name: string, team_lead: string, team_members: string[]
 export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispatch) => {
@@ -33,3 +20,7 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispa
       });
     });
 };
+
+export const updateEntry = () => (dispatch) => {
+  
+}

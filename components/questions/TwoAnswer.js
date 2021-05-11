@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import { LongPressGestureHandler } from 'react-native-gesture-handler';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import PropTypes from 'prop-types';
 import {
-  Card, Button, Title, List,
+  Card, Title, List,
 } from 'react-native-paper';
 
 const TwoAnswer = ({
@@ -13,8 +13,7 @@ const TwoAnswer = ({
   const answer1Style = () => {
     if (selected === answer1) {
       return {
-        borderRadius: 20,
-        background: 'red',
+        backgroundColor: 'lightblue',
       };
     }
     return null;
@@ -23,14 +22,14 @@ const TwoAnswer = ({
   const answer2Style = () => {
     if (selected === answer2) {
       return {
-        borderRadius: 20,
-        background: 'red',
+        backgroundColor: 'lightblue',
       };
     }
     return null;
   };
 
   const pressHandler = (answer) => {
+    choose(answer);
     setSelected(answer);
   };
 
@@ -44,9 +43,9 @@ const TwoAnswer = ({
             <List.Item
               style={answer1Style()}
               title={answer1}
-              onPress={() => pressHandler(answer1)} 
+              onPress={() => pressHandler(answer1)}
             />
-            <List.Item 
+            <List.Item
               style={answer2Style()}
               title={answer2}
               onPress={() => pressHandler(answer2)}
@@ -56,6 +55,20 @@ const TwoAnswer = ({
       </Card>
     </View>
   );
+};
+
+TwoAnswer.propTypes = {
+  question: PropTypes.string,
+  answer1: PropTypes.string,
+  answer2: PropTypes.string,
+  choose: PropTypes.func,
+};
+
+TwoAnswer.defaultProps = {
+  question: '',
+  answer1: '',
+  answer2: '',
+  choose: () => null,
 };
 
 export default TwoAnswer;
