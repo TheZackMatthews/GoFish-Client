@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ImageBackground } from 'react-native'
 import PreviewButtons from './PreviewButtons'
 
 const PreviewPhoto = ({ photo, savePhoto, retakePicture }) => {
-  console.log('photo preview', photo)
   return (
     <View style={styles.outerView}>
       <ImageBackground 

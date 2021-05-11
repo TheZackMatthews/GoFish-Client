@@ -9,7 +9,7 @@ export const UPDATE_ENTRY = 'UPDATE_ENTRY';
 export const SAVE_SURVEY = 'SAVE_SURVEY';
 
 // picture action types
-
+export const SAVE_PHOTO = 'SAVE_PHOTO';
 
 // map action types
 
