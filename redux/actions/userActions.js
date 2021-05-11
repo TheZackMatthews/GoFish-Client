@@ -7,7 +7,6 @@ import 'firebase/auth';
 
 // login action
 export const logInUser = (email, password, setErrorM) => (dispatch) => {
-  console.log('redux');
   firebaseClient();
   return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => firebase
@@ -64,7 +63,6 @@ export const getUser = () => (dispatch) => {
   firebaseClient();
   return firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log(user)
       return dispatch({
         type: GET_USER,
         payload: {
@@ -72,6 +70,7 @@ export const getUser = () => (dispatch) => {
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
+          phoneNumber: user.phoneNumber,
           creationTime: user.metadata.creationTime,
           lastSignInTime: user.metadata.lastSignInTime,
         },
@@ -84,7 +83,7 @@ export const getUser = () => (dispatch) => {
   });
 };
 
-export const getProfile = (uid) => (dispatch) => {
+export const updateProfile = (setErrorM) => (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;
   user.updateProfile({

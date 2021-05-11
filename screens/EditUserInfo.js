@@ -7,29 +7,34 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { Title, Button, List } from 'react-native-paper';
-import { getUser, getProfile } from '../redux/actions/userActions';
-import { styles } from '../styles/UserStyles';
+import {
+  Title,
+  Button,
+  TextInput,
+} from 'react-native-paper';
+import { getUser, updateProfile } from '../redux/actions/userActions';
+import { defaultUser } from '../redux/defaultState';
+import styles from '../styles/UserStyles';
+import UploadImage from '../components/UploadImage';
 
 function EditUserInfo({ navigation }) {
   const [errorM, setErrorM] = useState('');
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  // eslint-disable-next-line no-console
-  console.log(user);
+  const [editUser, setEditUser] = useState(defaultUser);
+
   useEffect(() => {
     if (!user) dispatch(getUser());
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      dispatch(getProfile(user.uid));
-    }
+    if (user) setEditUser(user);
   }, [user]);
 
-  const navigationFunc = (destination) => {
-    navigation.navigate(destination);
+  const saveProfile = () => {
+    dispatch(updateProfile(editUser, setErrorM));
+    if (!errorM) navigation.navigate('Profile');
   };
+  // eslint-disable-next-line no-console
+  console.log(editUser);
+  console.log(defaultUser);
 
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
@@ -37,30 +42,39 @@ function EditUserInfo({ navigation }) {
         <View style={styles.headContainer}>
           {!!errorM && <Text>{errorM}</Text>}
           <Title>User Profile</Title>
+          <UploadImage editUser={editUser} setEditUser={setEditUser} />
         </View>
         <View style={styles.bodyContainer}>
-          <List.Section>
-            <List.Subheader>Contact Information</List.Subheader>
-            <List.Item
-              title="Name"
-              description="Kimberly Innes"
+          <Title>User Information</Title>
+          <form>
+            <TextInput
+              label="Name"
+              mode="outlined"
               style={{ width: 350 }}
-              left={() => <List.Icon icon="face-outline" />}
+              value={editUser.displayName}
+              onChangeText={(text) => setEditUser({ ...editUser, displayName: text })}
+              left={<TextInput.Icon name="face-outline" />}
             />
-            <List.Item
-              title="Email"
-              description="kimberly.innes@gmail.com"
-              left={() => <List.Icon color="#000" icon="email-check-outline" />}
+            <TextInput
+              label="Email"
+              mode="outlined"
+              style={{ width: 350 }}
+              value={editUser.email}
+              onChangeText={(text) => setEditUser({ ...editUser, email: text })}
+              left={<TextInput.Icon name="email-check-outline" />}
             />
-            <List.Item
-              title="Contact Number"
-              description="647-548-9852"
-              left={() => <List.Icon color="#000" icon="file-phone-outline" />}
+            <TextInput
+              label="Phone Number"
+              mode="outlined"
+              style={{ width: 350 }}
+              value={editUser.phoneNumber}
+              onChangeText={(text) => setEditUser({ ...editUser, phoneNumber: text })}
+              left={<TextInput.Icon name="file-phone-outline" />}
             />
-          </List.Section>
+          </form>
         </View>
         <View style={styles.buttons}>
-          <Button mode="outlined" onPress={() => navigationFunc('Profile')}>
+          <Button mode="outlined" onPress={saveProfile}>
             Save Changes
           </Button>
         </View>

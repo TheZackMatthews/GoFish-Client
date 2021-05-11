@@ -52,7 +52,7 @@ export default function App() {
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName="FishOrRedd"
+                initialRouteName="EditUserInfo"
               >
                 {/* Auth Pages */}
                 <Stack.Screen name="SignIn" component={SignIn} />
