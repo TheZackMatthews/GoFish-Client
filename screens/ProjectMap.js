@@ -3,6 +3,7 @@ import { Constants } from 'expo';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
+import isEqual from 'lodash/isEqual';
 import {
   StyleSheet, Text, Button, View, Dimensions,
 } from 'react-native';
@@ -40,6 +41,22 @@ export default function App() {
     pinText: 'Add Pin',
   });
 
+  const watchLocation = async () => {
+    const watchID = await Location.watchPositionAsync(
+      { accuracy: Location.Accuracy.High },
+      (position) => {
+        const myLastPosition = currentLocation;
+        const myPosition = position.coords;
+        if (!isEqual(myPosition, myLastPosition)) {
+          setCurrentLocation((prevPos) => ({ ...prevPos, myPosition }));
+          console.log('cur', currentLocation);
+        }
+      },
+      //     null,
+      //     this.props.geolocationOptions,
+    );
+  };
+
   // eslint-disable-next-line no-unused-expressions
   useEffect(() => {
     const getLocPerm = async () => {
@@ -50,15 +67,17 @@ export default function App() {
         setHasLocationPermissions(true);
         const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
         setCurrentLocation(loc);
-        setMapRegion({
+        setMapRegion((prevRegion) => ({
+          ...prevRegion,
           latitude: loc.coords.latitude,
           longitude: loc.coords.longitude,
           latitudeDelta: 0.04,
           longitudeDelta: 0.05,
-        });
+        }));
       }
     };
     if (hasLocationPermissions === null) getLocPerm();
+    watchLocation();
   }),
   [];
 

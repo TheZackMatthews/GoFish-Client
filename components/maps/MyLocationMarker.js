@@ -53,7 +53,7 @@ export default class MyLocationMapMarker extends React.PureComponent {
     this.mounted = true;
     // If you supply a coordinate prop, we won't try to track location automatically
     if (this.props.coordinate) return;
-    this.watchLocation();
+    //    this.watchLocation();
 
     //    if (Platform.OS === 'android') {
     // PermissionsAndroid.requestPermission(
