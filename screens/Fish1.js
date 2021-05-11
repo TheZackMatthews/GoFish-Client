@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { COLORS, SIZES, FONTS } from '../constants/theme';
+
+
 function Fish1(props) {
 function renderMainButton(key) {
   return (
