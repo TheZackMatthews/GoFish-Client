@@ -38,6 +38,10 @@ function UserProfile({ navigation }) {
     console.log(type);
   };
 
+  const navigationFunc = (destination) => {
+    navigation.navigate(destination);
+  };
+
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
@@ -47,27 +51,37 @@ function UserProfile({ navigation }) {
         </View>
         <View style={styles.bodyContainer}>
           <List.Section>
-            <List.Subheader>Contact Information</List.Subheader>
+            <List.Subheader>Volunteer Information</List.Subheader>
             <List.Item
-              title="Name"
-              description="Kimberly Innes"
+              title="Display Name"
+              description={user.displayName}
               style={{ width: 350 }}
               left={() => <List.Icon icon="face-outline" />}
             />
             <List.Item
               title="Email"
-              description="kimberly.innes@gmail.com"
+              description={user.email}
               left={() => <List.Icon color="#000" icon="email-check-outline" />}
             />
             <List.Item
               title="Contact Number"
-              description="647-548-9852"
+              description={user.phoneNumber || 'Not yet saved'}
               left={() => <List.Icon color="#000" icon="file-phone-outline" />}
+            />
+            <List.Item
+              title="Account created on"
+              description={user.creationTime}
+              left={() => <List.Icon color="#000" icon="calendar-month" />}
+            />
+            <List.Item
+              title="Last logged in"
+              description={user.lastSignInTime}
+              left={() => <List.Icon color="#000" icon="calendar-month" />}
             />
           </List.Section>
         </View>
         <View style={styles.buttons}>
-          <Button mode="outlined" onPress={() => buttonHandler('edit info')}>
+          <Button mode="outlined" onPress={() => navigationFunc('EditUserInfo')}>
             Edit Info
           </Button>
           <Button mode="outlined" onPress={() => buttonHandler('preferences')}>

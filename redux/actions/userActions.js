@@ -1,33 +1,30 @@
-import { GET_USER, LOG_IN, LOG_OUT, NEW_USER } from "./actionTypes";
-import { firebaseClient } from "../../auth/firebaseClient";
-import firebase from "firebase/app";
-import "firebase/auth";
+import firebase from 'firebase/app';
+import {
+  GET_USER, LOG_IN, LOG_OUT, NEW_USER,
+} from './actionTypes';
+import { firebaseClient } from '../../auth/firebaseClient';
+import 'firebase/auth';
 
 // login action
 export const logInUser = (email, password, setErrorM) => (dispatch) => {
-  console.log("redux");
+  console.log('redux');
   firebaseClient();
   return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    .then(()=>{
-      return firebase
+    .then(() => firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((result) =>
-        dispatch({
-          type: LOG_IN,
-          payload: {
-            uid: result.user.uid,
-            email: result.user.email,
-          },
-        })
-      )
+      .then((result) => dispatch({
+        type: LOG_IN,
+        payload: {
+          uid: result.user.uid,
+          email: result.user.email,
+        },
+      }))
       .catch((error) => {
-        const message = error.message;
+        const { message } = error;
         setErrorM(message);
-      });    
-    })
-    .catch(error => setErrorM(error.message))
-  
+      }))
+    .catch((error) => setErrorM(error.message));
 };
 
 // logout action
@@ -36,12 +33,10 @@ export const logOutUser = (setErrorM) => (dispatch) => {
   return firebase
     .auth()
     .signOut()
-    .then(() =>
-      dispatch({
-        type: LOG_OUT,
-        payload: true,
-      })
-    )
+    .then(() => dispatch({
+      type: LOG_OUT,
+      payload: true,
+    }))
     .catch((error) => setErrorM(error.message));
 };
 
@@ -51,17 +46,15 @@ export const createUser = (signUp, setErrorM) => (dispatch) => {
   return firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then((result) =>
-      dispatch({
-        type: NEW_USER,
-        payload: {
-          uid: result.user.uid,
-          email: result.user.email,
-        },
-      })
-    )
+    .then((result) => dispatch({
+      type: NEW_USER,
+      payload: {
+        uid: result.user.uid,
+        email: result.user.email,
+      },
+    }))
     .catch((error) => {
-      const message = error.message;
+      const { message } = error;
       setErrorM(message);
     });
 };
@@ -71,32 +64,37 @@ export const getUser = () => (dispatch) => {
   firebaseClient();
   return firebase.auth().onAuthStateChanged((user) => {
     if (user) {
+      console.log(user)
       return dispatch({
         type: GET_USER,
         payload: {
           uid: user.uid,
           email: user.email,
-        }
-      })
-    } else {
-      return dispatch({
-        type: GET_USER,
-        payload: ''
-      })
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          creationTime: user.metadata.creationTime,
+          lastSignInTime: user.metadata.lastSignInTime,
+        },
+      });
     }
+    return dispatch({
+      type: GET_USER,
+      payload: '',
+    });
+  });
+};
+
+export const getProfile = (uid) => (dispatch) => {
+  firebaseClient();
+  const user = firebase.auth().currentUser;
+  user.updateProfile({
+    displayName: 'Kimberly Innes',
   })
- 
-    // .then(result => (
-    //   dispatch({
-    //     type: GET_USER,
-    //     payload: {
-    //       uid: result.user.uid,
-    //       email: result.user.email
-    //     }
-    //   })
-    // ))
-    // .catch(() => ({
-    //   type: GET_USER,
-    //   payload: '',
-    // }))
+    .then(() => {
+      console.log('update successful')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  console.log(user)
 };
