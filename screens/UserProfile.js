@@ -4,6 +4,7 @@ import { firebaseClient } from '../auth/firebaseClient';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import firebase from 'firebase/app';
 import "firebase/auth";
+import ProjectProfile from '../components/ProjectProfile';
 
 function UserProfile({navigation}) {
   firebaseClient();
@@ -25,11 +26,7 @@ function UserProfile({navigation}) {
       <View>
         {!!errorM && <Text>{errorM}</Text>}
         <Text>UserProfile</Text>
-        <TouchableOpacity
-          onPress={submitHandler}
-        >
-          <Text>Button</Text>
-        </TouchableOpacity>
+        <ProjectProfile title={user}/>
       </View>
     ) : (
       <View>

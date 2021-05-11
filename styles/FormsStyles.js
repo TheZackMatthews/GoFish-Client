@@ -15,6 +15,12 @@ export const styles = StyleSheet.create({
     fontSize: SIZES.largeTitle,
     marginTop: SIZES.padding * 4,
   },
+  secondHeader:{
+    marginBottom: SIZES.padding,
+    color: 'black',
+    fontSize: SIZES.h3,
+    marginTop: SIZES.padding * 4,
+  },
   logo: {
     width: 60,
     height: 60,
@@ -70,6 +76,27 @@ export const styles = StyleSheet.create({
     width: 350,
     height: 170,
   },
+  infoText:{
+    alignSelf:'flex-start',
+    marginLeft:SIZES.padding*3,
+    marginTop:30
+  },
+  infoTextCategory:{
+    color: COLORS.black,
+    ...FONTS.h4,
+  },
+  infoText:{
+    color: COLORS.darkgray,
+    ...FONTS.h4
+  },
+  buttonMain:{
+    height: 60,
+    backgroundColor: COLORS.black,
+    borderRadius: SIZES.radius,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop:SIZES.padding
+  }
 })
 
 

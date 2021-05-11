@@ -24,7 +24,7 @@ function SignIn({navigation}) {
   const submitHandler = async (e) => {
       try {
         let result = await firebase.auth().signInWithEmailAndPassword(email, password)
-        console.log(result)
+        // console.log(result)
         setEmail('');
         setPassword('');
         navigation.navigate('Profile')
