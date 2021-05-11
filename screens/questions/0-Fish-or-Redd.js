@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import BackNext from '../../components/questions/BackNext';
+import TwoAnswer from '../../components/questions/TwoAnswer';
 import styles from '../../styles/QuestionStyles';
 
 const FishOrRedd = ({ navigation }) => {
@@ -14,6 +15,7 @@ const FishOrRedd = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
+      <TwoAnswer question="Did you find a fish or a redd?" answer1="Fish" answer2="Redd" />
       <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
     </View>
   );

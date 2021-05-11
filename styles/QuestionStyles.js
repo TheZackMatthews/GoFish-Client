@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'space-around',
   },
+  questionContainer: {
+    margin: 100,
+  },
 });
 
 export default styles;
