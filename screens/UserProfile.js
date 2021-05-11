@@ -34,6 +34,7 @@ function UserProfile({ navigation }) {
     console.log(type)
   }
 
+
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>

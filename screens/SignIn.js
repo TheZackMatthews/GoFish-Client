@@ -20,6 +20,7 @@ function SignIn({navigation}) {
   const [errorM, setErrorM] = useState('');
   
   const submitHandler = async (e) => {
+
     setEmail('');
     setPassword('');
     let result = await dispatch(logInUser(email, password, setErrorM))  

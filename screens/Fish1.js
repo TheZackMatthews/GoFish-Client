@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { COLORS, SIZES, FONTS } from '../constants/theme';
 
+function Fish1(props) {
 function renderMainButton(key) {
   return (
       <View style={{ margin: SIZES.padding }}>
@@ -50,7 +51,6 @@ function Question(question) {
     </View>    
   );
 }
-function Fish1(props) {
   return (
     <View style={styles.container}>
       <View>
