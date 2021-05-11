@@ -21,11 +21,11 @@ function EditUserInfo({ navigation }) {
   const [errorM, setErrorM] = useState('');
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [editUser, setEditUser] = useState(defaultUser);
+  const [editUser, setEditUser] = useState('');
 
   useEffect(() => {
     if (!user) dispatch(getUser());
-    if (user) setEditUser(user);
+    setEditUser(user || '');
   }, [user]);
 
   const saveProfile = () => {
@@ -34,9 +34,9 @@ function EditUserInfo({ navigation }) {
   };
   // eslint-disable-next-line no-console
   console.log(editUser);
-  console.log(defaultUser);
+  console.log(user)
 
-  return user ? (
+  return user && (editUser.email) ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <View style={styles.headContainer}>
@@ -67,7 +67,7 @@ function EditUserInfo({ navigation }) {
               label="Phone Number"
               mode="outlined"
               style={{ width: 350 }}
-              value={editUser.phoneNumber}
+              value={editUser.phoneNumber || ''}
               onChangeText={(text) => setEditUser({ ...editUser, phoneNumber: text })}
               left={<TextInput.Icon name="file-phone-outline" />}
             />
