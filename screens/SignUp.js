@@ -143,11 +143,15 @@ function SignUp({ navigation }) {
 }
 
 SignUp.propTypes = {
-  navigation: PropTypes.func,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
 };
 
 SignUp.defaultProps = {
-  navigation: () => null,
+  navigation: {
+    navigate: () => null,
+  },
 };
 
 export default SignUp;

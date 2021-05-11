@@ -106,11 +106,15 @@ function SignIn({ navigation }) {
 }
 
 SignIn.propTypes = {
-  navigation: PropTypes.func,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
 };
 
 SignIn.defaultProps = {
-  navigation: () => null,
+  navigation: {
+    navigate: () => null,
+  },
 };
 
 export default SignIn;
