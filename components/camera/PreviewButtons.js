@@ -1,26 +1,8 @@
-import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-
-const PreviewButtons = ({ savePhoto, retakePicture }) => {
-  return (
-    <View style={styles.btnContainer}>
-      <View style={styles.btnBorder}>
-        <TouchableOpacity 
-          style={styles.btn}
-          onPress={savePhoto}
-          >
-          <Text>Save</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.btn}
-          onPress={retakePicture}
-          >
-          <Text>Retake</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
-}
+import React from 'react';
+import {
+  View, Text, StyleSheet, TouchableOpacity,
+} from 'react-native';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   btnContainer: {
@@ -29,7 +11,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     width: '100%',
-    padding: 20, 
+    padding: 20,
     justifyContent: 'space-between',
   },
   btnBorder: {
@@ -45,7 +27,36 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderRadius: 50,
     backgroundColor: '#fff',
-  }
+  },
 });
 
-export default PreviewButtons
+const PreviewButtons = ({ savePhoto, retakePicture }) => (
+  <View style={styles.btnContainer}>
+    <View style={styles.btnBorder}>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={savePhoto}
+      >
+        <Text>Save</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={retakePicture}
+      >
+        <Text>Retake</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+);
+
+PreviewButtons.propTypes = {
+  savePhoto: PropTypes.func,
+  retakePicture: PropTypes.func,
+};
+
+PreviewButtons.defaultProps = {
+  savePhoto: () => null,
+  retakePicture: () => null,
+};
+
+export default PreviewButtons;

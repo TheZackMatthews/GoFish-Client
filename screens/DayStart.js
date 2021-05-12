@@ -1,36 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
-  Platform, StyleSheet, Text, View, TouchableOpacity,
+  Alert, Text, View,
 } from 'react-native';
 import {
-  Checkbox, Button, Switch, TextInput,
+  Checkbox, Button, TextInput, Title, Paragraph,
 } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { styles } from '../styles/FormsStyles';
-import { styles as tempStyles } from '../styles/UserStyles'; // FIXME We should only have one stylesheet
+import tempStyles from '../styles/UserStyles'; // FIXME We should only have one stylesheet
 import { logOutUser, getUser } from '../redux/actions/userActions';
-import { COLORS, SIZES, FONTS } from '../constants/theme';
+import { COLORS, SIZES } from '../constants/theme';
+import BackNext from '../components/questions/BackNext';
 
-// TODO
-// Set errorM when there is no user
-// Add navigation buttons
+const safetyAgreement = 'I certify that all team members report no Covid-19 symptoms and have all required PPE including face masks (to be worn when team members are within 6 feet of each other) and high visibility vests';
 
 function DayStart({ navigation }) {
-  const [errorM, setErrorM] = useState('');
-  const [teamMembers, setTeamMembers] = useState(['']);
-  const [isTeamLead, setIsTeamLead] = React.useState(true);
-  const [isAgreedSafety, setIsAgreedSafety] = React.useState(true);
-
   const dispatch = useDispatch();
-  const toggleIsTeamLead = () => setIsTeamLead(!isTeamLead);
-  const toggleIsAgreedSafety = () => setIsAgreedSafety(!isAgreedSafety);
-
   // Get the user object
   const user = useSelector((state) => state.user);
-  // console.log(user); // TODO Remove console statement
   useEffect(() => {
     if (!user) dispatch(getUser());
   }, []);
+
+  const [errorM, setErrorM] = useState('');
+  const [teamMembers, setTeamMembers] = useState(['']);
+  const [teamLead, setTeamLead] = useState(user.displayName);
+  const [creekName, setCreekName] = useState('');
+  const [isAgreedSafety, setIsAgreedSafety] = useState(false);
+
+  const toggleIsTeamLead = () => setTeamLead(
+    teamLead === user.displayName ? null : user.displayName,
+  );
+  const toggleIsAgreedSafety = () => setIsAgreedSafety(!isAgreedSafety);
 
   function renderTeamMemberInputs() {
     return (
@@ -39,6 +41,7 @@ function DayStart({ navigation }) {
           // NOTE If any super weird bugs occur, this is it
           // eslint-disable-next-line react/no-array-index-key
           key={index}
+          mode="outlined"
           onChangeText={(text) => {
             const temp = teamMembers.slice();
             temp.splice(index, 1, text);
@@ -53,67 +56,48 @@ function DayStart({ navigation }) {
 
   function renderForm() {
     return (
-      <View style={styles.outsideView}>
-        <Text> Are you the team lead today? </Text>
-        <Checkbox
-          status={isTeamLead ? 'checked' : 'unchecked'}
-          onPress={() => toggleIsTeamLead()}
-        />
-        {/* <View style={styles.view}>
-          <Switch value={teamLead} onValueChange={onToggleSwitch} />
-        </View> */}
-
-        <Text> Who is surveying with you? </Text>
-        <View style={tempStyles.buttons}>
+      <View style={{ marginTop: 10 }}>
+        <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between' }}>
+          <Paragraph> Are you the team lead today? </Paragraph>
+          <Checkbox
+            status={teamLead ? 'checked' : 'unchecked'}
+            onPress={() => toggleIsTeamLead()}
+          />
+        </View>
+        <Paragraph> Who is surveying with you? </Paragraph>
+        <View style={{ flexDirection: 'row' }}>
           <Button
+            style={{ margin: 10, width: SIZES.width / 3 }}
             icon="plus"
-            color={COLORS.green}
+            color={COLORS.blue}
             mode="contained"
             onPress={() => setTeamMembers(teamMembers.concat(['']))}
           >
-            <Text style={{ color: COLORS.white, ...FONTS.h3 }}>Add Team Member</Text>
+            <Text fontWeight="600" style={{ color: COLORS.white }}>Add</Text>
           </Button>
           <Button
+            style={{ margin: 10, width: SIZES.width / 3 }}
             icon="minus"
-            color={COLORS.green}
+            color={COLORS.blue}
             mode="contained"
             disabled={teamMembers.length <= 1}
             onPress={() => setTeamMembers(teamMembers.splice(0, teamMembers.length - 1))}
           >
-            <Text style={{ color: COLORS.white, ...FONTS.h3 }}>Remove Team Member</Text>
+            <Text fontWeight="600" style={{ color: COLORS.white }}>Remove</Text>
           </Button>
         </View>
         {renderTeamMemberInputs()}
 
-        <Text style={{ marginTop: '2em' }}> __Covid safety agreement here__ </Text>
-
-        <View>
+        <Paragraph style={{ marginTop: 15 }}>
+          {safetyAgreement}
+        </Paragraph>
+        <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between', paddingTop: 10, paddingBottom: 10 }}>
+          <Paragraph> I agree </Paragraph>
           <Checkbox
             status={isAgreedSafety ? 'checked' : 'unchecked'}
             onPress={() => toggleIsAgreedSafety()}
           />
         </View>
-      </View>
-    );
-  }
-
-  function renderNavigationButton(key, callback) {
-    return (
-      <View style={{ margin: SIZES.padding * 2, alignItems: key === 'Back' ? 'flex-start' : 'flex-end' }}>
-        <TouchableOpacity
-          style={{
-            height: 10,
-            backgroundColor: COLORS.green,
-            borderRadius: SIZES.radius,
-            padding: 20,
-            alignItems: 'center',
-            justifyContent: 'center',
-
-          }}
-          onPress={callback}
-        >
-          <Text style={{ color: COLORS.white, ...FONTS.h3 }}>{key}</Text>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -127,27 +111,92 @@ function DayStart({ navigation }) {
     }
   };
 
+  const postVolunteers = (creekName, lead, team) => {
+    const newVolunteers = { creekName, lead, team };
+    return axios.post('http://localhost/saveVolunteers:3001', newVolunteers);
+  };
+
   const dispatchVolunteers = async () => {
     setErrorM('');
-    console.log('pressed')
+    const members = teamMembers.filter((e) => e.replace(/(\r\n|\n|\r)/gm, ''));
+    console.log(members);
+    // Alert user if they haven't checked the covid safety agreement
+    if (!isAgreedSafety) {
+      Alert.alert(
+        'Can\'t continue',
+        'Please review the covid safety agreement',
+        [
+          {
+            text: 'Log out',
+            onPress: dispatchLogOut,
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+      );
+    } else if (!teamLead) {
+      // Alert the user if they haven't specified a team lead
+      Alert.alert(
+        'Can\'t continue',
+        'Please specify the team leader',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+      );
+    } else if (!members.length) {
+      // Alert the user if they don't have any team members
+      Alert.alert(
+        'Can\'t continue',
+        'It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+      );
+    } else {
+      postVolunteers(creekName, teamLead, teamMembers)
+        .then(navigation.navigate('FishOrRedd'))
+        .catch((error) => {
+          setErrorM(error);
+          console.log(error);
+        });
+    }
+  };
+
+  const navigationHandler = (direction) => {
+    if (direction === 'next') {
+      dispatchVolunteers();
+    } else {
+      dispatchLogOut();
+    }
   };
 
   return user ? (
-    <View>
-      <Text>
-        { `Hello ${user.displayName}` }
-      </Text>
-      {/* TODO delete this */}
+    <View style={{ margin: 40, marginTop: 100 }}>
+      <View style={{ alignContent: 'center' }}>
+        <Title>
+          { `Hello ${user.displayName}` }
+        </Title>
+      </View>
       {renderForm()}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-        {renderNavigationButton('Back', dispatchLogOut)}
-        {renderNavigationButton('Next', dispatchVolunteers)}
+      <View styles={tempStyles.buttons}>
+        <BackNext navigationHandler={navigationHandler} />
       </View>
     </View>
   ) : (
     <View>{!!errorM && <Text>{errorM}</Text>}</View>
   );
 }
-// TODO navigation.navigate('Profile')
+
+DayStart.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
+};
+
+DayStart.defaultProps = {
+  navigation: {
+    navigate: () => null,
+  },
+};
 
 export default DayStart;

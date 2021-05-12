@@ -127,6 +127,7 @@ export const profilePicture = (picture, platform, setErrorM, setProgress) => asy
     const base64 = picture.substring(picture.indexOf(',') + 1);
     uploadTask = imagesRef.putString(base64, 'base64');
   } else {
+    console.log('here')
     const response = await fetch(picture);
     const blob = await response.blob();
     uploadTask = imagesRef.put(blob);

@@ -11,7 +11,7 @@ import { TextInput } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { createUser } from '../redux/actions/userActions';
 import GoFishLogo from '../components/GoFishLogo';
-import { styles } from '../styles/FormsStyles';
+import styles from '../styles/FormStyles';
 
 function SignUp({ navigation }) {
   const [signUp, setSignUp] = useState('');

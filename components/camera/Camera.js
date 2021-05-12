@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, Text, View, TouchableOpacity,
+  StyleSheet, Text, View, TouchableOpacity, Alert,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +11,32 @@ import PreviewPhoto from './PreviewPhoto';
 import { getUser } from '../../redux/actions/userActions';
 import { savePhotoToCameraRoll } from '../../redux/actions/cameraActions';
 
-const CameraComponent = () => {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  camera: {
+    flex: 1,
+    width: '100%',
+  },
+  buttonContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    margin: 20,
+  },
+  button: {
+    flex: 0.1,
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 18,
+    color: 'white',
+  },
+});
+
+const CameraComponent = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -52,11 +78,18 @@ const CameraComponent = () => {
 
   const savePhoto = async () => {
     if (rollPermission === null || rollPermission === false) {
-      alert('Cannot save without camera roll permissions.')
+      Alert.alert(
+        'Access denied',
+        'Cannot save without camera roll permissions.',
+        [{
+          text: 'Okay',
+          style: 'cancel',
+        }],
+      );
     } else {
-      dispatch(savePhotoToCameraRoll(capturedImage))
+      await dispatch(savePhotoToCameraRoll(capturedImage));
+      navigation.goBack();
     }
-    
   };
 
   if (hasPermission === null) {
@@ -77,6 +110,7 @@ const CameraComponent = () => {
         <Camera
           style={styles.camera}
           type={type}
+          // eslint-disable-next-line no-return-assign
           ref={(r) => camera = r}
         >
           <View style={styles.buttonContainer}>
@@ -102,29 +136,16 @@ const CameraComponent = () => {
   );
 };
 
-export default CameraComponent;
+CameraComponent.propTypes = {
+  navigation: PropTypes.shape({
+    goBack: PropTypes.func,
+  }),
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+CameraComponent.defaultProps = {
+  navigation: {
+    goBack: () => null,
   },
-  camera: {
-    flex: 1,
-    width: '100%',
-  },
-  buttonContainer: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    margin: 20,
-  },
-  button: {
-    flex: 0.1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 18,
-    color: 'white',
-  },
-});
+};
+
+export default CameraComponent;
