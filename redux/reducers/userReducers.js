@@ -1,7 +1,9 @@
-import { LOG_IN, LOG_OUT, NEW_USER, GET_USER } from '../actions/actionTypes'
+import {
+  LOG_IN, LOG_OUT, NEW_USER, GET_USER, EDIT_PROFILE, PROFILE_PICTURE,
+} from '../actions/actionTypes';
 
 // user reducer
-export const userReducer = (state = '', { type, payload }) => {
+const userReducer = (state = '', { type, payload }) => {
   switch (type) {
     case LOG_IN:
       return payload;
@@ -11,8 +13,16 @@ export const userReducer = (state = '', { type, payload }) => {
       return payload;
     case GET_USER:
       return payload;
+    case EDIT_PROFILE:
+      return payload;
+    case PROFILE_PICTURE:
+      return {
+        ...state,
+        photoURL: payload,
+      };
     default:
       return state;
   }
-}
+};
 
+export default userReducer;

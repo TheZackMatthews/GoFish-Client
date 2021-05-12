@@ -3,6 +3,7 @@ import axios from 'axios';
 import { NEW_FIELD_VISIT, UPDATE_ENTRY, SAVE_SURVEY } from './actionTypes';
 
 // creek_name: string, team_lead: string, team_members: string[]
+// eslint-disable-next-line import/prefer-default-export
 export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispatch) => {
   const volunteers = {
     creekName,
@@ -21,6 +22,9 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispa
     });
 };
 
-export const updateEntry = () => (dispatch) => {
-  
-}
+// export const storeLocation (location) => dispatch => {
+//   return dispatch({
+//     type: STORE_LOCATION,
+//     payload: location,
+//   })
+// }

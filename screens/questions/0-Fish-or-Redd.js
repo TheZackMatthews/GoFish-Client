@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/actions/userActions'
+import { getUser } from '../../redux/actions/userActions';
 import BackNext from '../../components/questions/BackNext';
 import TwoAnswer from '../../components/questions/TwoAnswer';
 import styles from '../../styles/QuestionStyles';
@@ -16,9 +16,6 @@ const FishOrRedd = ({ navigation }) => {
   const user = useSelector((state) => state.user);
 
   if (!user) dispatch(getUser());
-  
-  console.log(user.displayName);
-
 
   const navigationHandler = (direction) => {
     if (direction === 'back') {

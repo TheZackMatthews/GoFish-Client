@@ -1,6 +1,8 @@
 import firebase from 'firebase/app';
 import {
-  GET_USER, LOG_IN, LOG_OUT, NEW_USER,
+  EDIT_EMAIL,
+  EDIT_PROFILE,
+  GET_USER, LOG_IN, LOG_OUT, NEW_USER, PASSWORD_RESET, PROFILE_PICTURE, UPDATE_PASSWORD,
 } from './actionTypes';
 import { firebaseClient } from '../../auth/firebaseClient';
 import 'firebase/auth';
@@ -83,17 +85,72 @@ export const getUser = () => (dispatch) => {
   });
 };
 
-export const updateProfile = (setErrorM) => (dispatch) => {
+export const updateProfile = (editUser, setErrorM) => (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;
-  user.updateProfile({
-    displayName: 'Kimberly Innes',
-  })
-    .then(() => {
-      console.log('update successful')
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  console.log(user)
+
+  user.updateProfile(editUser)
+    .then(() => console.log('profile updated'))
+    .catch((error) => setErrorM(error.message));
+
+  return dispatch({
+    type: EDIT_PROFILE,
+    payload: user,
+  });
+};
+
+export const updateEmail = (email, setErrorM) => (dispatch) => {
+  firebaseClient();
+  console.log('here');
+  const user = firebase.auth().currentUser;
+  user.updateEmail(email)
+    .then(() => console.log('email updated'))
+    .catch((error) => setErrorM(error.message));
+  return dispatch({
+    type: EDIT_EMAIL,
+    payload: user,
+  });
+};
+
+export const profilePicture = (picture) => async (dispatch) => {
+  firebaseClient();
+  // eslint-disable-next-line no-unused-vars
+  const fileType = picture.substring(0, picture.indexOf(';') + 1);
+  const base64 = picture.substring(picture.indexOf(',') + 1);
+  const user = firebase.auth().currentUser;
+  const storageRef = firebase.storage().ref();
+  const imagesRef = storageRef.child(`images/${user.uid}/${Date.now()}.jpg`);
+  await imagesRef.putString(base64, 'base64');
+  const url = await imagesRef.getDownloadURL();
+  await user.updateProfile({
+    photoURL: url,
+  });
+  dispatch({
+    type: PROFILE_PICTURE,
+    payload: url,
+  });
+};
+
+export const updatePassword = (password, setErrorM) => (dispatch) => {
+  firebaseClient();
+  const user = firebase.auth().currentUser;
+  user.updatePassword(password)
+    .then(() => console.log('passwordupdated'))
+    .catch((error) => setErrorM(error.message));
+
+  return dispatch({
+    type: UPDATE_PASSWORD,
+    payload: true,
+  });
+};
+
+export const sendPasswordReset = (email, setErrorM) => (dispatch) => {
+  firebaseClient();
+  firebase.auth().sendPasswordResetEmail(email)
+    .then(() => console.log('email sent'))
+    .catch((error) => setErrorM(error.message));
+  return dispatch({
+    type: PASSWORD_RESET,
+    payload: true,
+  });
 };

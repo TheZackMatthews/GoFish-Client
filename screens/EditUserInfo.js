@@ -12,8 +12,7 @@ import {
   Button,
   TextInput,
 } from 'react-native-paper';
-import { getUser, updateProfile } from '../redux/actions/userActions';
-import { defaultUser } from '../redux/defaultState';
+import { getUser, updateProfile, profilePicture } from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
 import UploadImage from '../components/UploadImage';
 
@@ -28,13 +27,15 @@ function EditUserInfo({ navigation }) {
     setEditUser(user || '');
   }, [user]);
 
-  const saveProfile = () => {
-    dispatch(updateProfile(editUser, setErrorM));
-    if (!errorM) navigation.navigate('Profile');
+  const saveProfile = async () => {
+    if (editUser.photoURL) {
+      await dispatch(profilePicture(editUser.photoURL, setErrorM));
+    }
+    // await dispatch(updateProfile(editUser, setErrorM));
+    // if (!errorM) {
+    //   navigation.navigate('Profile');
+    // }
   };
-  // eslint-disable-next-line no-console
-  console.log(editUser);
-  console.log(user)
 
   return user && (editUser.email) ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
