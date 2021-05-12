@@ -7,7 +7,7 @@ const OneAnswer = ({
   question, form, setForm,
 }) => {
   const pressHandler = (answer) => {
-    setForm({ ...form, spicie: answer });
+    setForm({ ...form, species: answer });
   };
 
   return (
@@ -18,9 +18,10 @@ const OneAnswer = ({
         <List.Item onPress={() => pressHandler('Sockeye')} title="Sockeye" left={() => <List.Icon icon="fish" />} />
         <List.Item onPress={() => pressHandler('Pink')} title="Pink" left={() => <List.Icon icon="fish" />} />
         <List.Item onPress={() => pressHandler('Chum')} title="Chum" left={() => <List.Icon icon="fish" />} />
+        <List.Item onPress={() => pressHandler('Unknown')} title="Unknown" left={() => <List.Icon icon="fish" />} />
       </List.Accordion>
       <TextInput
-        value={form.total}
+        value={form.total.toString()}
         keyboardType="numeric"
         onChangeText={(number) => setForm({ ...form, total: +number })}
       />
@@ -32,7 +33,7 @@ const OneAnswer = ({
 OneAnswer.propTypes = {
   question: PropTypes.string,
   form: PropTypes.shape({
-    spicie: PropTypes.string,
+    species: PropTypes.string,
     total: PropTypes.number,
   }),
   setForm: PropTypes.func,
@@ -40,7 +41,7 @@ OneAnswer.propTypes = {
 
 OneAnswer.defaultProps = {
   question: '',
-  form: { spicie: '', total: 0 },
+  form: { species: '', total: 0 },
   setForm: () => null,
 };
 

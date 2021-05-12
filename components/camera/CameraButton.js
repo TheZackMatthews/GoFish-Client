@@ -2,17 +2,7 @@ import React from 'react';
 import {
   View, StyleSheet, TouchableOpacity,
 } from 'react-native';
-
-const CameraButton = ({ takePicture }) => (
-  <View style={styles.btnContainer}>
-    <View style={styles.btnBorder}>
-      <TouchableOpacity
-        onPress={takePicture}
-        style={styles.btn}
-      />
-    </View>
-  </View>
-);
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   btnContainer: {
@@ -37,5 +27,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+const CameraButton = ({ takePicture }) => (
+  <View style={styles.btnContainer}>
+    <View style={styles.btnBorder}>
+      <TouchableOpacity
+        onPress={takePicture}
+        style={styles.btn}
+      />
+    </View>
+  </View>
+);
+
+CameraButton.propTypes = {
+  takePicture: PropTypes.func,
+};
+
+CameraButton.defaultProps = {
+  takePicture: () => null,
+};
 
 export default CameraButton;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import images from '../images';
-import { styles } from '../styles/FormsStyles';
+import styles from '../styles/FormStyles';
 
 const GoFishLogo = ({ title }) => (
   <View style={styles.headContainer}>

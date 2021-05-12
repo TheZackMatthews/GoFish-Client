@@ -12,13 +12,24 @@ import {
   SignUp,
   EditUserInfo,
   ProjectMap,
-  ProjectProfile,
+  ChinookProfile,
   ReferenceInfo,
   UserMap,
   UserProfile,
   FishAlive1,
   FishAlive2,
-} from "./screens/index.js";
+  FishOrRedd,
+  DayStart,
+  FishDead1,
+  FishDead2,
+} from './screens/index';
+import { useStore } from './redux/store';
+import AuthProvider from './auth';
+
+let Main;
+const theme = {
+  ...DefaultTheme,
+};
 
 import { useStore } from "./redux/store";
 import AuthProvider from "./auth";
@@ -37,7 +48,7 @@ export default function App() {
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName="ProjectMap"
+                initialRouteName="FishAlive1"
               >
                 <Stack.Screen name="Fish1" component={Fish1} />
                 <Stack.Screen name="ProjectMap" component={ProjectMap} />
@@ -48,7 +59,25 @@ export default function App() {
                   component={ProjectProfile}
                 />
                 <Stack.Screen name="Profile" component={UserProfile} />
+                {/* Map Pages */}
+                <Stack.Screen name="ProjectMap" component={ProjectMap} />
+                <Stack.Screen name="UserMap" component={UserMap} />
+                {/* Project Pages */}
+                <Stack.Screen name="ReferenceInfo" component={ReferenceInfo} />
+                <Stack.Screen name="ChinookProfile" component={ChinookProfile} />
+                {/* Camera Pages */}
                 <Stack.Screen name="Camera" component={Camera} />
+                {/* Question Pages */}
+                <Stack.Screen name="DayStart" component={DayStart} />
+                <Stack.Screen name="FishOrRedd" component={FishOrRedd} />
+                {/* Fish */}
+                <Stack.Screen name="Fish1" component={Fish1} />
+                <Stack.Screen name="FishAlive1" component={FishAlive1} />
+                <Stack.Screen name="FishAlive2" component={FishAlive2} />
+                {/* Fish Dead */}
+                <Stack.Screen name="FishDead1" component={FishDead1} />
+                <Stack.Screen name="FishDead2" component={FishDead2} />
+                {/* Redd */}
               </Stack.Navigator>
             </NavigationContainer>
           </View>
