@@ -1,6 +1,5 @@
 import {
   LOG_IN, LOG_OUT, NEW_USER, GET_USER, EDIT_PROFILE, PROFILE_PICTURE,
-  EDIT_PHONE,
 } from '../actions/actionTypes';
 
 // user reducer

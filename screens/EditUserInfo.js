@@ -5,6 +5,7 @@ import {
   ScrollView,
   Text,
   View,
+  Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -41,8 +42,9 @@ function EditUserInfo({ navigation }) {
   const saveProfile = async () => {
     let photoLoad;
     if (editUser.photoURL !== user.photoURL) {
+      console.log(editUser.photoURL)
       photoLoad = true;
-      await dispatch(profilePicture(editUser.photoURL, setErrorM, setProgress));
+      await dispatch(profilePicture(editUser.photoURL, Platform.OS, setErrorM, setProgress));
     }
     if (editUser.email !== user.email) {
       console.log('emails dont match');

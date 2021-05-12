@@ -116,15 +116,23 @@ export const updateEmail = (email, setErrorM) => (dispatch) => {
   });
 };
 
-export const profilePicture = (picture, setErrorM, setProgress) => async (dispatch) => {
+export const profilePicture = (picture, platform, setErrorM, setProgress) => async (dispatch) => {
   firebaseClient();
   // eslint-disable-next-line no-unused-vars
-  const fileType = picture.substring(0, picture.indexOf(';') + 1);
-  const base64 = picture.substring(picture.indexOf(',') + 1);
   const user = firebase.auth().currentUser;
   const storageRef = firebase.storage().ref();
   const imagesRef = storageRef.child(`images/${user.uid}/${Date.now()}.jpg`);
-  const uploadTask = imagesRef.putString(base64, 'base64');
+  let uploadTask;
+  console.log(platform)
+  if (platform !== 'android') {
+    const fileType = picture.substring(0, picture.indexOf(';') + 1);
+    const base64 = picture.substring(picture.indexOf(',') + 1);
+    uploadTask = imagesRef.putString(base64, 'base64');
+  } else {
+    const response = await fetch(picture);
+    const blob = await response.blob();
+    uploadTask = imagesRef.put(blob);
+  }
   uploadTask.on('state_changed', (snapshot) => {
     const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
     setProgress(percentage);
