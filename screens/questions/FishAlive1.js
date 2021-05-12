@@ -1,35 +1,45 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
 import OneAnswer from '../../components/questions/OneAnswer';
 
 const FishAlive1 = ({ navigation }) => {
-  const [form, setForm] = useState({ spicie: '', total: 0 });
-  const question = 'What spicies?';
-  console.log(form);
+  const [form, setForm] = useState({ species: '', total: 0 });
+  const question = 'What species is the fish?';
+
+  const referenceInfo = () => {
+    navigation.navigate('ReferenceInfo');
+  };
 
   const navigationHandler = (direction) => {
     if (direction === 'back') {
       navigation.navigate('Fish1');
-    } else if (form !== { spicie: '', total: 0 }) {
-      navigation.navigate('FishAlive2');
-    } else if (direction === 'ReferenceInfo') {
+    } else if (form.species !== '' && form.total !== 0) {
       navigation.navigate('FishAlive2');
     } else {
-      alert('Please choose an option!');
+      Alert.alert(
+        'Wait!',
+        'Please choose an option!',
+        [
+          {
+            text: 'Okay',
+            onPress: () => console.log('cancel'),
+            style: 'cancel',
+          },
+        ],
+      );
     }
   };
+
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
-
       <OneAnswer
         question={question}
         form={form}
         setForm={setForm}
       />
-
       <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
     </KeyboardAvoidingView>
   );

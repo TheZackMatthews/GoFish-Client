@@ -6,14 +6,14 @@ import styles from '../../styles/QuestionStyles';
 import OneAnswer from '../../components/questions/OneAnswer';
 
 const FishDead1 = ({ navigation }) => {
-  const [form, setForm] = useState({ spicie: '', total: 0 });
-  const question = 'What spicies?';
+  const [form, setForm] = useState({ species: '', total: 0 });
+  const question = 'What species?';
   console.log(form);
 
   const navigationHandler = (direction) => {
     if (direction === 'back') {
       navigation.navigate('Fish1');
-    } else if (form !== { spicie: '', total: 0 }) {
+    } else if (form !== { species: '', total: 0 }) {
       navigation.navigate('FishDead2');
     } else {
       alert('Please choose an option!');

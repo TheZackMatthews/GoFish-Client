@@ -59,8 +59,8 @@ const TwoAnswer = ({
 
 TwoAnswer.propTypes = {
   question: PropTypes.string,
-  answer1: PropTypes.string,
-  answer2: PropTypes.string,
+  answer1: PropTypes.string || PropTypes.number,
+  answer2: PropTypes.string || PropTypes.number,
   choose: PropTypes.func,
 };
 

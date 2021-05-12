@@ -32,8 +32,7 @@ function UserProfile({ navigation }) {
   };
 
   const buttonHandler = (type) => {
-    // eslint-disable-next-line no-console
-    console.log(type);
+    navigation.navigate(type);
   };
 
   const navigationFunc = (destination) => {
@@ -98,7 +97,7 @@ function UserProfile({ navigation }) {
             <List.Item
               title="Chinook Salmon Monitoring"
               style={{ width: 350 }}
-              onPress={() => buttonHandler('Chinook Salmon Monitoring')}
+              onPress={() => buttonHandler('DayStart')}
               left={() => <List.Icon color="#000" icon="fish" />}
             />
             <List.Item
@@ -111,6 +110,9 @@ function UserProfile({ navigation }) {
         <View style={styles.buttons}>
           <Button mode="outlined" onPress={() => buttonHandler('user map')}>
             User Map
+          </Button>
+          <Button mode="outlined" onPress={() => navigationFunc('Camera')}>
+            Camera
           </Button>
           <Button mode="outlined" onPress={submitHandler}>
             Sign Out

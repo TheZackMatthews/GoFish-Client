@@ -4,14 +4,24 @@ import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from '../../styles/QuestionStyles';
+import { SIZES } from '../../constants/theme';
 
 const BackNext = ({ navigationHandler }) => (
   <View style={styles.btnContainer}>
-    <Button icon="arrow-left-bold" mode="contained" onPress={() => navigationHandler('back')}>
-      Back
+    <Button
+      style={{ width: SIZES.width / 4 }}
+      mode="contained"
+      onPress={() => navigationHandler('back')}
+    >
+      <Icon name="arrow-left-bold" />
+      <Text style={styles.next}> Back</Text>
     </Button>
-    <Button mode="contained" onPress={() => navigationHandler('next')}>
-      <Text style={styles.next}>Next</Text>
+    <Button
+      style={{ width: SIZES.width / 4 }}
+      mode="contained"
+      onPress={() => navigationHandler('next')}
+    >
+      <Text style={styles.next}>Next </Text>
       <Icon name="arrow-right-bold" />
     </Button>
   </View>
