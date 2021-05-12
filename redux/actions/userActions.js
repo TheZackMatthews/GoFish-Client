@@ -117,7 +117,7 @@ export const updateEmail = (email, setErrorM) => (dispatch) => {
   });
 };
 
-export const profilePicture = (picture, setErrorM) => async (dispatch) => {
+export const profilePicture = (picture, setErrorM, setProgress) => async (dispatch) => {
   firebaseClient();
   // eslint-disable-next-line no-unused-vars
   const fileType = picture.substring(0, picture.indexOf(';') + 1);
@@ -125,16 +125,21 @@ export const profilePicture = (picture, setErrorM) => async (dispatch) => {
   const user = firebase.auth().currentUser;
   const storageRef = firebase.storage().ref();
   const imagesRef = storageRef.child(`images/${user.uid}/${Date.now()}.jpg`);
-  imagesRef.putString(base64, 'base64')
-    .then(() => console.log('image uploaded'))
-    .catch((error) => setErrorM(error.message));
-  const url = await imagesRef.getDownloadURL();
-  await user.updateProfile({
-    photoURL: url,
-  });
-  dispatch({
-    type: PROFILE_PICTURE,
-    payload: url,
+  const uploadTask = imagesRef.putString(base64, 'base64');
+  uploadTask.on('state_changed', (snapshot) => {
+    const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    setProgress(percentage);
+  }, (error) => setErrorM(error.message), () => {
+    imagesRef.getDownloadURL()
+      .then((url) => {
+        user.updateProfile({
+          photoURL: url,
+        });
+        dispatch({
+          type: PROFILE_PICTURE,
+          payload: url,
+        });
+      });
   });
 };
 

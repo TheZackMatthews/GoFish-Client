@@ -17,8 +17,6 @@ const UploadImage = ({ editUser, setEditUser }) => {
     if (editUser.photoURL) setImage(editUser.photoURL);
   }, []);
 
-  console.log(image)
-
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,

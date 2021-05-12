@@ -23,6 +23,7 @@ import UploadImage from '../components/UploadImage';
 
 function EditUserInfo({ navigation }) {
   const [errorM, setErrorM] = useState('');
+  const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [editUser, setEditUser] = useState('');
@@ -32,20 +33,27 @@ function EditUserInfo({ navigation }) {
     setEditUser(user || '');
   }, [user]);
 
+  useEffect(() => {
+    console.log(progress)
+    if (progress === 100) navigation.navigate('Profile');
+  }, [progress]);
+
   const saveProfile = async () => {
+    let loading = true;
     if (editUser.photoURL !== user.photoURL) {
-      console.log('pictures dont match')
-      await dispatch(profilePicture(editUser.photoURL, setErrorM));
+      console.log('pictures dont match');
+      await dispatch(profilePicture(editUser.photoURL, setErrorM, setProgress));
+      loading = false;
     }
     if (editUser.email !== user.email) {
-      console.log('emails dont match')
+      console.log('emails dont match');
       await dispatch(updateEmail(editUser.email, setErrorM));
     }
     if (editUser.displayName !== user.displayName || editUser.phoneNumber !== user.phoneNumber) {
-      console.log('something else doesnt match')
+      console.log('something else doesnt match');
       await dispatch(updateProfile(editUser, setErrorM));
     }
-    if (!errorM) {
+    if (!errorM && (progress === 1)) {
       navigation.navigate('Profile');
     }
   };
@@ -57,35 +65,34 @@ function EditUserInfo({ navigation }) {
           {!!errorM && <Text>{errorM}</Text>}
           <Title>User Profile</Title>
           <UploadImage editUser={editUser} setEditUser={setEditUser} />
+          {!!progress && <Text>{`${progress}%`}</Text>}
         </View>
         <View style={styles.bodyContainer}>
           <Title>User Information</Title>
-          <form>
-            <TextInput
-              label="Name"
-              mode="outlined"
-              style={{ width: 350 }}
-              value={editUser.displayName}
-              onChangeText={(text) => setEditUser({ ...editUser, displayName: text })}
-              left={<TextInput.Icon name="face-outline" />}
-            />
-            <TextInput
-              label="Email"
-              mode="outlined"
-              style={{ width: 350 }}
-              value={editUser.email}
-              onChangeText={(text) => setEditUser({ ...editUser, email: text })}
-              left={<TextInput.Icon name="email-check-outline" />}
-            />
-            <TextInput
-              label="Phone Number"
-              mode="outlined"
-              style={{ width: 350 }}
-              value={editUser.phoneNumber || ''}
-              onChangeText={(text) => setEditUser({ ...editUser, phoneNumber: text })}
-              left={<TextInput.Icon name="file-phone-outline" />}
-            />
-          </form>
+          <TextInput
+            label="Name"
+            mode="outlined"
+            style={styles.input}
+            value={editUser.displayName}
+            onChangeText={(text) => setEditUser({ ...editUser, displayName: text })}
+            left={<TextInput.Icon name="face-outline" />}
+          />
+          <TextInput
+            label="Email"
+            mode="outlined"
+            style={styles.input}
+            value={editUser.email}
+            onChangeText={(text) => setEditUser({ ...editUser, email: text })}
+            left={<TextInput.Icon name="email-check-outline" />}
+          />
+          <TextInput
+            label="Phone Number"
+            mode="outlined"
+            style={styles.input}
+            value={editUser.phoneNumber || ''}
+            onChangeText={(text) => setEditUser({ ...editUser, phoneNumber: text })}
+            left={<TextInput.Icon name="file-phone-outline" />}
+          />
         </View>
         <View style={styles.buttons}>
           <Button mode="outlined" onPress={saveProfile}>
