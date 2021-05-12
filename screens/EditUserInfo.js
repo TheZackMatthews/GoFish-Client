@@ -34,28 +34,27 @@ function EditUserInfo({ navigation }) {
   }, [user]);
 
   useEffect(() => {
-    console.log(progress)
     if (progress === 100) navigation.navigate('Profile');
+    setProgress(0);
   }, [progress]);
 
   const saveProfile = async () => {
-    let loading = true;
+    let photoLoad;
     if (editUser.photoURL !== user.photoURL) {
-      console.log('pictures dont match');
+      photoLoad = true;
       await dispatch(profilePicture(editUser.photoURL, setErrorM, setProgress));
-      loading = false;
     }
     if (editUser.email !== user.email) {
       console.log('emails dont match');
       await dispatch(updateEmail(editUser.email, setErrorM));
+      if (!photoLoad && !errorM) navigation.navigate('Profile');
     }
-    if (editUser.displayName !== user.displayName || editUser.phoneNumber !== user.phoneNumber) {
+    if (editUser.displayName !== user.displayName) {
       console.log('something else doesnt match');
       await dispatch(updateProfile(editUser, setErrorM));
+      if (!photoLoad && !errorM) navigation.navigate('Profile');
     }
-    if (!errorM && (progress === 1)) {
-      navigation.navigate('Profile');
-    }
+    if (!photoLoad) navigation.navigate('Profile');
   };
 
   return user && (editUser.email) ? (

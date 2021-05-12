@@ -1,5 +1,6 @@
 import {
   LOG_IN, LOG_OUT, NEW_USER, GET_USER, EDIT_PROFILE, PROFILE_PICTURE,
+  EDIT_PHONE,
 } from '../actions/actionTypes';
 
 // user reducer
@@ -16,8 +17,7 @@ const userReducer = (state = '', { type, payload }) => {
     case EDIT_PROFILE:
       return {
         ...state,
-        displayName: payload.displayName,
-        phoneNumber: payload.phoneNumber,
+        displayName: payload,
       };
     case PROFILE_PICTURE:
       return {

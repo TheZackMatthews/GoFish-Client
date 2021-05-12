@@ -2,7 +2,13 @@ import firebase from 'firebase/app';
 import {
   EDIT_EMAIL,
   EDIT_PROFILE,
-  GET_USER, LOG_IN, LOG_OUT, NEW_USER, PASSWORD_RESET, PROFILE_PICTURE, UPDATE_PASSWORD,
+  GET_USER,
+  LOG_IN,
+  LOG_OUT,
+  NEW_USER,
+  PASSWORD_RESET,
+  PROFILE_PICTURE,
+  UPDATE_PASSWORD,
 } from './actionTypes';
 import { firebaseClient } from '../../auth/firebaseClient';
 import 'firebase/auth';
@@ -85,24 +91,17 @@ export const getUser = () => (dispatch) => {
   });
 };
 
-export const updateProfile = (editUser, setErrorM) => (dispatch) => {
+export const updateProfile = (editUser, setErrorM) => async (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;
-
   user.updateProfile({
-    phoneNumber: editUser.phoneNumber,
     displayName: editUser.displayName,
   })
-    .then(() => console.log('profile updated'))
+    .then(() => dispatch({
+      type: EDIT_PROFILE,
+      payload: editUser.displayName,
+    }))
     .catch((error) => setErrorM(error.message));
-
-  return dispatch({
-    type: EDIT_PROFILE,
-    payload: {
-      phoneNumber: editUser.phoneNumber,
-      displayName: editUser.displayName,
-    },
-  });
 };
 
 export const updateEmail = (email, setErrorM) => (dispatch) => {
