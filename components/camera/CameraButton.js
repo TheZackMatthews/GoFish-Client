@@ -1,17 +1,18 @@
-import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import React from 'react';
+import {
+  View, StyleSheet, TouchableOpacity,
+} from 'react-native';
 
-const CameraButton = ({ takePicture }) => {
-  return (
-    <View style={styles.btnContainer}>
-      <View style={styles.btnBorder}>
-        <TouchableOpacity 
-          onPress={takePicture}
-          style={styles.btn}/>
-      </View>
+const CameraButton = ({ takePicture }) => (
+  <View style={styles.btnContainer}>
+    <View style={styles.btnBorder}>
+      <TouchableOpacity
+        onPress={takePicture}
+        style={styles.btn}
+      />
     </View>
-  )
-}
+  </View>
+);
 
 const styles = StyleSheet.create({
   btnContainer: {
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     width: '100%',
-    padding: 20, 
+    padding: 20,
     justifyContent: 'space-between',
   },
   btnBorder: {
@@ -34,9 +35,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderRadius: 50,
     backgroundColor: '#fff',
-  }
-})
+  },
+});
 
-export default CameraButton
-
-
+export default CameraButton;

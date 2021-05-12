@@ -1,12 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { COLORS, SIZES, FONTS } from "../constants/theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   headContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 100,
   },
   bodyContainer: {
@@ -18,7 +17,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     margin: 10,
-  }
-})
+  },
+  input: {
+    margin: 5,
+    width: 350,
+  },
+});
 
-
+export default styles;

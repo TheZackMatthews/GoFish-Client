@@ -1,34 +1,122 @@
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  View,
+  Platform,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import {
+  Title,
+  Button,
+  TextInput,
+} from 'react-native-paper';
+import {
+  getUser,
+  updateProfile,
+  profilePicture,
+  updateEmail,
+} from '../redux/actions/userActions';
+import styles from '../styles/UserStyles';
+import UploadImage from '../components/UploadImage';
 
-import React from "react";
-import { Text, View, Image } from "react-native";
-import { styles } from "../styles/FormsStyles";
-import { Avatar, Button } from 'react-native-paper';
-import { FONTS } from "../constants/theme";
+function EditUserInfo({ navigation }) {
+  const [errorM, setErrorM] = useState('');
+  const [progress, setProgress] = useState(0);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const [editUser, setEditUser] = useState('');
 
+  useEffect(() => {
+    if (!user) dispatch(getUser());
+    setEditUser(user || '');
+  }, [user]);
 
-const EditUserInfo = ({ title }) => {
-  return (
-    <View style={styles.headContainer}>
-    <Avatar.Image size={100} source={require('../assets/profile.jpeg')} />
-    <Text></Text>
-    <View style={styles.infoText}>
-      <Text style={styles.secondHeader}>Contact Information</Text>          
-        <View style={{flexDirection:'row'}}>
-          <Text style={styles.infoTextCategory}>Phone Number:</Text>
-          <Text style={styles.infoText}>333-333-3333</Text>
+  useEffect(() => {
+    if (progress === 100) navigation.navigate('Profile');
+    setProgress(0);
+  }, [progress]);
+
+  const saveProfile = async () => {
+    let photoLoad;
+    if (editUser.photoURL !== user.photoURL) {
+      console.log(editUser.photoURL);
+      photoLoad = true;
+      await dispatch(profilePicture(editUser.photoURL, Platform.OS, setErrorM, setProgress));
+    }
+    if (editUser.email !== user.email) {
+      console.log('emails dont match');
+      await dispatch(updateEmail(editUser.email, setErrorM));
+      if (!photoLoad && !errorM) navigation.navigate('Profile');
+    }
+    if (editUser.displayName !== user.displayName) {
+      console.log('something else doesnt match');
+      await dispatch(updateProfile(editUser, setErrorM));
+      if (!photoLoad && !errorM) navigation.navigate('Profile');
+    }
+    if (!photoLoad) navigation.navigate('Profile');
+  };
+
+  return user && (editUser.email) ? (
+    <KeyboardAvoidingView behavior="height" style={styles.container}>
+      <ScrollView>
+        <View style={styles.headContainer}>
+          {!!errorM && <Text>{errorM}</Text>}
+          <Title>User Profile</Title>
+          <UploadImage editUser={editUser} setEditUser={setEditUser} />
+          {!!progress && <Text>{`${progress}%`}</Text>}
         </View>
-        <View style={{flexDirection:'row'}}>
-          <Text style={styles.infoTextCategory}>Email:</Text>
-          <Text style={styles.infoText}>{title.email}</Text>
+        <View style={styles.bodyContainer}>
+          <Title>User Information</Title>
+          <TextInput
+            label="Name"
+            mode="outlined"
+            style={styles.input}
+            value={editUser.displayName}
+            onChangeText={(text) => setEditUser({ ...editUser, displayName: text })}
+            left={<TextInput.Icon name="face-outline" />}
+          />
+          <TextInput
+            label="Email"
+            mode="outlined"
+            style={styles.input}
+            value={editUser.email}
+            onChangeText={(text) => setEditUser({ ...editUser, email: text })}
+            left={<TextInput.Icon name="email-check-outline" />}
+          />
+          <TextInput
+            label="Phone Number"
+            mode="outlined"
+            style={styles.input}
+            value={editUser.phoneNumber || ''}
+            onChangeText={(text) => setEditUser({ ...editUser, phoneNumber: text })}
+            left={<TextInput.Icon name="file-phone-outline" />}
+          />
         </View>
-      </View>
-      <Text style={{...FONTS.h1}}>Would you like large font?</Text>
-      <View style={{flexDirection:'row'}}>
-      <Button mode="contained" style={{marginTop:30}} onPress={() => console.log('Pressed')}>Yes</Button>     
-
-      <Button mode="contained" style={{marginTop:30}} onPress={() => console.log('Pressed')}>No</Button>
-   </View> </View>
+        <View style={styles.buttons}>
+          <Button mode="outlined" onPress={saveProfile}>
+            Save Changes
+          </Button>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  ) : (
+    <View>{!!errorM && <Text>{errorM}</Text>}</View>
   );
+}
+
+EditUserInfo.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
+};
+
+EditUserInfo.defaultProps = {
+  navigation: {
+    navigate: () => null,
+  },
 };
 
 export default EditUserInfo;
