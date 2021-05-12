@@ -18,6 +18,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
   },
+  input: {
+    margin: 5,
+    width: 350,
+  },
 });
 
 export default styles;

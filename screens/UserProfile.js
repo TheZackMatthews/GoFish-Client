@@ -7,7 +7,9 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { Title, Button, List } from 'react-native-paper';
+import {
+  Title, Button, List, Avatar,
+} from 'react-native-paper';
 import { logOutUser, getUser } from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
 
@@ -17,17 +19,13 @@ function UserProfile({ navigation }) {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
-  // eslint-disable-next-line no-console
-  console.log(user);
   useEffect(() => {
-    if (!user) dispatch(getUser());
+    dispatch(getUser());
   }, []);
 
   const submitHandler = async () => {
     setErrorM('');
     const result = await dispatch(logOutUser(setErrorM));
-    // eslint-disable-next-line no-console
-    console.log(result);
     if (result && result.payload) {
       navigation.navigate('SignIn');
     }
@@ -48,6 +46,12 @@ function UserProfile({ navigation }) {
         <View style={styles.headContainer}>
           {!!errorM && <Text>{errorM}</Text>}
           <Title>User Profile</Title>
+          {user.photoURL ? (
+            <Avatar.Image source={{ uri: user.photoURL }} size={200} />
+          ) : (
+
+            <Avatar.Icon size={200} icon="camera-plus-outline" />
+          )}
         </View>
         <View style={styles.bodyContainer}>
           <List.Section>

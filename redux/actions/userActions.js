@@ -1,13 +1,20 @@
 import firebase from 'firebase/app';
 import {
-  GET_USER, LOG_IN, LOG_OUT, NEW_USER,
+  EDIT_EMAIL,
+  EDIT_PROFILE,
+  GET_USER,
+  LOG_IN,
+  LOG_OUT,
+  NEW_USER,
+  PASSWORD_RESET,
+  PROFILE_PICTURE,
+  UPDATE_PASSWORD,
 } from './actionTypes';
 import { firebaseClient } from '../../auth/firebaseClient';
 import 'firebase/auth';
 
 // login action
 export const logInUser = (email, password, setErrorM) => (dispatch) => {
-  console.log('redux');
   firebaseClient();
   return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => firebase
@@ -64,7 +71,6 @@ export const getUser = () => (dispatch) => {
   firebaseClient();
   return firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log(user)
       return dispatch({
         type: GET_USER,
         payload: {
@@ -72,6 +78,7 @@ export const getUser = () => (dispatch) => {
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
+          phoneNumber: user.phoneNumber,
           creationTime: user.metadata.creationTime,
           lastSignInTime: user.metadata.lastSignInTime,
         },
@@ -84,17 +91,84 @@ export const getUser = () => (dispatch) => {
   });
 };
 
-export const getProfile = (uid) => (dispatch) => {
+export const updateProfile = (editUser, setErrorM) => async (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;
   user.updateProfile({
-    displayName: 'Kimberly Innes',
+    displayName: editUser.displayName,
   })
-    .then(() => {
-      console.log('update successful')
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  console.log(user)
+    .then(() => dispatch({
+      type: EDIT_PROFILE,
+      payload: editUser.displayName,
+    }))
+    .catch((error) => setErrorM(error.message));
+};
+
+export const updateEmail = (email, setErrorM) => (dispatch) => {
+  firebaseClient();
+  const user = firebase.auth().currentUser;
+  user.updateEmail(email)
+    .then(() => console.log('email updated'))
+    .catch((error) => setErrorM(error.message));
+  return dispatch({
+    type: EDIT_EMAIL,
+    payload: user,
+  });
+};
+
+export const profilePicture = (picture, platform, setErrorM, setProgress) => async (dispatch) => {
+  firebaseClient();
+  // eslint-disable-next-line no-unused-vars
+  const user = firebase.auth().currentUser;
+  const storageRef = firebase.storage().ref();
+  const imagesRef = storageRef.child(`images/${user.uid}/${Date.now()}.jpg`);
+  let uploadTask;
+  if (platform !== 'android') {
+    const base64 = picture.substring(picture.indexOf(',') + 1);
+    uploadTask = imagesRef.putString(base64, 'base64');
+  } else {
+    const response = await fetch(picture);
+    const blob = await response.blob();
+    uploadTask = imagesRef.put(blob);
+  }
+  uploadTask.on('state_changed', (snapshot) => {
+    const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    setProgress(percentage);
+  }, (error) => setErrorM(error.message), () => {
+    imagesRef.getDownloadURL()
+      .then((url) => {
+        user.updateProfile({
+          photoURL: url,
+        });
+        dispatch({
+          type: PROFILE_PICTURE,
+          payload: url,
+        });
+      });
+  });
+};
+
+// password functions not implemented
+export const updatePassword = (password, setErrorM) => (dispatch) => {
+  firebaseClient();
+  const user = firebase.auth().currentUser;
+  user.updatePassword(password)
+    .then(() => console.log('passwordupdated'))
+    .catch((error) => setErrorM(error.message));
+
+  return dispatch({
+    type: UPDATE_PASSWORD,
+    payload: true,
+  });
+};
+
+export const sendPasswordReset = (email, setErrorM) => (dispatch) => {
+  firebaseClient();
+  firebase.auth().sendPasswordResetEmail(email)
+    .then(() => console.log('email sent'))
+    .catch((error) => setErrorM(error.message));
+  return dispatch({
+    type: PASSWORD_RESET,
+    payload: true,
+  });
 };
