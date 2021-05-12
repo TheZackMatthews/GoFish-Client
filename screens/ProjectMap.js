@@ -1,28 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Constants } from "expo";
-import * as Permissions from "expo-permissions";
-import * as Location from "expo-location";
-import MapView, { Marker } from "react-native-maps";
-import { StyleSheet, Text, Button, View, Dimensions } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { Constants } from 'expo';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+import MapView, { Marker } from 'react-native-maps';
+import isEqual from 'lodash/isEqual';
+import {
+  StyleSheet, Text, Button, View, Dimensions, TouchableOpacity, Image,
+} from 'react-native';
+import MyLocationMapMarker from '../components/maps/MyLocationMarker';
+import LocationModal from '../components/maps/LocationModal';
+import * as buttonCenter from '../assets/centerMap.png';
 
 const CustomMarker = () => (
   <View
     style={{
       paddingVertical: 10,
       paddingHorizontal: 30,
-      backgroundColor: "#007bff",
-      borderColor: "#eee",
+      backgroundColor: '#007bff',
+      borderColor: '#eee',
       borderRadius: 5,
       elevation: 10,
     }}
   >
-    <Text style={{ color: "#fff" }}>CM</Text>
+    <Text style={{ color: '#fff' }}>CM</Text>
   </View>
 );
 
 const getLocationPermission = async () => {
-  const { status } = await Permissions.askAsync(Permissions.LOCATION);
-  if (status !== "granted") return false;
+  const { status } = await Location.requestForegroundPermissionsAsync();
+  if (status !== 'granted') return false;
   return true;
 };
 
@@ -31,21 +37,22 @@ export default function App() {
   const [hasLocationPermissions, setHasLocationPermissions] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [markers, setMarkers] = useState([]);
+  const [modal, setModal] = useState({ visible: false, pinDropped: false });
   const [buttons, setButtons] = useState({
-    centerMap: false,
     addPin: false,
-    pinText: "Add Pin",
+    pinText: 'Add Pin',
   });
 
+  // gets permissions and initial location
   // eslint-disable-next-line no-unused-expressions
   useEffect(() => {
     const getLocPerm = async () => {
       const locPermission = await getLocationPermission();
       if (!locPermission) {
-        setCurrentLocation("Permission to access location was denied");
+        setCurrentLocation('Permission to access location was denied');
       } else {
         setHasLocationPermissions(true);
-        const loc = await Location.getCurrentPositionAsync({});
+        const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
         setCurrentLocation(loc);
         setMapRegion({
           latitude: loc.coords.latitude,
@@ -57,95 +64,112 @@ export default function App() {
     };
     if (hasLocationPermissions === null) getLocPerm();
   }),
-    [];
+  [];
 
+  // if marker added, open modal
+  useEffect(() => {
+    if (markers.length) setModal((prev) => ({ ...prev, visible: true, pinDropped: true }));
+  }, [markers]);
+
+  // if add pin has been clicked, add pin on map press
   const onMapPress = (e) => {
-    if (buttons.addPin) {
+    if (buttons.addPin && !markers.length) {
       setMarkers(
         markers.concat({
           coordinate: e.nativeEvent.coordinate,
-          key: markers[markers.length - 1]
-            ? markers[markers.length - 1].key + 1
-            : 1,
-        })
+          key: markers[markers.length - 1] ? markers[markers.length - 1].key + 1 : 1,
+        }),
       );
     }
   };
 
-  const onRegionChange = (region) => {
-    if (!buttons.centerMap) setMapRegion(region);
+  // drop new pin
+  const dropPin = () => {
+    setMarkers([]);
+    setModal((prev) => ({ ...prev, visible: false }));
+    setButtons((prevButtons) => ({
+      ...prevButtons,
+      addPin: true,
+    }));
   };
 
-  // useEffect(() => setCenter(false), [center]);
-  const addPin = () => {
-    if (!buttons.addPin)
-      setButtons((prevButtons) => ({
-        ...prevButtons,
-        addPin: true,
-        pinText: "Scrap Pins",
-      }));
-    else {
-      setButtons((prevButtons) => ({
-        ...prevButtons,
-        addPin: false,
-        pinText: "Add Pin",
-      }));
-      setMarkers([]);
-    }
-  };
-
-  const centerMap = () => {
-    setButtons((prevButtons) => ({ ...prevButtons, centerMap: true }));
+  const centerMap = async () => {
+    //    const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+    //   setCurrentLocation(loc);
     setMapRegion((prevRegion) => ({
       ...prevRegion,
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
     }));
-    // hack to set center to false after map has finished panning
-    setTimeout(
-      () => setButtons((prevButtons) => ({ prevButtons, centerMap: false })),
-      300
-    );
+  };
+
+  const locationFromChild = (data) => {
+    setCurrentLocation(data);
   };
 
   return currentLocation ? (
     <View style={styles.container}>
+      <LocationModal commands={modal} dropPin={dropPin} />
       <MapView
         style={styles.map}
         region={mapRegion}
         onPress={(e) => onMapPress(e)}
-        onRegionChange={onRegionChange}
+        /* onRegionChange={onRegionChange} */
       >
-        <Marker coordinate={currentLocation.coords} />
+        <MyLocationMapMarker dataToParent={locationFromChild} />
+
         {markers.map((marker) => (
           <Marker key={marker.key} coordinate={marker.coordinate} />
         ))}
       </MapView>
-      <View
-        style={{
-          position: "absolute", // use absolute position to show button on top of the map
-          top: "50%", // for center align
-          alignSelf: "flex-end", // for align to right
-        }}
-      >
-        <Button title="Center" onPress={() => centerMap()} />
-        <Button title={buttons.pinText} onPress={() => addPin()} />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => centerMap()}>
+          <Image source={require('../assets/centerMap.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setModal((prev) => ({ ...prev, visible: true }))}
+        >
+          <Image source={require('../assets/dropPin_60px.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => addPin()}>
+          <Image source={require('../assets/goToForm.png')} />
+        </TouchableOpacity>
       </View>
     </View>
   ) : (
-    <Text> Loading... </Text>
+    <Text style={{ alignSelf: 'center', top: '50%' }}> Loading... </Text>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   map: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+  buttonContainer: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: '0%',
+    alignSelf: 'center',
+  },
+  button: {
+    backgroundColor: '#ff3399',
+    borderRadius: 12,
+    padding: 5,
+    margin: 20,
+    opacity: 0.7,
+    shadowColor: '#303838',
+    shadowOffset: { width: 0, height: 5 },
+    shadowRadius: 10,
+    shadowOpacity: 0.3,
   },
 });
