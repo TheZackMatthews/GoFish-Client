@@ -123,9 +123,7 @@ export const profilePicture = (picture, platform, setErrorM, setProgress) => asy
   const storageRef = firebase.storage().ref();
   const imagesRef = storageRef.child(`images/${user.uid}/${Date.now()}.jpg`);
   let uploadTask;
-  console.log(platform)
   if (platform !== 'android') {
-    const fileType = picture.substring(0, picture.indexOf(';') + 1);
     const base64 = picture.substring(picture.indexOf(',') + 1);
     uploadTask = imagesRef.putString(base64, 'base64');
   } else {
@@ -150,6 +148,7 @@ export const profilePicture = (picture, platform, setErrorM, setProgress) => asy
   });
 };
 
+// password functions not implemented
 export const updatePassword = (password, setErrorM) => (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;

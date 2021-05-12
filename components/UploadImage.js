@@ -24,7 +24,7 @@ const UploadImage = ({ editUser, setEditUser }) => {
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result)
+    console.log(result);
     if (!result.cancelled) {
       setImage(result.uri);
       setEditUser({ ...editUser, photoURL: result.uri });

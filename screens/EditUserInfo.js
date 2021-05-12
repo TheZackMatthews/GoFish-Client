@@ -42,7 +42,7 @@ function EditUserInfo({ navigation }) {
   const saveProfile = async () => {
     let photoLoad;
     if (editUser.photoURL !== user.photoURL) {
-      console.log(editUser.photoURL)
+      console.log(editUser.photoURL);
       photoLoad = true;
       await dispatch(profilePicture(editUser.photoURL, Platform.OS, setErrorM, setProgress));
     }
