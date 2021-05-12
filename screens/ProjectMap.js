@@ -5,9 +5,11 @@ import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 import isEqual from 'lodash/isEqual';
 import {
-  StyleSheet, Text, Button, View, Dimensions,
+  StyleSheet, Text, Button, View, Dimensions, TouchableOpacity, Image,
 } from 'react-native';
 import MyLocationMapMarker from '../components/maps/MyLocationMarker';
+import LocationModal from '../components/maps/LocationModal';
+import * as buttonCenter from '../assets/centerMap.png';
 
 const CustomMarker = () => (
   <View
@@ -35,28 +37,13 @@ export default function App() {
   const [hasLocationPermissions, setHasLocationPermissions] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [markers, setMarkers] = useState([]);
+  const [modal, setModal] = useState({ visible: false, pinDropped: false });
   const [buttons, setButtons] = useState({
-    centerMap: false,
     addPin: false,
     pinText: 'Add Pin',
   });
 
-  const watchLocation = async () => {
-    const watchID = await Location.watchPositionAsync(
-      { accuracy: Location.Accuracy.High },
-      (position) => {
-        const myLastPosition = currentLocation;
-        const myPosition = position.coords;
-        if (!isEqual(myPosition, myLastPosition)) {
-          setCurrentLocation((prevPos) => ({ ...prevPos, myPosition }));
-          console.log('cur', currentLocation);
-        }
-      },
-      //     null,
-      //     this.props.geolocationOptions,
-    );
-  };
-
+  // gets permissions and initial location
   // eslint-disable-next-line no-unused-expressions
   useEffect(() => {
     const getLocPerm = async () => {
@@ -67,22 +54,26 @@ export default function App() {
         setHasLocationPermissions(true);
         const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
         setCurrentLocation(loc);
-        setMapRegion((prevRegion) => ({
-          ...prevRegion,
+        setMapRegion({
           latitude: loc.coords.latitude,
           longitude: loc.coords.longitude,
           latitudeDelta: 0.04,
           longitudeDelta: 0.05,
-        }));
+        });
       }
     };
     if (hasLocationPermissions === null) getLocPerm();
-    watchLocation();
   }),
   [];
 
+  // if marker added, open modal
+  useEffect(() => {
+    if (markers.length) setModal((prev) => ({ ...prev, visible: true, pinDropped: true }));
+  }, [markers]);
+
+  // if add pin has been clicked, add pin on map press
   const onMapPress = (e) => {
-    if (buttons.addPin) {
+    if (buttons.addPin && !markers.length) {
       setMarkers(
         markers.concat({
           coordinate: e.nativeEvent.coordinate,
@@ -92,67 +83,62 @@ export default function App() {
     }
   };
 
-  //  const onRegionChange = (region) => {
-  // if (!buttons.centerMap) setMapRegion(region);
-  //  };
-
-  // useEffect(() => setCenter(false), [center]);
-  const addPin = () => {
-    if (!buttons.addPin) {
-      setButtons((prevButtons) => ({
-        ...prevButtons,
-        addPin: true,
-        pinText: 'Scrap Pins',
-      }));
-    } else {
-      setButtons((prevButtons) => ({
-        ...prevButtons,
-        addPin: false,
-        pinText: 'Add Pin',
-      }));
-      setMarkers([]);
-    }
+  // drop new pin
+  const dropPin = () => {
+    setMarkers([]);
+    setModal((prev) => ({ ...prev, visible: false }));
+    setButtons((prevButtons) => ({
+      ...prevButtons,
+      addPin: true,
+    }));
   };
 
   const centerMap = async () => {
-    setButtons((prevButtons) => ({ ...prevButtons, centerMap: true }));
-    const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
-    setCurrentLocation(loc);
+    //    const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+    //   setCurrentLocation(loc);
     setMapRegion((prevRegion) => ({
       ...prevRegion,
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
     }));
-    // hack to set center to false after map has finished panning
-    setTimeout(() => setButtons((prevButtons) => ({ prevButtons, centerMap: false })), 300);
+  };
+
+  const locationFromChild = (data) => {
+    setCurrentLocation(data);
   };
 
   return currentLocation ? (
     <View style={styles.container}>
+      <LocationModal commands={modal} dropPin={dropPin} />
       <MapView
         style={styles.map}
         region={mapRegion}
         onPress={(e) => onMapPress(e)}
         /* onRegionChange={onRegionChange} */
       >
-        <MyLocationMapMarker coordinate={currentLocation.coords} />
+        <MyLocationMapMarker dataToParent={locationFromChild} />
+
         {markers.map((marker) => (
           <Marker key={marker.key} coordinate={marker.coordinate} />
         ))}
       </MapView>
-      <View
-        style={{
-          position: 'absolute', // use absolute position to show button on top of the map
-          top: '50%', // for center align
-          alignSelf: 'flex-end', // for align to right
-        }}
-      >
-        <Button title="Center" onPress={() => centerMap()} />
-        <Button title="Add Pin" onPress={() => addPin()} />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => centerMap()}>
+          <Image source={require('../assets/centerMap.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setModal((prev) => ({ ...prev, visible: true }))}
+        >
+          <Image source={require('../assets/dropPin_60px.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => addPin()}>
+          <Image source={require('../assets/goToForm.png')} />
+        </TouchableOpacity>
       </View>
     </View>
   ) : (
-    <Text> Loading... </Text>
+    <Text style={{ alignSelf: 'center', top: '50%' }}> Loading... </Text>
   );
 }
 
@@ -166,5 +152,24 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+  },
+  buttonContainer: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: '0%',
+    alignSelf: 'center',
+  },
+  button: {
+    backgroundColor: '#ff3399',
+    borderRadius: 12,
+    padding: 5,
+    margin: 20,
+    opacity: 0.7,
+    shadowColor: '#303838',
+    shadowOffset: { width: 0, height: 5 },
+    shadowRadius: 10,
+    shadowOpacity: 0.3,
   },
 });

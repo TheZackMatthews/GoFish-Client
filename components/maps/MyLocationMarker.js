@@ -53,19 +53,14 @@ export default class MyLocationMapMarker extends React.PureComponent {
     this.mounted = true;
     // If you supply a coordinate prop, we won't try to track location automatically
     if (this.props.coordinate) return;
-    //    this.watchLocation();
+    this.watchLocation();
+  }
 
-    //    if (Platform.OS === 'android') {
-    // PermissionsAndroid.requestPermission(
-    // PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    // ).then((granted) => {
-    // if (granted && this.mounted) {
-    // this.watchLocation();
-    // }
-    // });
-    // } else {
-    // this.watchLocation();
-    //    }
+  componentWillUnmount() {
+    this.mounted = false;
+    if (this.watchID) {
+      this.watchID.remove();
+    }
   }
 
   async watchLocation() {
@@ -75,19 +70,13 @@ export default class MyLocationMapMarker extends React.PureComponent {
         const myLastPosition = this.state.myPosition;
         const myPosition = position.coords;
         if (!isEqual(myPosition, myLastPosition)) {
+          this.props.dataToParent(position);
           this.setState({ myPosition });
         }
       },
-      //     null,
-      //     this.props.geolocationOptions,
+      null,
+      this.props.geolocationOptions,
     );
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-    if (this.watchID) {
-      this.watchID.remove();
-    }
   }
 
   render() {
@@ -122,8 +111,8 @@ export default class MyLocationMapMarker extends React.PureComponent {
   }
 }
 
-const SIZE = 35;
-const HALO_RADIUS = 6;
+const SIZE = 20;
+const HALO_RADIUS = 4;
 const ARROW_SIZE = 7;
 const ARROW_DISTANCE = 6;
 const HALO_SIZE = SIZE + HALO_RADIUS;
