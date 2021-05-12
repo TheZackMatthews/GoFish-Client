@@ -4,15 +4,10 @@ import { firebaseClient } from "../../auth/firebaseClient";
 import firebase from "firebase/app";
 import "firebase/storage";
 
-export const savePhotoToCameraRoll = (photo) => (dispatch) => (
-  MediaLibrary.createAssetAsync(photo.uri)
-    .then((res) => {
-      dispatch({
-        type: SAVE_PHOTO,
-        payload: res,
-      });
-    })
-);
+export const savePhotoToCameraRoll = (photo) => async (dispatch) => {
+  const asset = await MediaLibrary.createAssetAsync(photo.uri)
+  console.log(asset)
+};
 
 export const savePhotoToFB = (user, photo) => dispatch => {
   firebaseClient();

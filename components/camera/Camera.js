@@ -51,8 +51,12 @@ const CameraComponent = () => {
   };
 
   const savePhoto = async () => {
-    // dispatch(savePhotoToCameraRoll(capturedImage))
-    console.log('save');
+    if (rollPermission === null || rollPermission === false) {
+      alert('Cannot save without camera roll permissions.')
+    } else {
+      dispatch(savePhotoToCameraRoll(capturedImage))
+    }
+    
   };
 
   if (hasPermission === null) {
