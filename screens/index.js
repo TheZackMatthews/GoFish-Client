@@ -6,11 +6,13 @@ import ProjectProfile from './ProjectProfile';
 import ReferenceInfo from './ReferenceInfo';
 import UserMap from './UserMap';
 import UserProfile from './UserProfile';
-import Fish1 from './Fish1';
-import FishAlive1 from './FishAlive1';
-import FishAlive2 from './FishAlive2';
+import Fish1 from './questions/Fish1';
+import FishAlive1 from './questions/FishAlive1';
+import FishAlive2 from './questions/FishAlive2';
 import Camera from '../components/camera/Camera';
 import FishOrRedd from './questions/0-Fish-or-Redd';
+import DeadFish1 from './questions/FishDead1';
+import DeadFish2 from './questions/FishDead2';
 
 export {
   Camera,
@@ -26,4 +28,6 @@ export {
   FishAlive1,
   FishAlive2,
   FishOrRedd,
+  DeadFish1,
+  DeadFish2,
 };
