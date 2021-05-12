@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Text,
@@ -6,34 +6,34 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   TouchableOpacity,
-} from "react-native";
+} from 'react-native';
 import { TextInput } from 'react-native-paper';
+import PropTypes from 'prop-types';
 import GoFishLogo from '../components/GoFishLogo';
-import { styles } from '../styles/FormsStyles'
-import { logInUser } from '../redux/actions/userActions'
+import { styles } from '../styles/FormsStyles';
+import { logInUser } from '../redux/actions/userActions';
 
-function SignIn({navigation}) {
+function SignIn({ navigation }) {
   const dispatch = useDispatch();
   const showPassword = false;
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errorM, setErrorM] = useState('');
-  
-  const submitHandler = async (e) => {
 
+  const submitHandler = async () => {
     setEmail('');
     setPassword('');
-    let result = await dispatch(logInUser(email, password, setErrorM))  
+    const result = await dispatch(logInUser(email, password, setErrorM));
     if (result && result.payload) {
-      navigation.navigate('Profile')
+      navigation.navigate('Profile');
     }
-  }
+  };
 
   function renderForm() {
     return (
       <View style={styles.outsideView}>
         <View style={styles.view}>
-        {!!errorM && <Text>{errorM}</Text>}
+          {!!errorM && <Text>{errorM}</Text>}
           <TextInput
             onChangeText={(text) => setEmail(text)}
             value={email}
@@ -43,7 +43,7 @@ function SignIn({navigation}) {
 
         <View style={styles.view}>
           <TextInput
-            onChangeText={text => setPassword(text)}
+            onChangeText={(text) => setPassword(text)}
             value={password}
             label="Password"
             secureTextEntry={!showPassword}
@@ -71,7 +71,8 @@ function SignIn({navigation}) {
       <View style={styles.submitView}>
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={submitHandler}>
+          onPress={submitHandler}
+        >
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
       </View>
@@ -82,7 +83,8 @@ function SignIn({navigation}) {
     return (
       <TouchableOpacity
         style={styles.signInLink}
-        onPress={() => navigation.navigate('SignUp')}>
+        onPress={() => navigation.navigate('SignUp')}
+      >
         <Text style={styles.textP}>
           Create Account
         </Text>
@@ -102,5 +104,17 @@ function SignIn({navigation}) {
     </KeyboardAvoidingView>
   );
 }
+
+SignIn.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
+};
+
+SignIn.defaultProps = {
+  navigation: {
+    navigate: () => null,
+  },
+};
 
 export default SignIn;
