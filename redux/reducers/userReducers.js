@@ -14,7 +14,11 @@ const userReducer = (state = '', { type, payload }) => {
     case GET_USER:
       return payload;
     case EDIT_PROFILE:
-      return payload;
+      return {
+        ...state,
+        displayName: payload.displayName,
+        phoneNumber: payload.phoneNumber,
+      };
     case PROFILE_PICTURE:
       return {
         ...state,

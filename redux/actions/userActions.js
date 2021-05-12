@@ -89,19 +89,24 @@ export const updateProfile = (editUser, setErrorM) => (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;
 
-  user.updateProfile(editUser)
+  user.updateProfile({
+    phoneNumber: editUser.phoneNumber,
+    displayName: editUser.displayName,
+  })
     .then(() => console.log('profile updated'))
     .catch((error) => setErrorM(error.message));
 
   return dispatch({
     type: EDIT_PROFILE,
-    payload: user,
+    payload: {
+      phoneNumber: editUser.phoneNumber,
+      displayName: editUser.displayName,
+    },
   });
 };
 
 export const updateEmail = (email, setErrorM) => (dispatch) => {
   firebaseClient();
-  console.log('here');
   const user = firebase.auth().currentUser;
   user.updateEmail(email)
     .then(() => console.log('email updated'))
@@ -112,7 +117,7 @@ export const updateEmail = (email, setErrorM) => (dispatch) => {
   });
 };
 
-export const profilePicture = (picture) => async (dispatch) => {
+export const profilePicture = (picture, setErrorM) => async (dispatch) => {
   firebaseClient();
   // eslint-disable-next-line no-unused-vars
   const fileType = picture.substring(0, picture.indexOf(';') + 1);
@@ -120,7 +125,9 @@ export const profilePicture = (picture) => async (dispatch) => {
   const user = firebase.auth().currentUser;
   const storageRef = firebase.storage().ref();
   const imagesRef = storageRef.child(`images/${user.uid}/${Date.now()}.jpg`);
-  await imagesRef.putString(base64, 'base64');
+  imagesRef.putString(base64, 'base64')
+    .then(() => console.log('image uploaded'))
+    .catch((error) => setErrorM(error.message));
   const url = await imagesRef.getDownloadURL();
   await user.updateProfile({
     photoURL: url,

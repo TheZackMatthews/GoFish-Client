@@ -12,7 +12,12 @@ import {
   Button,
   TextInput,
 } from 'react-native-paper';
-import { getUser, updateProfile, profilePicture } from '../redux/actions/userActions';
+import {
+  getUser,
+  updateProfile,
+  profilePicture,
+  updateEmail,
+} from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
 import UploadImage from '../components/UploadImage';
 
@@ -28,13 +33,21 @@ function EditUserInfo({ navigation }) {
   }, [user]);
 
   const saveProfile = async () => {
-    if (editUser.photoURL) {
+    if (editUser.photoURL !== user.photoURL) {
+      console.log('pictures dont match')
       await dispatch(profilePicture(editUser.photoURL, setErrorM));
     }
-    // await dispatch(updateProfile(editUser, setErrorM));
-    // if (!errorM) {
-    //   navigation.navigate('Profile');
-    // }
+    if (editUser.email !== user.email) {
+      console.log('emails dont match')
+      await dispatch(updateEmail(editUser.email, setErrorM));
+    }
+    if (editUser.displayName !== user.displayName || editUser.phoneNumber !== user.phoneNumber) {
+      console.log('something else doesnt match')
+      await dispatch(updateProfile(editUser, setErrorM));
+    }
+    if (!errorM) {
+      navigation.navigate('Profile');
+    }
   };
 
   return user && (editUser.email) ? (
