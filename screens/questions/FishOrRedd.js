@@ -26,7 +26,7 @@ const FishOrRedd = ({ navigation }) => {
       await dispatch(createPin('Down the River'));
       navigation.navigate('Fish1');
     } else if (selected === answer2) {
-      navigation.navigate('Fish2');
+      navigation.navigate('Redd1');
     } else {
       Alert.alert('Please choose an option!');
     }

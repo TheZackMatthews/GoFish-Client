@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { updatePin } from '../../redux/actions/storageActions';
+import { Button } from 'react-native-paper';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
 import OneAnswer from '../../components/questions/OneAnswer';
@@ -45,6 +46,12 @@ const FishAlive1 = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('ReferenceInfo')}
+      >
+        Unable to ID
+      </Button>
       <OneAnswer
         question={question}
         form={form}

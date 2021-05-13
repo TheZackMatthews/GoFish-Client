@@ -6,9 +6,16 @@ import { Button } from 'react-native-paper';
 import images from '../images';
 import { COLORS, SIZES, FONTS } from '../constants/theme';
 
-function ReferenceInfo(props) {
+function ReferenceInfo({ navigation }) {
   return (
     <View style={styles.container}>
+      <Button
+        style={{ marginTop: 40 }}
+        mode="contained"
+        onPress={() => navigation.goBack()}
+      >
+        Back
+      </Button>
       <Text style={styles.header}>Details</Text>
       <Image
         resizeMode="contain"

@@ -15,6 +15,8 @@ import DayStart from './DayStart';
 import FishDead1 from './questions/FishDead1';
 import FishDead2 from './questions/FishDead2';
 import Notes from './questions/Notes';
+import Redd1 from './questions/Redd1';
+import Redd2 from './questions/Redd2';
 
 export {
   Camera,
@@ -34,4 +36,6 @@ export {
   FishOrRedd,
   DayStart,
   Notes,
+  Redd1,
+  Redd2,
 };

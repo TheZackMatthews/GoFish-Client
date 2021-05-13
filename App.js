@@ -13,6 +13,7 @@ import {
   Camera,
   SignIn,
   SignUp,
+  EditUserInfo,
   ProjectMap,
   SpawnerProfile,
   ReferenceInfo,
@@ -23,13 +24,13 @@ import {
   DayStart,
   FishDead1,
   FishDead2,
-  EditUserInfo,
   Notes,
 } from './screens/index';
 import { useStore } from './redux/store';
 import AuthProvider from './auth';
 
 let Main;
+
 const theme = {
   ...DefaultTheme,
 };

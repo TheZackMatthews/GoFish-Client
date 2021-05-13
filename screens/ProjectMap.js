@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Constants } from 'expo';
-import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
+import PropTypes from 'prop-types';
 import MapView, { Marker } from 'react-native-maps';
-import isEqual from 'lodash/isEqual';
 import {
   StyleSheet, Text, Button, View, Dimensions, TouchableOpacity, Image,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { submitLocation } from '../redux/actions/surveyActions';
 import MyLocationMapMarker from '../components/maps/MyLocationMarker';
 import LocationModal from '../components/maps/LocationModal';
-import * as buttonCenter from '../assets/centerMap.png';
 
 const CustomMarker = () => (
   <View
@@ -32,7 +31,8 @@ const getLocationPermission = async () => {
   return true;
 };
 
-export default function App() {
+export default function ProjectMap({ navigation }) {
+  const dispatch = useDispatch();
   const [mapRegion, setMapRegion] = useState(null);
   const [hasLocationPermissions, setHasLocationPermissions] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -40,8 +40,35 @@ export default function App() {
   const [modal, setModal] = useState({ visible: false, pinDropped: false });
   const [buttons, setButtons] = useState({
     addPin: false,
-    pinText: 'Add Pin',
   });
+
+  const setMapState = (dropPin = false) => {
+    // accepts only one marker
+    setMarkers([]);
+    setModal((prev) => ({ ...prev, visible: false, pinDropped: dropPin }));
+    setButtons((prevButtons) => ({
+      ...prevButtons,
+      addPin: dropPin,
+    }));
+  };
+
+  const submitLocationHandler = async () => {
+    // just a failsafe
+    if (markers.length > 1) throw new Error('Too many map markers!');
+    const loc = markers[0] || currentLocation;
+    const coords = {
+      lat: loc.coords.latitude,
+      lng: loc.coords.longitude,
+    };
+    const result = await dispatch(submitLocation(coords));
+    if (result && result.payload) {
+      console.log('pay', result.payload);
+      setMapState(); // resets map state
+      navigation.navigate('Fish1');
+    } else {
+      throw new Error('Location could not be saved!');
+    }
+  };
 
   // gets permissions and initial location
   // eslint-disable-next-line no-unused-expressions
@@ -71,7 +98,7 @@ export default function App() {
     if (markers.length) setModal((prev) => ({ ...prev, visible: true, pinDropped: true }));
   }, [markers]);
 
-  // if add pin has been clicked, add pin on map press
+  // if 'add pin' has been clicked, add pin on map press
   const onMapPress = (e) => {
     if (buttons.addPin && !markers.length) {
       setMarkers(
@@ -83,19 +110,7 @@ export default function App() {
     }
   };
 
-  // drop new pin
-  const dropPin = () => {
-    setMarkers([]);
-    setModal((prev) => ({ ...prev, visible: false }));
-    setButtons((prevButtons) => ({
-      ...prevButtons,
-      addPin: true,
-    }));
-  };
-
   const centerMap = async () => {
-    //    const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
-    //   setCurrentLocation(loc);
     setMapRegion((prevRegion) => ({
       ...prevRegion,
       latitude: currentLocation.coords.latitude,
@@ -103,13 +118,19 @@ export default function App() {
     }));
   };
 
+  // gets location from MyLocationMapMarker
   const locationFromChild = (data) => {
+    console.log(data);
     setCurrentLocation(data);
   };
 
   return currentLocation ? (
     <View style={styles.container}>
-      <LocationModal commands={modal} dropPin={dropPin} />
+      <LocationModal
+        commands={modal}
+        dropPin={setMapState}
+        submitLocation={submitLocationHandler}
+      />
       <MapView
         style={styles.map}
         region={mapRegion}
@@ -124,16 +145,19 @@ export default function App() {
       </MapView>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => centerMap()}>
-          <Image source={require('../assets/centerMap.png')} />
+          <Image source={require('../assets/mapIcons/centerMap.png')} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => setModal((prev) => ({ ...prev, visible: true }))}
         >
-          <Image source={require('../assets/dropPin_60px.png')} />
+          <Image source={require('../assets/mapIcons/dropPin_60px.png')} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => addPin()}>
-          <Image source={require('../assets/goToForm.png')} />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('ReferenceInfo')}
+        >
+          <Image source={require('../assets/mapIcons/fishIcon.png')} />
         </TouchableOpacity>
       </View>
     </View>
@@ -173,3 +197,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
   },
 });
+
+ProjectMap.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
+};
+
+ProjectMap.defaultProps = {
+  navigation: {
+    navigate: () => null,
+  },
+};

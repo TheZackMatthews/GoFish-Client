@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import axios from 'axios';
-import { NEW_FIELD_VISIT, UPDATE_ENTRY, SAVE_SURVEY } from './actionTypes';
+import {
+  NEW_FIELD_VISIT, SUBMIT_LOCATION, UPDATE_ENTRY, SAVE_SURVEY,
+} from './actionTypes';
 
 // creek_name: string, team_lead: string, team_members: string[]
 // eslint-disable-next-line import/prefer-default-export
@@ -21,9 +23,14 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispa
     .catch((error) => console.log(error));
 };
 
+export const submitLocation = (coordinates) => (dispatch) => dispatch({
+  type: SUBMIT_LOCATION,
+  payload: coordinates,
+});
 // export const storeLocation (location) => dispatch => {
 //   return dispatch({
 //     type: STORE_LOCATION,
 //     payload: location,
 //   })
 // }
+
