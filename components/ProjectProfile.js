@@ -2,12 +2,10 @@ import React from 'react';
 import { Text, View, Image } from 'react-native';
 
 import { Avatar, Button } from 'react-native-paper';
-import images from '../images';
 import styles from '../styles/FormStyles';
 
 const ProjectProfile = ({ title }) => (
   <View style={styles.headContainer}>
-    <Avatar.Image size={100} source={images.profilePic} />
     <Text />
     <View style={styles.infoText}>
       <Text style={styles.secondHeader}>Contact Information</Text>

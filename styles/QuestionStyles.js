@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   btnContainer: {
+    margin: 20,
     flexDirection: 'row',
     alignContent: 'center',
     justifyContent: 'space-around',

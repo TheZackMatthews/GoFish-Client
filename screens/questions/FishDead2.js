@@ -1,30 +1,81 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
-import { TextInput } from 'react-native-paper';
+import { useSelector } from 'react-redux';
+import { Title, List } from 'react-native-paper';
 import BackNext from '../../components/questions/BackNext';
+import TwoAnswer from '../../components/questions/TwoAnswer';
+import { references, coho, chinook, pink, sockeye, chum } from '../../images';
 import styles from '../../styles/QuestionStyles';
 
+
 const FishDead2 = ({ navigation }) => {
-  const [textInput, setTextInput] = useState('');
+  const fish = (useSelector((state) => state.pin.fish_species).toLowerCase());
+  const [fork, setFork] = useState(null);
+  const [fin, setFin] = useState(null);
+  const [gender, setGender] = useState(null);
+  const [spawn, setSpawn] = useState(null);
+  console.log(fish)
+  let image;
+  switch (fish) {
+    case 'coho':
+      image = [coho.cohoFemale, coho.cohoMale];
+      break;
+    case 'chinook':
+      image = [coho.cohoFemale, coho.cohoMale];
+      break;
+    case 'pink':
+      image = [coho.cohoFemale, coho.cohoMale];
+      break;
+    case 'sockeye':
+      image = [coho.cohoFemale, coho.cohoMale];
+      break;
+    case 'chum':
+      image = [coho.cohoFemale, coho.cohoMale];
+      break;
+    default:
+      image = '';
+      break;
+  }
 
   const navigationHandler = (direction) => {
     if (direction === 'back') {
       navigation.navigate('FishDead1');
-    } else if (textInput !== '') {
-      navigation.navigate('FishOrRedd');
+    } else if (fork && fin && gender && spawn) {
+      navigation.navigate('Notes');
     } else {
-      alert('Please type notes!');
+      Alert.alert('Please answer all the questions!');
     }
   };
   return (
     <View style={styles.container}>
-      <Text>Notes</Text>
-      <TextInput
-        value={textInput}
-        multiline="true"
-        numberOfLines="12"
-        onChangeText={(text) => setTextInput({ text })}
+      <Title>Extended Data</Title>
+      <TwoAnswer
+        image={[references.forkLength]}
+        question="What is the fork length?"
+        answer1="Yes"
+        answer2="No"
+        choose={setFork}
+      />
+      <TwoAnswer
+        image={[references.adiposeFin]}
+        question="Does it have an adipose fin?"
+        answer1="Yes"
+        answer2="No"
+        choose={setFin}
+      />
+      <TwoAnswer
+        question="Did it successfully spawn?"
+        answer1="Yes"
+        answer2="No"
+        choose={setSpawn}
+      />
+      <TwoAnswer
+        image={image}
+        question="What gender is it?"
+        answer1="Male"
+        answer2="Female"
+        choose={setGender}
       />
 
       <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
