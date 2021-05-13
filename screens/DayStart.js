@@ -43,10 +43,9 @@ function DayStart({ navigation }) {
   function renderTeamMemberInputs() {
     return (
       teamMembers.map((member, index) => (
-        <View>
+        // eslint-disable-next-line react/no-array-index-key
+        <View key={index}>
           <TextInput
-            // NOTE If any super weird bugs occur, this is it
-            // eslint-disable-next-line react/no-array-index-key
             key={String.fromCharCode(index + 1)}
             mode="outlined"
             onChangeText={(text) => {
@@ -65,10 +64,7 @@ function DayStart({ navigation }) {
               <Checkbox
                 key={String.fromCharCode((index + 1) * -1)}
                 status={teamLead === member ? 'checked' : 'unchecked'}
-                onPress={() => {
-                  (teamLead === member) ? setTeamLead(null) : setTeamLead(member);
-                  console.log(teamLead);
-                }}
+                onPress={() => { (teamLead === member) ? setTeamLead(null) : setTeamLead(member); }}
               />
             </View>
           )}
@@ -97,8 +93,6 @@ function DayStart({ navigation }) {
             Which creek are you surveying today?
           </Text>
           <TextInput
-          // NOTE If any super weird bugs occur, this is it
-          // eslint-disable-next-line react/no-array-index-key
             mode="outlined"
             onChangeText={(text) => {
               setCreekName(text);
@@ -167,7 +161,10 @@ function DayStart({ navigation }) {
       if (isAgreedSafety && teamLead && members.length && creek !== '') {
         await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
         navigation.navigate('FishOrRedd');
-      }
+      } else if (!isAgreedSafety) console.log('Please review the covid safety agreement');
+      else if (!teamLead) console.log('Please specify the team leader');
+      else if (!members.length) console.log('It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors');
+      else if (creek === '') console.log('Please specify a creek name');
     }
     // Alert user if they haven't checked the covid safety agreement
     if (!isAgreedSafety) {
