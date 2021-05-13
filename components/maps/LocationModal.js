@@ -55,15 +55,15 @@ const LocationModal = (props) => {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: 0,
   },
   modalView: {
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    padding: 15,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -75,8 +75,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
+    marginTop: 4,
+    marginBottom: 4,
     elevation: 2,
   },
   buttonOpen: {

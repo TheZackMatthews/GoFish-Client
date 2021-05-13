@@ -40,8 +40,10 @@ export default function ProjectMap({ navigation }) {
   const [modal, setModal] = useState({ visible: false, pinDropped: false });
   const [buttons, setButtons] = useState({
     addPin: false,
+    mapType: 'terrain',
   });
 
+  // toggles drop pin functionality and modal
   const setMapState = (dropPin = false) => {
     // accepts only one marker
     setMarkers([]);
@@ -62,12 +64,18 @@ export default function ProjectMap({ navigation }) {
     };
     const result = await dispatch(submitLocation(coords));
     if (result && result.payload) {
-      console.log('pay', result.payload);
       setMapState(); // resets map state
       navigation.navigate('Fish1');
     } else {
       throw new Error('Location could not be saved!');
     }
+  };
+
+  const toggleBaseMap = () => {
+    setButtons((prev) => {
+      const map = prev.mapType === 'satellite' ? 'terrain' : 'satellite';
+      return { ...prev, mapType: map };
+    });
   };
 
   // gets permissions and initial location
@@ -132,6 +140,7 @@ export default function ProjectMap({ navigation }) {
         submitLocation={submitLocationHandler}
       />
       <MapView
+        mapType={buttons.mapType}
         style={styles.map}
         region={mapRegion}
         onPress={(e) => onMapPress(e)}
@@ -143,9 +152,23 @@ export default function ProjectMap({ navigation }) {
           <Marker key={marker.key} coordinate={marker.coordinate} />
         ))}
       </MapView>
+      <View style={styles.mapControlContainer}>
+        <TouchableOpacity
+          style={[styles.button, styles.button_mapControl]}
+          onPress={() => toggleBaseMap()}
+        >
+          <Image source={require('../assets/mapIcons/toggleBaseMap_40px.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.button_mapControl]}
+          onPress={() => centerMap()}
+        >
+          <Image source={require('../assets/mapIcons/centerMap_40px.png')} />
+        </TouchableOpacity>
+      </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => centerMap()}>
-          <Image source={require('../assets/mapIcons/centerMap.png')} />
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('')}>
+          <Image source={require('../assets/mapIcons/instructions.png')} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -174,8 +197,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').height,
   },
   buttonContainer: {
     display: 'flex',
@@ -184,6 +207,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: '0%',
     alignSelf: 'center',
+  },
+  mapControlContainer: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+    position: 'absolute',
+    top: '5%',
+    alignSelf: 'flex-end',
   },
   button: {
     backgroundColor: '#ff3399',
@@ -195,6 +226,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowRadius: 10,
     shadowOpacity: 0.3,
+  },
+  button_mapControl: {
+    margin: 10,
   },
 });
 

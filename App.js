@@ -38,6 +38,7 @@ export default function App() {
             <NavigationContainer>
               <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="ProjectMap">
                 <Stack.Screen name="Fish1" component={Fish1} />
+                <Stack.Screen name="ReferenceInfo" component={ReferenceInfo} />
                 <Stack.Screen name="ProjectMap" component={ProjectMap} />
                 <Stack.Screen name="SignIn" component={SignIn} />
                 <Stack.Screen name="SignUp" component={SignUp} />
