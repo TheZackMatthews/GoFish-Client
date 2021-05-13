@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import surveyReducer from './surveyReducers';
+// import surveyReducer from './surveyReducers';
 import userReducer from './userReducers';
 import cameraReducer from './cameraReducers';
 import { visitReducer, pinReducer } from './storageReducers';

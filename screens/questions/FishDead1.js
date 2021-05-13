@@ -1,28 +1,38 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePin } from '../../redux/actions/storageActions';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
 import OneAnswer from '../../components/questions/OneAnswer';
+import { COLORS, SIZES } from '../../constants/theme';
 
 const FishDead1 = ({ navigation }) => {
+  const pin = useSelector((state) => state.pin);
+  const dispatch = useDispatch();
   const [form, setForm] = useState({ species: '', total: 0 });
   const question = 'What species?';
-  console.log(form);
 
-  const navigationHandler = (direction) => {
+  const navigationHandler = async (direction) => {
     if (direction === 'back') {
       navigation.navigate('Fish1');
-    } else if (form !== { species: '', total: 0 }) {
+    } else if (form.species !== '' && form.total !== 0) {
+      await dispatch(updatePin({
+        ...pin,
+        fish_species: form.species,
+        fish_count: form.total,
+      }));
       navigation.navigate('FishDead2');
     } else {
-      alert('Please choose an option!');
+      Alert.alert('Please choose an option!');
     }
   };
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <Button
+        style={{ width: SIZES.width / 3, alignSelf: 'center', backgroundColor: COLORS.blue }}
         mode="contained"
         onPress={() => navigation.navigate('ReferenceInfo')}
       >

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { KeyboardAvoidingView, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { updatePin } from '../../redux/actions/storageActions';
 import { Button } from 'react-native-paper';
+import { updatePin } from '../../redux/actions/storageActions';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
 import OneAnswer from '../../components/questions/OneAnswer';
+import { SIZES } from '../../constants/theme';
 
 const FishAlive1 = ({ navigation }) => {
   const [form, setForm] = useState({ species: '', total: 0 });
@@ -18,7 +19,7 @@ const FishAlive1 = ({ navigation }) => {
   const referenceInfo = () => {
     navigation.navigate('ReferenceInfo');
   };
-  console.log(form)
+  console.log(form);
   const navigationHandler = async (direction) => {
     if (direction === 'back') {
       navigation.navigate('Fish1');
@@ -47,6 +48,7 @@ const FishAlive1 = ({ navigation }) => {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <Button
+        style={{ width: SIZES.width / 2 }}
         mode="contained"
         onPress={() => navigation.navigate('ReferenceInfo')}
       >
