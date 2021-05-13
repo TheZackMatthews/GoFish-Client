@@ -8,7 +8,7 @@ export const defaultUser = {
   creationTime: '',
 };
 
-export const defaultSurvey = {
+export const defaultPin = {
   id: '',
   location: '',
   fish_status: '',
@@ -34,4 +34,5 @@ export const defaultVolunteer = {
   day_end_comments: '',
   start_location: '',
   end_location: '',
+  pins: [{}],
 };

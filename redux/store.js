@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import { AsyncStorage } from 'react-native';
+import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -10,7 +11,8 @@ let store;
 
 const persistConfig = {
   key: 'root',
-  storage: AsyncStorage,
+  storage: AsyncStorage || storage,
+  blacklist: ['user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

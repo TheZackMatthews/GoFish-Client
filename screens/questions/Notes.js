@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Title, TextInput } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { updatePin, getPin } from '../../redux/actions/storageActions';
+import { completePin, removePin } from '../../redux/actions/storageActions';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
 import { COLORS } from '../../constants/theme';
@@ -12,21 +12,16 @@ const Notes = ({ navigation }) => {
   const [comments, setComments] = useState('');
   const dispatch = useDispatch();
   const pin = useSelector((state) => state.pin);
-  console.log(pin);
 
-  // useEffect(() => {
-  //   if (Object.keys(pin).length < 3) {
-  //     dispatch(getPin());
-  //   }
-  // }, []);
   const navigationHandler = async (direction) => {
     if (direction === 'back') {
       navigation.navigate('FishAlive1');
     } else if (direction === 'next') {
-      await dispatch(updatePin({
+      await dispatch(completePin({
         ...pin,
         comments,
       }));
+      await dispatch(removePin());
       // THEN > update field visit with pin info
       // do we need a way to change the value of the key for the
       // storage based on how many exist? or will we

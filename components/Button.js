@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import styles from '../styles/FormsStyles';
+import styles from '../styles/FormStyles';
 
 function renderButton({ title }) {
   return (

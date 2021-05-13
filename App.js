@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import {
   AppRegistry, StyleSheet, View,
 } from 'react-native';
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from 'redux-persist/integration/react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -49,42 +49,42 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-      <AuthProvider>
-        <PaperProvider theme={theme}>
-          <View style={styles.container}>
-            <NavigationContainer>
-              <Stack.Navigator
-                screenOptions={{ headerShown: false }}
-                initialRouteName="Notes"
-              >
-                <Stack.Screen name="SignIn" component={SignIn} />
-                <Stack.Screen name="SignUp" component={SignUp} />
-                <Stack.Screen name="Profile" component={UserProfile} />
-                <Stack.Screen name="EditUserInfo" component={EditUserInfo} />
-                {/* Map Pages */}
-                <Stack.Screen name="ProjectMap" component={ProjectMap} />
-                <Stack.Screen name="UserMap" component={UserMap} />
-                {/* Project Pages */}
-                <Stack.Screen name="ReferenceInfo" component={ReferenceInfo} />
-                <Stack.Screen name="SpawnerProfile" component={SpawnerProfile} />
-                {/* Camera Pages */}
-                <Stack.Screen name="Camera" component={Camera} />
-                {/* Question Pages */}
-                <Stack.Screen name="DayStart" component={DayStart} />
-                <Stack.Screen name="Notes" component={Notes} />
-                <Stack.Screen name="FishOrRedd" component={FishOrRedd} />
-                {/* Fish */}
-                <Stack.Screen name="Fish1" component={Fish1} />
-                <Stack.Screen name="FishAlive1" component={FishAlive1} />
-                {/* Fish Dead */}
-                <Stack.Screen name="FishDead1" component={FishDead1} />
-                <Stack.Screen name="FishDead2" component={FishDead2} />
-                {/* Redd */}
-              </Stack.Navigator>
-            </NavigationContainer>
-          </View>
-        </PaperProvider>
-      </AuthProvider>
+        <AuthProvider>
+          <PaperProvider theme={theme}>
+            <View style={styles.container}>
+              <NavigationContainer>
+                <Stack.Navigator
+                  screenOptions={{ headerShown: false }}
+                  initialRouteName="FishOrRedd"
+                >
+                  <Stack.Screen name="SignIn" component={SignIn} />
+                  <Stack.Screen name="SignUp" component={SignUp} />
+                  <Stack.Screen name="Profile" component={UserProfile} />
+                  <Stack.Screen name="EditUserInfo" component={EditUserInfo} />
+                  {/* Map Pages */}
+                  <Stack.Screen name="ProjectMap" component={ProjectMap} />
+                  <Stack.Screen name="UserMap" component={UserMap} />
+                  {/* Project Pages */}
+                  <Stack.Screen name="ReferenceInfo" component={ReferenceInfo} />
+                  <Stack.Screen name="SpawnerProfile" component={SpawnerProfile} />
+                  {/* Camera Pages */}
+                  <Stack.Screen name="Camera" component={Camera} />
+                  {/* Question Pages */}
+                  <Stack.Screen name="DayStart" component={DayStart} />
+                  <Stack.Screen name="Notes" component={Notes} />
+                  <Stack.Screen name="FishOrRedd" component={FishOrRedd} />
+                  {/* Fish */}
+                  <Stack.Screen name="Fish1" component={Fish1} />
+                  <Stack.Screen name="FishAlive1" component={FishAlive1} />
+                  {/* Fish Dead */}
+                  <Stack.Screen name="FishDead1" component={FishDead1} />
+                  <Stack.Screen name="FishDead2" component={FishDead2} />
+                  {/* Redd */}
+                </Stack.Navigator>
+              </NavigationContainer>
+            </View>
+          </PaperProvider>
+        </AuthProvider>
       </PersistGate>
     </Provider>
   );
