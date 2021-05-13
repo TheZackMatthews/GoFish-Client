@@ -10,7 +10,7 @@ import {
 import { TextInput } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import GoFishLogo from '../components/GoFishLogo';
-import { styles } from '../styles/FormsStyles';
+import styles from '../styles/FormStyles';
 import { logInUser } from '../redux/actions/userActions';
 
 function SignIn({ navigation }) {

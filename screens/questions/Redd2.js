@@ -6,19 +6,15 @@ import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
 import OneAnswer from '../../components/questions/OneAnswer';
 
-const FishAlive1 = ({ navigation }) => {
+const Redd2 = ({ navigation }) => {
   const [form, setForm] = useState({ species: '', total: 0 });
-  const question = 'What species is the fish?';
-
-  const referenceInfo = () => {
-    navigation.navigate('ReferenceInfo');
-  };
+  const question = 'What species?';
 
   const navigationHandler = (direction) => {
     if (direction === 'back') {
-      navigation.navigate('Fish1');
+      navigation.navigate('Redd1');
     } else if (form.species !== '' && form.total !== 0) {
-      navigation.navigate('FishAlive2');
+      navigation.navigate('FishOrRedd');
     } else {
       Alert.alert(
         'Wait!',
@@ -52,16 +48,16 @@ const FishAlive1 = ({ navigation }) => {
   );
 };
 
-FishAlive1.propTypes = {
+Redd2.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
   }),
 };
 
-FishAlive1.defaultProps = {
+Redd2.defaultProps = {
   navigation: {
     navigate: () => null,
   },
 };
 
-export default FishAlive1;
+export default Redd2;

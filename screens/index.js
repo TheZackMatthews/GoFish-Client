@@ -2,17 +2,21 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import EditUserInfo from './EditUserInfo';
 import ProjectMap from './ProjectMap';
-import ProjectProfile from './ProjectProfile';
-import ReferenceInfo from './ReferenceInfo';
+import ChinookProfile from './ChinookProfile';
+// import ReferenceInfo from './ReferenceInfo';
 import UserMap from './UserMap';
 import UserProfile from './UserProfile';
 import Fish1 from './questions/Fish1';
 import FishAlive1 from './questions/FishAlive1';
 import FishAlive2 from './questions/FishAlive2';
 import Camera from '../components/camera/Camera';
-import FishOrRedd from './questions/0-Fish-or-Redd';
-import DeadFish1 from './questions/FishDead1';
-import DeadFish2 from './questions/FishDead2';
+import FishOrRedd from './questions/FishOrRedd';
+import DayStart from './DayStart';
+import FishDead1 from './questions/FishDead1';
+import FishDead2 from './questions/FishDead2';
+import Redd1 from './questions/Redd1';
+import Redd2 from './questions/Redd2';
+import ReferenceInfo from './questions/ReferenceInfo';
 
 export {
   Camera,
@@ -20,14 +24,17 @@ export {
   SignUp,
   EditUserInfo,
   ProjectMap,
-  ProjectProfile,
+  ChinookProfile,
   ReferenceInfo,
   UserMap,
   UserProfile,
   Fish1,
   FishAlive1,
   FishAlive2,
+  FishDead1,
+  FishDead2,
   FishOrRedd,
-  DeadFish1,
-  DeadFish2,
+  DayStart,
+  Redd1,
+  Redd2,
 };
