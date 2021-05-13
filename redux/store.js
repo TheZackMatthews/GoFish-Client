@@ -1,31 +1,27 @@
 import { useMemo } from 'react';
 import { createStore, applyMiddleware } from 'redux';
+import { AsyncStorage } from 'react-native';
+import { persistStore, persistReducer } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 
 let store;
 
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
 function initStore(initialState) {
   return createStore(
-    reducers,
+    persistedReducer,
     initialState,
     composeWithDevTools(applyMiddleware(thunkMiddleware)),
   );
 }
-
-// const composeEnhancers = typeof window === 'object'
-//   && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-//   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-//     // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-//   }) : compose;
-
-// const enhancer = composeEnhancers(
-//   applyMiddleware(thunkMiddleware),
-//   // other store enhancers if any
-// );
-
-// const initStore = (initialState) => createStore(reducers, initialState, enhancer);
 
 export const initializeStore = (preloadedState) => {
   // eslint-disable-next-line no-underscore-dangle
@@ -49,5 +45,6 @@ export const initializeStore = (preloadedState) => {
 
 export function useStore(initialState) {
   store = useMemo(() => initializeStore(initialState, [initialState]));
-  return store;
+  const persistor = persistStore(store);
+  return { store, persistor };
 }

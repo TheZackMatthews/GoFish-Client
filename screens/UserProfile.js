@@ -21,7 +21,7 @@ function UserProfile({ navigation }) {
   const user = useSelector((state) => state.user);
   const pin = useSelector((state) => state.pin);
   console.log(pin);
-  
+
   useEffect(() => {
     dispatch(getUser());
   }, []);

@@ -3,10 +3,11 @@ import { Provider } from 'react-redux';
 import {
   AppRegistry, StyleSheet, View,
 } from 'react-native';
+import { PersistGate } from 'redux-persist/integration/react'
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { name as appName } from './app.json';
+import { expo } from './app.json';
 import {
   Fish1,
   Camera,
@@ -41,12 +42,13 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const store = useStore({});
+  const { store, persistor } = useStore({});
   console.log('App is working');
   const Stack = createStackNavigator();
 
   return (
     <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <AuthProvider>
         <PaperProvider theme={theme}>
           <View style={styles.container}>
@@ -83,8 +85,9 @@ export default function App() {
           </View>
         </PaperProvider>
       </AuthProvider>
+      </PersistGate>
     </Provider>
   );
 }
 
-AppRegistry.registerComponent(appName, () => Main);
+AppRegistry.registerComponent(expo.name, () => Main);
