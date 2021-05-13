@@ -24,6 +24,8 @@ import {
   FishDead1,
   FishDead2,
   EditUserInfo,
+  Redd1,
+  Redd2,
 } from './screens/index';
 import { useStore } from './redux/store';
 import AuthProvider from './auth';
@@ -53,7 +55,7 @@ export default function App() {
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName="ProjectMap"
+                initialRouteName="FishOrRedd"
               >
                 <Stack.Screen name="SignIn" component={SignIn} />
                 <Stack.Screen name="SignUp" component={SignUp} />
@@ -78,6 +80,8 @@ export default function App() {
                 <Stack.Screen name="FishDead1" component={FishDead1} />
                 <Stack.Screen name="FishDead2" component={FishDead2} />
                 {/* Redd */}
+                <Stack.Screen name="Redd1" component={Redd1} />
+                <Stack.Screen name="Redd2" component={Redd2} />
               </Stack.Navigator>
             </NavigationContainer>
           </View>
