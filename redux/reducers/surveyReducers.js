@@ -4,8 +4,6 @@ import { NEW_FIELD_VISIT, UPDATE_ENTRY, SAVE_SURVEY } from '../actions/actionTyp
 
 const surveyReducer = (state = '', { type, payload }) => {
   switch (type) {
-    case NEW_FIELD_VISIT:
-      return payload;
     case UPDATE_ENTRY:
       return {
         ...state,

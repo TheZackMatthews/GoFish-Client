@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/actions/userActions';
-import { createFieldVisit, createPin } from '../../redux/actions/storageActions';
+import { createPin } from '../../redux/actions/storageActions';
 import BackNext from '../../components/questions/BackNext';
 import TwoAnswer from '../../components/questions/TwoAnswer';
 import styles from '../../styles/QuestionStyles';
@@ -22,12 +22,10 @@ const FishOrRedd = ({ navigation }) => {
     if (direction === 'back') {
       navigation.navigate('Profile');
     } else if (selected === answer1) {
-      await dispatch(createFieldVisit('Montreal'));
       // create Pin should be in map funciton
       await dispatch(createPin('Down the River'));
       navigation.navigate('Fish1');
     } else if (selected === answer2) {
-      await dispatch(createFieldVisit('Toronto'));
       navigation.navigate('Fish2');
     } else {
       Alert.alert('Please choose an option!');

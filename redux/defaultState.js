@@ -22,7 +22,7 @@ export const defaultPin = {
 };
 
 export const defaultVolunteer = {
-  volunteerId: '',
+  volunteersId: '',
   creek_name: '',
   team_lead: '',
   team_members: [''],
@@ -34,5 +34,5 @@ export const defaultVolunteer = {
   day_end_comments: '',
   start_location: '',
   end_location: '',
-  pins: [{}],
+  pins: [],
 };

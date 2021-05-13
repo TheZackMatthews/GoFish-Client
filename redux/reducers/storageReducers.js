@@ -6,13 +6,18 @@ import {
   UPDATE_PIN,
   REMOVE_PIN,
   COMPLETE_PIN,
+  NEW_FIELD_VISIT,
 } from '../actions/actionTypes';
+import { defaultVolunteer } from '../defaultState';
 
 // visit reducer
-const visitReducer = (state = '', { type, payload }) => {
+const visitReducer = (state = defaultVolunteer, { type, payload }) => {
   switch (type) {
-    case CREATE_VISIT:
-      return payload;
+    case NEW_FIELD_VISIT:
+      return {
+        ...defaultVolunteer,
+        volunteersId: payload,
+      };
     case UPDATE_VISIT:
       return {
         ...state,

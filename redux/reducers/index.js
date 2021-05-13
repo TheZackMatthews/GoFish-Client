@@ -6,7 +6,6 @@ import { visitReducer, pinReducer } from './storageReducers';
 
 const reducers = {
   user: userReducer,
-  survey: surveyReducer,
   camera: cameraReducer,
   visit: visitReducer,
   pin: pinReducer,

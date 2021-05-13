@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
   Alert, Text, View,
 } from 'react-native';
 import {
-  List, Checkbox, Button, TextInput, Title, Paragraph,
+  Checkbox, Button, TextInput, Title, Paragraph,
 } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import tempStyles from '../styles/UserStyles'; // FIXME We should only have one stylesheet
 import { logOutUser, getUser } from '../redux/actions/userActions';
+import { removeVisit } from '../redux/actions/storageActions';
+import { initializeFieldVisit } from '../redux/actions/surveyActions';
 import { COLORS, SIZES } from '../constants/theme';
 import BackNext from '../components/questions/BackNext';
 
@@ -19,8 +20,10 @@ function DayStart({ navigation }) {
   const dispatch = useDispatch();
   // Get the user object
   const user = useSelector((state) => state.user);
+  const visit = useSelector((state) => state.visit);
   useEffect(() => {
     if (!user) dispatch(getUser());
+    if (visit) dispatch(removeVisit());
   }, []);
 
   const [errorM, setErrorM] = useState('');
@@ -106,15 +109,9 @@ function DayStart({ navigation }) {
   const dispatchLogOut = async () => {
     setErrorM('');
     const result = await dispatch(logOutUser(setErrorM));
-    console.log(result);
     if (result && result.payload) {
       navigation.navigate('SignIn');
     }
-  };
-
-  const postVolunteers = (creekName, lead, team) => {
-    const newVolunteers = { creekName, lead, team };
-    return axios.post('http://localhost/saveVolunteers:3001', newVolunteers);
   };
 
   const dispatchVolunteers = async () => {
@@ -154,18 +151,8 @@ function DayStart({ navigation }) {
         ],
       );
     } else {
+      await dispatch(initializeFieldVisit('Creek Name', teamLead, teamMembers));
       navigation.navigate('FishOrRedd');
-      // ZACK - this got scrambled by Liveshare!!
-      // postVolunteers(creekName, teamLead, teamMembers)((groupId) => {
-      //     // TODO save groupId to the store
-          
-      //   }
-        
-      //   .then(navigation.navigate('FishOrRedd'))
-      //   .catch((error) => {
-      //     setErrorM(error);
-      //     console.log(error);
-      //   });
     }
   };
 

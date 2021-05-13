@@ -10,16 +10,15 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispa
     teamLead,
     teamMembers,
   };
-  axios.post('http://localhost:3001', volunteers)
+  axios.post('http://localhost:3001/saveVolunteers', volunteers)
     .then((response) => {
-      console.log(response);
+      console.log(response.data);
       return dispatch({
         type: NEW_FIELD_VISIT,
-        payload: {
-          response,
-        },
+        payload: response.data.data,
       });
-    });
+    })
+    .catch((error) => console.log(error));
 };
 
 // export const storeLocation (location) => dispatch => {
