@@ -24,8 +24,10 @@ export const UPLOAD_PHOTO = 'UPLOAD_PHOTO';
 
 // local storage action types
 export const CREATE_VISIT = 'CREATE_VISIT';
+export const GET_VISIT = 'GET_VISIT';
 export const UPDATE_VISIT = 'UPDATE_VISIT';
-export const CREATE_PIN = 'CREATE_PIN';
-export const UPDATE_PIN = 'UPDATE_PIN';
 export const REMOVE_VISIT = 'REMOVE_VISIT';
+export const CREATE_PIN = 'CREATE_PIN';
+export const GET_PIN = 'GET_PIN';
+export const UPDATE_PIN = 'UPDATE_PIN';
 export const REMOVE_PIN = 'REMOVE_PIN';

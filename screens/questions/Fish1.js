@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../redux/actions/userActions';
-import { createPin } from '../../redux/actions/storageActions';
+import { updatePin, getPin } from '../../redux/actions/storageActions';
 import BackNext from '../../components/questions/BackNext';
 import TwoAnswer from '../../components/questions/TwoAnswer';
 import styles from '../../styles/QuestionStyles';
@@ -12,27 +12,35 @@ const Fish1 = ({ navigation }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   if (!user) dispatch(getUser());
+  const pin = useSelector((state) => state.pin);
   const [selected, setSelected] = useState(null);
   const question = 'Is it alive or dead?';
   const answer1 = 'Alive';
   const answer2 = 'Dead';
 
   useEffect(() => {
-    AsyncStorage.getItem('fieldVisit')
-      .then((value) => console.log(value))
-      .catch((e) => console.log(e))
-  }, [])
+    if (Object.keys(pin).length < 2) {
+      dispatch(getPin());
+    }
+  }, []);
 
-  const navigationHandler = (direction) => {
+  const navigationHandler = async (direction) => {
     if (direction === 'back') {
       navigation.navigate('FishOrRedd');
     } else if (selected === answer1) {
-
+      await dispatch(updatePin({
+        ...pin,
+        fish_status: 'live',
+      }));
       navigation.navigate('FishAlive1');
     } else if (selected === answer2) {
+      await dispatch(updatePin({
+        ...pin,
+        fish_status: 'carcass',
+      }));
       navigation.navigate('FishDead1');
     } else {
-      alert('Please choose an option!');
+      Alert.alert('Please choose an option!');
     }
   };
   return (

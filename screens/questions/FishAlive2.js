@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { TextInput } from 'react-native-paper';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
@@ -24,7 +25,7 @@ const FishAlive2 = ({ navigation }) => {
         value={textInput}
         multiline="true"
         numberOfLines="12"
-        onChangeText={(text) => setTextInput({ text })}
+        onChangeText={(text) => setTextInput(text)}
       />
 
       <BackNext navigationHandler={(direction) => navigationHandler(direction)} />

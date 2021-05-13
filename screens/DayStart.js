@@ -154,6 +154,7 @@ function DayStart({ navigation }) {
         ],
       );
     } else {
+      navigation.navigate('FishOrRedd');
       // ZACK - this got scrambled by Liveshare!!
       // postVolunteers(creekName, teamLead, teamMembers)((groupId) => {
       //     // TODO save groupId to the store

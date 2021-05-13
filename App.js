@@ -18,12 +18,12 @@ import {
   UserMap,
   UserProfile,
   FishAlive1,
-  FishAlive2,
   FishOrRedd,
   DayStart,
   FishDead1,
   FishDead2,
   EditUserInfo,
+  Notes,
 } from './screens/index';
 import { useStore } from './redux/store';
 import AuthProvider from './auth';
@@ -53,7 +53,7 @@ export default function App() {
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName="FishOrRedd"
+                initialRouteName="Notes"
               >
                 <Stack.Screen name="SignIn" component={SignIn} />
                 <Stack.Screen name="SignUp" component={SignUp} />
@@ -69,11 +69,11 @@ export default function App() {
                 <Stack.Screen name="Camera" component={Camera} />
                 {/* Question Pages */}
                 <Stack.Screen name="DayStart" component={DayStart} />
+                <Stack.Screen name="Notes" component={Notes} />
                 <Stack.Screen name="FishOrRedd" component={FishOrRedd} />
                 {/* Fish */}
                 <Stack.Screen name="Fish1" component={Fish1} />
                 <Stack.Screen name="FishAlive1" component={FishAlive1} />
-                <Stack.Screen name="FishAlive2" component={FishAlive2} />
                 {/* Fish Dead */}
                 <Stack.Screen name="FishDead1" component={FishDead1} />
                 <Stack.Screen name="FishDead2" component={FishDead2} />
