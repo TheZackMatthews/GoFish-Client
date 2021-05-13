@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { View, Image, ImageStore } from 'react-native';
 import PropTypes from 'prop-types';
-import {
-  Card, Title, List,
-} from 'react-native-paper';
-import AutoHeightImage from 'react-native-auto-height-image';
+import { Card, Title, List } from 'react-native-paper';
 import { SIZES } from '../../constants/theme';
 
 const TwoAnswer = ({
@@ -42,7 +39,7 @@ const TwoAnswer = ({
     let i = 0;
     return image.map((img) => {
       i += 1;
-      return <Image key={i} style={{ width: SIZES.width - 200, height: 200 }} source={img} />
+      return <Image key={i} style={{ width: SIZES.width - 200, height: 200 }} source={img} />;
     });
   };
 
@@ -52,7 +49,7 @@ const TwoAnswer = ({
         <Card.Content>
           <Title>{question}</Title>
           <View>
-            {(image.length > 0) && renderImages()}
+            {image.length > 0 && renderImages()}
             <List.Item
               style={answer1Style()}
               title={answer1}

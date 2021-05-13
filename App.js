@@ -1,8 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import {
-  AppRegistry, StyleSheet, View,
-} from 'react-native';
+import { AppRegistry, StyleSheet, View } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -56,14 +54,7 @@ export default function App() {
           <PaperProvider theme={theme}>
             <View style={styles.container}>
               <NavigationContainer>
-                <Stack.Navigator
-                  screenOptions={{ headerShown: false }}
-<<<<<<< HEAD
-                  initialRouteName="FishDead2"
-=======
-                  initialRouteName="SignIn"
->>>>>>> development
-                >
+                <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="SignIn">
                   <Stack.Screen name="SignIn" component={SignIn} />
                   <Stack.Screen name="SignUp" component={SignUp} />
                   <Stack.Screen name="Profile" component={UserProfile} />
