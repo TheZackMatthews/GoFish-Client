@@ -56,6 +56,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-react-native": "^3.10.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "prettier-eslint": "^12.0.0",
     "react-devtools": "^4.13.2",
     "react-native-dotenv": "^2.5.5"
   },

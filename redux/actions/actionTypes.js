@@ -20,3 +20,4 @@ export const SAVE_SURVEY = 'SAVE_SURVEY';
 export const SAVE_PHOTO = 'SAVE_PHOTO';
 
 // map action types
+export const SUBMIT_LOCATION = 'SUBMIT_LOCATION';
