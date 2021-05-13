@@ -8,6 +8,7 @@ const LocationModal = (props) => {
   const {
     commands: { visible, pinDropped },
     dropPin,
+    submitLocation,
   } = props;
   console.log(props);
 
@@ -32,17 +33,14 @@ const LocationModal = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
+            <Pressable style={[styles.button, styles.buttonClose]} onPress={() => submitLocation()}>
               {toggleText}
             </Pressable>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 // setModalVisible(!modalVisible);
-                dropPin();
+                dropPin(true);
               }}
             >
               <Text style={styles.textStyle}>Drop Pin</Text>

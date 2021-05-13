@@ -1,9 +1,4 @@
-import {
-  NEW_FIELD_VISIT,
-  UPDATE_ENTRY,
-  SAVE_SURVEY,
-  SUBMIT_LOCATION,
-} from '../actions/actionTypes';
+import { NEW_FIELD_VISIT, UPDATE_ENTRY, SAVE_SURVEY } from '../actions/actionTypes';
 
 // survey reducer
 
@@ -18,8 +13,12 @@ const surveyReducer = (state = '', { type, payload }) => {
       };
     case SAVE_SURVEY:
       return payload;
-    case SUBMIT_LOCATION:
-      return payload;
+
+    // case SAVE_LOCATION:
+    //   return ({
+    //     ...state,
+    //     location: payload
+    //   })
     default:
       return state;
   }
