@@ -3,7 +3,7 @@ import { Text, View, Image } from 'react-native';
 
 import { Avatar, Button } from 'react-native-paper';
 import images from '../images';
-import styles from '../styles/FormsStyles';
+import styles from '../styles/FormStyles';
 
 const ProjectProfile = ({ title }) => (
   <View style={styles.headContainer}>

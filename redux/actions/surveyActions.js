@@ -12,15 +12,15 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispa
     teamLead,
     teamMembers,
   };
-  axios.post('http://localhost:3001', volunteers).then((response) => {
-    console.log(response);
-    return dispatch({
-      type: NEW_FIELD_VISIT,
-      payload: {
-        response,
-      },
-    });
-  });
+  axios.post('http://localhost:3001/saveVolunteers', volunteers)
+    .then((response) => {
+      console.log(response.data);
+      return dispatch({
+        type: NEW_FIELD_VISIT,
+        payload: response.data.data,
+      });
+    })
+    .catch((error) => console.log(error));
 };
 
 export const submitLocation = (coordinates) => (dispatch) => dispatch({

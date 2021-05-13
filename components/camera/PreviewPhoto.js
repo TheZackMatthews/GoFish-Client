@@ -1,21 +1,8 @@
 import React from 'react';
-import {
-  View, StyleSheet, ImageBackground,
-} from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import PropTypes from 'prop-types';
 import PreviewButtons from './PreviewButtons';
-
-const styles = StyleSheet.create({
-  outerView: {
-    backgroundColor: 'transparent',
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-  image: {
-    flex: 1,
-  },
-});
+import styles from '../../styles/CameraStyles';
 
 const PreviewPhoto = ({ photo, savePhoto, retakePicture }) => (
   <View style={styles.outerView}>

@@ -1,19 +1,15 @@
-import React from "react";
-import { Text, View, TouchableOpacity} from "react-native";
-import styles from "../styles/FormsStyles";
+import React from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
+import styles from '../styles/FormStyles';
 
-function renderButton({title}) {
+function renderButton({ title }) {
   return (
     <View style={styles.buttonMain}>
-      <TouchableOpacity
-        // style={styles.submitButton}
-        // onPress={submitHandler}
-        >
+      <TouchableOpacity>
         <Text style={styles.buttonText}>{title}</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
 
 export default renderButton;

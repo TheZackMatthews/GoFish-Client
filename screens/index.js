@@ -2,8 +2,8 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import EditUserInfo from './EditUserInfo';
 import ProjectMap from './ProjectMap';
-import ChinookProfile from './ChinookProfile';
-// import ReferenceInfo from './ReferenceInfo';
+import SpawnerProfile from './SpawnerProfile';
+import ReferenceInfo from './ReferenceInfo';
 import UserMap from './UserMap';
 import UserProfile from './UserProfile';
 import Fish1 from './questions/Fish1';
@@ -14,9 +14,9 @@ import FishOrRedd from './questions/FishOrRedd';
 import DayStart from './DayStart';
 import FishDead1 from './questions/FishDead1';
 import FishDead2 from './questions/FishDead2';
+import Notes from './questions/Notes';
 import Redd1 from './questions/Redd1';
 import Redd2 from './questions/Redd2';
-import ReferenceInfo from './questions/ReferenceInfo';
 
 export {
   Camera,
@@ -24,7 +24,7 @@ export {
   SignUp,
   EditUserInfo,
   ProjectMap,
-  ChinookProfile,
+  SpawnerProfile,
   ReferenceInfo,
   UserMap,
   UserProfile,
@@ -35,6 +35,7 @@ export {
   FishDead2,
   FishOrRedd,
   DayStart,
+  Notes,
   Redd1,
   Redd2,
 };

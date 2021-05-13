@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
-  Alert, Text, View,
+  Platform, Alert, Text, View,
 } from 'react-native';
 import {
   Checkbox, Button, TextInput, Title, Paragraph,
@@ -10,10 +9,13 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import tempStyles from '../styles/UserStyles'; // FIXME We should only have one stylesheet
 import { logOutUser, getUser } from '../redux/actions/userActions';
+import { initializeFieldVisit } from '../redux/actions/surveyActions';
 import { COLORS, SIZES } from '../constants/theme';
 import BackNext from '../components/questions/BackNext';
 
 const safetyAgreement = 'I certify that all team members report no Covid-19 symptoms and have all required PPE including face masks (to be worn when team members are within 6 feet of each other) and high visibility vests';
+
+// TODO: We should probably prevent them from continuing if dispatch(initializeFieldVisit) fails
 
 function DayStart({ navigation }) {
   const dispatch = useDispatch();
@@ -26,30 +28,47 @@ function DayStart({ navigation }) {
   const [errorM, setErrorM] = useState('');
   const [teamMembers, setTeamMembers] = useState(['']);
   const [teamLead, setTeamLead] = useState(user.displayName);
+  const [isUserTeamLead, setIsUserTeamLead] = useState(true);
   const [creekName, setCreekName] = useState('');
   const [isAgreedSafety, setIsAgreedSafety] = useState(false);
 
-  const toggleIsTeamLead = () => setTeamLead(
-    teamLead === user.displayName ? null : user.displayName,
-  );
+  const toggleUserIsTeamLead = () => {
+    setIsUserTeamLead(!isUserTeamLead);
+    setTeamLead(
+      teamLead === user.displayName ? null : user.displayName,
+    );
+  };
   const toggleIsAgreedSafety = () => setIsAgreedSafety(!isAgreedSafety);
 
   function renderTeamMemberInputs() {
     return (
       teamMembers.map((member, index) => (
-        <TextInput
-          // NOTE If any super weird bugs occur, this is it
-          // eslint-disable-next-line react/no-array-index-key
-          key={index}
-          mode="outlined"
-          onChangeText={(text) => {
-            const temp = teamMembers.slice();
-            temp.splice(index, 1, text);
-            setTeamMembers(temp);
-          }}
-          value={teamMembers[index]}
-          label="Surveyer first name"
-        />
+        // eslint-disable-next-line react/no-array-index-key
+        <View key={index}>
+          <TextInput
+            key={String.fromCharCode(index + 1)}
+            mode="outlined"
+            onChangeText={(text) => {
+              const temp = teamMembers.slice();
+              temp.splice(index, 1, text);
+              setTeamMembers(temp);
+            }}
+            value={teamMembers[index]}
+            label="Surveyer first name"
+          />
+          {isUserTeamLead ? null : (
+            <View>
+              <Text>
+                {`Is ${member} the team lead?`}
+              </Text>
+              <Checkbox
+                key={String.fromCharCode((index + 1) * -1)}
+                status={teamLead === member ? 'checked' : 'unchecked'}
+                onPress={() => { (teamLead === member) ? setTeamLead(null) : setTeamLead(member); }}
+              />
+            </View>
+          )}
+        </View>
       ))
     );
   }
@@ -60,10 +79,29 @@ function DayStart({ navigation }) {
         <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between' }}>
           <Paragraph> Are you the team lead today? </Paragraph>
           <Checkbox
-            status={teamLead ? 'checked' : 'unchecked'}
-            onPress={() => toggleIsTeamLead()}
+            status={isUserTeamLead ? 'checked' : 'unchecked'}
+            onPress={() => {
+              toggleUserIsTeamLead();
+              console.log(teamLead);
+            }}
+          />
+
+        </View>
+
+        <View>
+          <Text>
+            Which creek are you surveying today?
+          </Text>
+          <TextInput
+            mode="outlined"
+            onChangeText={(text) => {
+              setCreekName(text);
+            }}
+            value={creekName}
+            label="Creek name"
           />
         </View>
+
         <Paragraph> Who is surveying with you? </Paragraph>
         <View style={{ flexDirection: 'row' }}>
           <Button
@@ -91,7 +129,10 @@ function DayStart({ navigation }) {
         <Paragraph style={{ marginTop: 15 }}>
           {safetyAgreement}
         </Paragraph>
-        <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between', paddingTop: 10, paddingBottom: 10 }}>
+        <View style={{
+          flexDirection: 'row', alignContent: 'center', justifyContent: 'space-between', paddingTop: 10, paddingBottom: 10,
+        }}
+        >
           <Paragraph> I agree </Paragraph>
           <Checkbox
             status={isAgreedSafety ? 'checked' : 'unchecked'}
@@ -111,15 +152,20 @@ function DayStart({ navigation }) {
     }
   };
 
-  const postVolunteers = (creekName, lead, team) => {
-    const newVolunteers = { creekName, lead, team };
-    return axios.post('http://localhost/saveVolunteers:3001', newVolunteers);
-  };
-
   const dispatchVolunteers = async () => {
     setErrorM('');
     const members = teamMembers.filter((e) => e.replace(/(\r\n|\n|\r)/gm, ''));
-    console.log(members);
+    const creek = creekName.replace(/(\r\n|\n|\r)/gm, '');
+
+    if (Platform.OS === 'web') {
+      if (isAgreedSafety && teamLead && members.length && creek !== '') {
+        await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
+        navigation.navigate('FishOrRedd');
+      } else if (!isAgreedSafety) console.log('Please review the covid safety agreement');
+      else if (!teamLead) console.log('Please specify the team leader');
+      else if (!members.length) console.log('It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors');
+      else if (creek === '') console.log('Please specify a creek name');
+    }
     // Alert user if they haven't checked the covid safety agreement
     if (!isAgreedSafety) {
       Alert.alert(
@@ -152,13 +198,18 @@ function DayStart({ navigation }) {
           { text: 'OK', onPress: () => console.log('OK Pressed') },
         ],
       );
+    } else if (!creek || creek === '') {
+      // Alert the user if they haven't specified a creek name
+      Alert.alert(
+        'Can\'t continue',
+        'Please specify a creek name',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+      );
     } else {
-      postVolunteers(creekName, teamLead, teamMembers)
-        .then(navigation.navigate('FishOrRedd'))
-        .catch((error) => {
-          setErrorM(error);
-          console.log(error);
-        });
+      await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
+      navigation.navigate('FishOrRedd');
     }
   };
 
@@ -174,7 +225,7 @@ function DayStart({ navigation }) {
     <View style={{ margin: 40, marginTop: 100 }}>
       <View style={{ alignContent: 'center' }}>
         <Title>
-          { `Hello ${user.displayName}` }
+          {`Hello ${user?.displayName || 'surveyor'}`}
         </Title>
       </View>
       {renderForm()}

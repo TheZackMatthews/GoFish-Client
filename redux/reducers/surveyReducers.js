@@ -9,8 +9,6 @@ import {
 
 const surveyReducer = (state = '', { type, payload }) => {
   switch (type) {
-    case NEW_FIELD_VISIT:
-      return payload;
     case UPDATE_ENTRY:
       return {
         ...state,

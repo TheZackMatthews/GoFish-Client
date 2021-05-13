@@ -8,7 +8,25 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8502b92-c20f-44ea-a75c-264152f6a989" name="Default Changelist" comment="" />
+    <list default="true" id="f8502b92-c20f-44ea-a75c-264152f6a989" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.expo/packager-info.json" beforeDir="false" afterPath="$PROJECT_DIR$/.expo/packager-info.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redux/actions/actionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/redux/actions/actionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redux/actions/storageActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/redux/actions/storageActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redux/reducers/cameraReducers.js" beforeDir="false" afterPath="$PROJECT_DIR$/redux/reducers/cameraReducers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redux/reducers/storageReducers.js" beforeDir="false" afterPath="$PROJECT_DIR$/redux/reducers/storageReducers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/DayStart.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/DayStart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/UserProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/UserProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/questions/Fish1.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/questions/Fish1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/questions/FishAlive1.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/questions/FishAlive1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/questions/FishAlive2.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/questions/FishAlive2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/questions/FishOrRedd.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/questions/FishOrRedd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/questions/Notes.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/questions/Notes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/QuestionStyles.js" beforeDir="false" afterPath="$PROJECT_DIR$/styles/QuestionStyles.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,9 +43,24 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="AppEngineRunConfiguration" factoryName="App Engine DevAppServer">
+      <module name="GoFish-Client" />
+      <setting name="serverAddress" value="" />
+      <setting name="sdkPath" value="" />
+      <setting name="serverPort" value="" />
+      <setting name="vmArgs" value="" />
+      <setting name="warPath" value="" />
+      <setting name="sync" value="false" />
+      <setting name="disableUpdateCheck" value="false" />
+      <method v="2">
+        <option name="AppEngine.Gradle.BeforeRunTask" enabled="true" tasks="" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -45,21 +78,25 @@
       <screen x="0" y="30" width="3440" height="1410" />
     </state>
     <state x="1725" y="294" key="#Project_Structure/0.30.3440.1410@0.30.3440.1410" timestamp="1620679410479" />
-    <state x="1701" y="375" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620679428197">
-      <screen x="0" y="30" width="3440" height="1410" />
+    <state x="764" y="225" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620878754927">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="764" y="225" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620878754927" />
     <state x="1701" y="375" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.30.3440.1410@0.30.3440.1410" timestamp="1620679428197" />
-    <state x="530" y="208" width="1200" height="800" key="AVDManager" timestamp="1620687613027">
-      <screen x="0" y="30" width="3440" height="1410" />
+    <state x="296" y="131" width="670" height="591" key="AVDManager" timestamp="1620878602323">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="296" y="131" width="670" height="591" key="AVDManager/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620878602323" />
     <state x="530" y="208" width="1200" height="800" key="AVDManager/0.30.3440.1410@0.30.3440.1410" timestamp="1620687613027" />
-    <state x="2039" y="464" key="AndroidProcessChooserDialog" timestamp="1620674052254">
-      <screen x="0" y="30" width="3440" height="1410" />
+    <state x="1138" y="320" key="AndroidProcessChooserDialog" timestamp="1620878694449">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="1138" y="320" key="AndroidProcessChooserDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620878694449" />
     <state x="2039" y="464" key="AndroidProcessChooserDialog/0.30.3440.1410@0.30.3440.1410" timestamp="1620674052254" />
-    <state x="1880" y="433" key="FileChooserDialogImpl" timestamp="1620679407456">
-      <screen x="0" y="30" width="3440" height="1410" />
+    <state x="1049" y="297" key="FileChooserDialogImpl" timestamp="1620878737142">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="1049" y="297" key="FileChooserDialogImpl/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620878737142" />
     <state x="1880" y="433" key="FileChooserDialogImpl/0.30.3440.1410@0.30.3440.1410" timestamp="1620679407455" />
     <state width="1354" height="226" key="GridCell.Tab.0.bottom" timestamp="1620687611437">
       <screen x="0" y="30" width="3440" height="1410" />
@@ -77,13 +114,15 @@
       <screen x="0" y="30" width="3440" height="1410" />
     </state>
     <state width="1354" height="226" key="GridCell.Tab.0.right/0.30.3440.1410@0.30.3440.1410" timestamp="1620687611437" />
-    <state x="1738" y="352" key="SettingsEditor" timestamp="1620683888918">
-      <screen x="0" y="30" width="3440" height="1410" />
+    <state x="880" y="188" key="SettingsEditor" timestamp="1620878705426">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="880" y="188" key="SettingsEditor/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620878705426" />
     <state x="1738" y="352" key="SettingsEditor/0.30.3440.1410@0.30.3440.1410" timestamp="1620683888918" />
-    <state x="1901" y="335" key="run.anything.popup" timestamp="1620686570185">
-      <screen x="0" y="30" width="3440" height="1410" />
+    <state x="1061" y="225" key="run.anything.popup" timestamp="1620878563109">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="1061" y="225" key="run.anything.popup/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620878563109" />
     <state x="1901" y="335" key="run.anything.popup/0.30.3440.1410@0.30.3440.1410" timestamp="1620686570185" />
   </component>
 </project>

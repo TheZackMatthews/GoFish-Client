@@ -17,6 +17,11 @@ const styles = StyleSheet.create({
   questionContainer: {
     margin: 100,
   },
+  notesContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+  },
 });
 
 export default styles;

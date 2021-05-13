@@ -16,9 +16,7 @@ import 'firebase/auth';
 // login action
 export const logInUser = (email, password, setErrorM) => (dispatch) => {
   firebaseClient();
-  return firebase
-    .auth()
-    .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -96,10 +94,9 @@ export const getUser = () => (dispatch) => {
 export const updateProfile = (editUser, setErrorM) => async (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;
-  user
-    .updateProfile({
-      displayName: editUser.displayName,
-    })
+  user.updateProfile({
+    displayName: editUser.displayName,
+  })
     .then(() => dispatch({
       type: EDIT_PROFILE,
       payload: editUser.displayName,
@@ -110,8 +107,7 @@ export const updateProfile = (editUser, setErrorM) => async (dispatch) => {
 export const updateEmail = (email, setErrorM) => (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;
-  user
-    .updateEmail(email)
+  user.updateEmail(email)
     .then(() => console.log('email updated'))
     .catch((error) => setErrorM(error.message));
   return dispatch({
@@ -131,20 +127,17 @@ export const profilePicture = (picture, platform, setErrorM, setProgress) => asy
     const base64 = picture.substring(picture.indexOf(',') + 1);
     uploadTask = imagesRef.putString(base64, 'base64');
   } else {
-    console.log('here')
+    console.log('here');
     const response = await fetch(picture);
     const blob = await response.blob();
     uploadTask = imagesRef.put(blob);
   }
-  uploadTask.on(
-    'state_changed',
-    (snapshot) => {
-      const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      setProgress(percentage);
-    },
-    (error) => setErrorM(error.message),
-    () => {
-      imagesRef.getDownloadURL().then((url) => {
+  uploadTask.on('state_changed', (snapshot) => {
+    const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    setProgress(percentage);
+  }, (error) => setErrorM(error.message), () => {
+    imagesRef.getDownloadURL()
+      .then((url) => {
         user.updateProfile({
           photoURL: url,
         });
@@ -153,16 +146,14 @@ export const profilePicture = (picture, platform, setErrorM, setProgress) => asy
           payload: url,
         });
       });
-    },
-  );
+  });
 };
 
 // password functions not implemented
 export const updatePassword = (password, setErrorM) => (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;
-  user
-    .updatePassword(password)
+  user.updatePassword(password)
     .then(() => console.log('passwordupdated'))
     .catch((error) => setErrorM(error.message));
 
@@ -174,9 +165,7 @@ export const updatePassword = (password, setErrorM) => (dispatch) => {
 
 export const sendPasswordReset = (email, setErrorM) => (dispatch) => {
   firebaseClient();
-  firebase
-    .auth()
-    .sendPasswordResetEmail(email)
+  firebase.auth().sendPasswordResetEmail(email)
     .then(() => console.log('email sent'))
     .catch((error) => setErrorM(error.message));
   return dispatch({
