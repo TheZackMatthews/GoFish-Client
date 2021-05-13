@@ -23,7 +23,7 @@ const FishOrRedd = ({ navigation }) => {
     } else if (selected === answer1) {
       navigation.navigate('Fish1');
     } else if (selected === answer2) {
-      navigation.navigate('Fish2');
+      navigation.navigate('Redd1');
     } else {
       alert('Please choose an option!');
     }
