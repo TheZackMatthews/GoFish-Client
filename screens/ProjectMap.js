@@ -57,10 +57,11 @@ export default function ProjectMap({ navigation }) {
   const submitLocationHandler = async () => {
     // just a failsafe
     if (markers.length > 1) throw new Error('Too many map markers!');
-    const loc = markers[0] || currentLocation;
+    const loc = markers[0] ? markers[0].coordinate : currentLocation.coords;
+    console.log('loc', loc);
     const coords = {
-      lat: loc.coords.latitude,
-      lng: loc.coords.longitude,
+      lat: loc.latitude,
+      lng: loc.longitude,
     };
     const result = await dispatch(submitLocation(coords));
     if (result && result.payload) {
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
   },
   button_mapControl: {
-    margin: 10,
+    margin: 8,
   },
 });
 

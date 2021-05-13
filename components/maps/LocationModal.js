@@ -61,9 +61,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 15,
+    backgroundColor: '#ffe6f2',
+    borderRadius: 10,
+    padding: 10,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -75,21 +75,22 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 10,
+    borderRadius: 7,
     padding: 10,
     marginTop: 4,
     marginBottom: 4,
     elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: '#b3ccff',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#a3a3c2',
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 16,
     textAlign: 'center',
   },
   modalText: {
