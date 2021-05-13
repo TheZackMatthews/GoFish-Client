@@ -62,6 +62,7 @@ export default function ProjectMap({ navigation }) {
     };
     const result = await dispatch(submitLocation(coords));
     if (result && result.payload) {
+      console.log('pay', result.payload);
       setMapState(); // resets map state
       navigation.navigate('Fish1');
     } else {
