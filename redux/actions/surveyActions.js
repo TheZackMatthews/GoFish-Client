@@ -17,7 +17,13 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispa
       console.log(response.data);
       return dispatch({
         type: NEW_FIELD_VISIT,
-        payload: response.data.data,
+        payload: {
+          volunteersId: response.data.volunteersId,
+          creek_name: creekName,
+          team_lead: teamLead,
+          team_members: teamMembers,
+          started_at: response.data.started_at,
+        },
       });
     })
     .catch((error) => console.log(error));

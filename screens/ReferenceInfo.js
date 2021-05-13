@@ -3,7 +3,7 @@ import {
   StyleSheet, Text, View, Image,
 } from 'react-native';
 import { Button } from 'react-native-paper';
-import images from '../images';
+import { references } from '../images';
 import { COLORS, SIZES, FONTS } from '../constants/theme';
 
 function ReferenceInfo({ navigation }) {
@@ -20,7 +20,7 @@ function ReferenceInfo({ navigation }) {
       <Image
         resizeMode="contain"
         style={styles.img}
-        source={images.referenceImg}
+        source={references.referenceImg}
       />
       <Button mode="contained" onPress={() => console.log('Pressed')}>
         Back

@@ -1,5 +1,4 @@
 import {
-  CREATE_VISIT,
   UPDATE_VISIT,
   REMOVE_VISIT,
   CREATE_PIN,
@@ -16,7 +15,11 @@ const visitReducer = (state = defaultVolunteer, { type, payload }) => {
     case NEW_FIELD_VISIT:
       return {
         ...defaultVolunteer,
-        volunteersId: payload,
+        volunteersId: payload.volunteersId,
+        creek_name: payload.creek_name,
+        team_lead: payload.team_lead,
+        team_members: payload.team_members,
+        started_at: payload.started_at,
       };
     case UPDATE_VISIT:
       return {
@@ -46,7 +49,7 @@ const pinReducer = (state = '', { type, payload }) => {
         ...payload,
       };
     case REMOVE_PIN:
-      return 'No active pin.';
+      return '';
     default:
       return state;
   }
