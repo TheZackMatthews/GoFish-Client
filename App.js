@@ -13,7 +13,7 @@ import {
   SignIn,
   SignUp,
   ProjectMap,
-  ChinookProfile,
+  SpawnerProfile,
   ReferenceInfo,
   UserMap,
   UserProfile,
@@ -53,7 +53,7 @@ export default function App() {
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName="ProjectMap"
+                initialRouteName="FishOrRedd"
               >
                 <Stack.Screen name="SignIn" component={SignIn} />
                 <Stack.Screen name="SignUp" component={SignUp} />
@@ -64,7 +64,7 @@ export default function App() {
                 <Stack.Screen name="UserMap" component={UserMap} />
                 {/* Project Pages */}
                 <Stack.Screen name="ReferenceInfo" component={ReferenceInfo} />
-                <Stack.Screen name="ChinookProfile" component={ChinookProfile} />
+                <Stack.Screen name="SpawnerProfile" component={SpawnerProfile} />
                 {/* Camera Pages */}
                 <Stack.Screen name="Camera" component={Camera} />
                 {/* Question Pages */}

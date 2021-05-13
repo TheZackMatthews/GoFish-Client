@@ -2,7 +2,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import EditUserInfo from './EditUserInfo';
 import ProjectMap from './ProjectMap';
-import ChinookProfile from './ChinookProfile';
+import SpawnerProfile from './SpawnerProfile';
 import ReferenceInfo from './ReferenceInfo';
 import UserMap from './UserMap';
 import UserProfile from './UserProfile';
@@ -21,7 +21,7 @@ export {
   SignUp,
   EditUserInfo,
   ProjectMap,
-  ChinookProfile,
+  SpawnerProfile,
   ReferenceInfo,
   UserMap,
   UserProfile,

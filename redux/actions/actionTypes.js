@@ -18,5 +18,14 @@ export const SAVE_SURVEY = 'SAVE_SURVEY';
 
 // picture action types
 export const SAVE_PHOTO = 'SAVE_PHOTO';
+export const UPLOAD_PHOTO = 'UPLOAD_PHOTO';
 
 // map action types
+
+// local storage action types
+export const CREATE_VISIT = 'CREATE_VISIT';
+export const UPDATE_VISIT = 'UPDATE_VISIT';
+export const CREATE_PIN = 'CREATE_PIN';
+export const UPDATE_PIN = 'UPDATE_PIN';
+export const REMOVE_VISIT = 'REMOVE_VISIT';
+export const REMOVE_PIN = 'REMOVE_PIN';

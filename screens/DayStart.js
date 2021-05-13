@@ -4,7 +4,7 @@ import {
   Alert, Text, View,
 } from 'react-native';
 import {
-  Checkbox, Button, TextInput, Title, Paragraph,
+  List, Checkbox, Button, TextInput, Title, Paragraph,
 } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,6 +63,7 @@ function DayStart({ navigation }) {
             status={teamLead ? 'checked' : 'unchecked'}
             onPress={() => toggleIsTeamLead()}
           />
+
         </View>
         <Paragraph> Who is surveying with you? </Paragraph>
         <View style={{ flexDirection: 'row' }}>
@@ -153,12 +154,17 @@ function DayStart({ navigation }) {
         ],
       );
     } else {
-      postVolunteers(creekName, teamLead, teamMembers)
-        .then(navigation.navigate('FishOrRedd'))
-        .catch((error) => {
-          setErrorM(error);
-          console.log(error);
-        });
+      // ZACK - this got scrambled by Liveshare!!
+      // postVolunteers(creekName, teamLead, teamMembers)((groupId) => {
+      //     // TODO save groupId to the store
+          
+      //   }
+        
+      //   .then(navigation.navigate('FishOrRedd'))
+      //   .catch((error) => {
+      //     setErrorM(error);
+      //     console.log(error);
+      //   });
     }
   };
 

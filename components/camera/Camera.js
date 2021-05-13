@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, Text, View, TouchableOpacity, Alert,
+  Text, View, TouchableOpacity, Alert,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Camera } from 'expo-camera';
@@ -10,31 +10,7 @@ import CameraButton from './CameraButton';
 import PreviewPhoto from './PreviewPhoto';
 import { getUser } from '../../redux/actions/userActions';
 import { savePhotoToCameraRoll } from '../../redux/actions/cameraActions';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  camera: {
-    flex: 1,
-    width: '100%',
-  },
-  buttonContainer: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    margin: 20,
-  },
-  button: {
-    flex: 0.1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 18,
-    color: 'white',
-  },
-});
+import styles from '../../styles/CameraStyles';
 
 const CameraComponent = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
