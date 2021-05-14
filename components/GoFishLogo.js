@@ -7,7 +7,7 @@ import styles from '../styles/FormStyles';
 const GoFishLogo = ({ title }) => (
   <View style={styles.headContainer}>
     {/* <Text style={styles.firstHeader}>Go Fish</Text> */}
-    <Image style={{ width: 3709 / 8, height: 1997 / 8 }} source={logos.logo4} />
+    <Image style={{ width: 3709 / 8, height: 1997 / 8 }} source={logos.logo2} />
     <Text style={styles.signUp}>{title}</Text>
   </View>
 );

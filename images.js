@@ -3,6 +3,7 @@ const logo = require('./assets/logo1.png');
 const logo2 = require('./assets/GoFishLogo1.png');
 const logo3 = require('./assets/earthdaySalmon.png');
 const logo4 = require('./assets/GoFishLogo2.png');
+const logo5 = require('./assets/GoFishLogo3.png');
 
 // fish images
 const chinookFemale = require('./assets/fishes/chinookFemale.png');
@@ -27,6 +28,7 @@ export const logos = {
   logo2,
   logo3,
   logo4,
+  logo5,
 };
 export const chinook = { chinookFemale, chinookMale };
 export const chum = { chumFemale, chumMale };

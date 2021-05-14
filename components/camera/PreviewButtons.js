@@ -1,23 +1,24 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
+import { Button } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import styles from '../../styles/CameraStyles';
 
 const PreviewButtons = ({ savePhoto, retakePicture }) => (
   <View style={styles.btnContainer}>
-    <View style={styles.btnBorder}>
-      <TouchableOpacity
-        style={styles.btn}
+    <View style={styles.twoBtnBorder}>
+      <Button
         onPress={savePhoto}
+        mode="contained"
       >
-        <Text>Save</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.btn}
+        Save
+      </Button>
+      <Button
+        mode="contained"
         onPress={retakePicture}
       >
-        <Text>Retake</Text>
-      </TouchableOpacity>
+        Retake
+      </Button>
     </View>
   </View>
 );

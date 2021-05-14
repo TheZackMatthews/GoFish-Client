@@ -49,17 +49,17 @@ const FishAlive1 = ({ navigation }) => {
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <View>
         <Button
-          style={{ width: SIZES.width / 2 , alignSelf: 'center' }}
+          style={{ width: SIZES.width / 2, alignSelf: 'center' }}
           mode="contained"
           onPress={() => navigation.navigate('ReferenceInfo')}
         >
-        Unable to ID
-      </Button>
-      <OneAnswer
-        question={question}
-        form={form}
-        setForm={setForm}
-      />
+          Unable to ID
+        </Button>
+        <OneAnswer
+          question={question}
+          form={form}
+          setForm={setForm}
+        />
       </View>
       <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
     </KeyboardAvoidingView>
