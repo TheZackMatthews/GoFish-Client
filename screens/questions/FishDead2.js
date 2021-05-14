@@ -23,16 +23,16 @@ const FishDead2 = ({ navigation }) => {
       image = [coho.cohoFemale, coho.cohoMale];
       break;
     case 'chinook':
-      image = [coho.cohoFemale, coho.cohoMale];
+      image = [chinook.chinookFemale, chinook.chinookMale];
       break;
     case 'pink':
-      image = [coho.cohoFemale, coho.cohoMale];
+      image = [pink.pinkFemale, pink.pinkMale];
       break;
     case 'sockeye':
-      image = [coho.cohoFemale, coho.cohoMale];
+      image = [sockeye.sockeyeFemale, sockeye.sockeyeMale];
       break;
     case 'chum':
-      image = [coho.cohoFemale, coho.cohoMale];
+      image = [chum.chumFemale, chum.chumMale];
       break;
     default:
       image = '';
