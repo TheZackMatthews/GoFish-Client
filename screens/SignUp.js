@@ -9,7 +9,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { TextInput } from 'react-native-paper';
 import PropTypes from 'prop-types';
-import { createUser } from '../redux/actions/userActions';
+import { createUser, updateProfile } from '../redux/actions/userActions';
 import GoFishLogo from '../components/GoFishLogo';
 import styles from '../styles/FormStyles';
 
@@ -47,6 +47,7 @@ function SignUp({ navigation }) {
       return;
     }
     const result = await dispatch(createUser(signUp, setErrorM));
+    await dispatch(updateProfile({ displayName: signUp.name }, setErrorM));
     if (result && result.payload) {
       navigation.navigate('Profile');
     }
