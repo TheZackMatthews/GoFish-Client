@@ -22,6 +22,11 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 350,
   },
+  SearchBoxTextItem: {
+    margin: 5,
+    fontSize: 16,
+    paddingTop: 4,
+  },
 });
 
 export default styles;
