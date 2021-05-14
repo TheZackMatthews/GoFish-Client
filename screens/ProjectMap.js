@@ -30,7 +30,7 @@ const getLocationPermission = async () => {
   if (status !== 'granted') return false;
   return true;
 };
-
+// when you do any action on the map, view returns to map region
 export default function ProjectMap({ navigation }) {
   const dispatch = useDispatch();
   const [mapRegion, setMapRegion] = useState(null);
@@ -66,7 +66,7 @@ export default function ProjectMap({ navigation }) {
     const result = await dispatch(submitLocation(coords));
     if (result && result.payload) {
       setMapState(); // resets map state
-      navigation.navigate('Fish1');
+      navigation.navigate('FishOrRedd');
     } else {
       throw new Error('Location could not be saved!');
     }

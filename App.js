@@ -54,7 +54,10 @@ export default function App() {
           <PaperProvider theme={theme}>
             <View style={styles.container}>
               <NavigationContainer>
-                <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="SignIn">
+                <Stack.Navigator
+                  screenOptions={{ headerShown: false }}
+                  initialRouteName="ProjectMap"
+                >
                   <Stack.Screen name="SignIn" component={SignIn} />
                   <Stack.Screen name="SignUp" component={SignUp} />
                   <Stack.Screen name="Profile" component={UserProfile} />
