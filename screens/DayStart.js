@@ -165,51 +165,53 @@ function DayStart({ navigation }) {
       else if (!teamLead) console.log('Please specify the team leader');
       else if (!members.length) console.log('It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors');
       else if (creek === '') console.log('Please specify a creek name');
-    }
-    // Alert user if they haven't checked the covid safety agreement
-    if (!isAgreedSafety) {
-      Alert.alert(
-        'Can\'t continue',
-        'Please review the covid safety agreement',
-        [
-          {
-            text: 'Log out',
-            onPress: dispatchLogOut,
-            style: 'cancel',
-          },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-      );
-    } else if (!teamLead) {
-      // Alert the user if they haven't specified a team lead
-      Alert.alert(
-        'Can\'t continue',
-        'Please specify the team leader',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-      );
-    } else if (!members.length) {
-      // Alert the user if they don't have any team members
-      Alert.alert(
-        'Can\'t continue',
-        'It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-      );
-    } else if (!creek || creek === '') {
-      // Alert the user if they haven't specified a creek name
-      Alert.alert(
-        'Can\'t continue',
-        'Please specify a creek name',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-      );
     } else {
-      await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
-      navigation.navigate('SpawnerProfile');
+    // Alert user if they haven't checked the covid safety agreement
+      if (!isAgreedSafety) {
+        Alert.alert(
+          'Can\'t continue',
+          'Please review the covid safety agreement',
+          [
+            {
+              text: 'Log out',
+              onPress: dispatchLogOut,
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+        );
+      } else if (!teamLead) {
+      // Alert the user if they haven't specified a team lead
+        Alert.alert(
+          'Can\'t continue',
+          'Please specify the team leader',
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+        );
+      } else if (!members.length) {
+      // Alert the user if they don't have any team members
+        Alert.alert(
+          'Can\'t continue',
+          'It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors',
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+        );
+      } else if (!creek || creek === '') {
+      // Alert the user if they haven't specified a creek name
+        Alert.alert(
+          'Can\'t continue',
+          'Please specify a creek name',
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+        );
+      } else {
+        console.log('long if train')
+        await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
+        navigation.navigate('SpawnerProfile');
+      }
     }
   };
 
