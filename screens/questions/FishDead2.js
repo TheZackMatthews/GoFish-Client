@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, Alert } from 'react-native';
+import {
+  View, ScrollView, Alert,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Title, List } from 'react-native-paper';
@@ -16,7 +18,7 @@ const FishDead2 = ({ navigation }) => {
   const [fin, setFin] = useState(null);
   const [gender, setGender] = useState(null);
   const [spawn, setSpawn] = useState(null);
-  console.log(fish);
+
   let image;
   switch (fish) {
     case 'coho':
@@ -48,43 +50,44 @@ const FishDead2 = ({ navigation }) => {
       Alert.alert('Please answer all the questions!');
     }
   };
+
   return (
-    <View style={styles.container}>
-      <Title>Extended Data</Title>
-      <TwoAnswer
-        image={[references.forkLength]}
-        question="What is the fork length?"
-        answer1="Yes"
-        answer2="No"
-        choose={setFork}
-      />
-      <TwoAnswer
-        image={[references.adiposeFin]}
-        question="Does it have an adipose fin?"
-        answer1="Yes"
-        answer2="No"
-        choose={setFin}
-      />
-      <TwoAnswer
-        question="Did it successfully spawn?"
-        answer1="Yes"
-        answer2="No"
-        choose={setSpawn}
-      />
-      {image && (
-      <TwoAnswer
-        image={image}
-        question="What gender is it?"
-        answer1="Male"
-        answer2="Female"
-        choose={setGender}
-      />
-      )}
+    <ScrollView>
+      <View style={styles.container}>
+        <Title>Extended Data</Title>
+        <TwoAnswer
+          // image={[references.forkLength]}
+          question="What is the fork length?"
+          answer1="Yes"
+          answer2="No"
+          choose={setFork}
+        />
+        <TwoAnswer
+          // image={[references.adiposeFin]}
+          question="Does it have an adipose fin?"
+          answer1="Yes"
+          answer2="No"
+          choose={setFin}
+        />
+        <TwoAnswer
+          question="Did it successfully spawn?"
+          answer1="Yes"
+          answer2="No"
+          choose={setSpawn}
+        />
+        <TwoAnswer
+          image={image}
+          question="What gender is it?"
+          answer1="Male"
+          answer2="Female"
+          choose={setGender}
+        />
 
-      <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
+        <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
 
-    </View>
-  );
+      </View>
+    </ScrollView>
+  )
 };
 
 FishDead2.propTypes = {

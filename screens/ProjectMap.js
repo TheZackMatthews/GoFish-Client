@@ -168,7 +168,7 @@ export default function ProjectMap({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SpawnerProfile')}>
           <Image source={require('../assets/mapIcons/instructions.png')} />
         </TouchableOpacity>
         <TouchableOpacity
