@@ -5,17 +5,18 @@ import { useSelector } from 'react-redux';
 import { Title, List } from 'react-native-paper';
 import BackNext from '../../components/questions/BackNext';
 import TwoAnswer from '../../components/questions/TwoAnswer';
-import { references, coho, chinook, pink, sockeye, chum } from '../../images';
+import {
+  references, coho, chinook, pink, sockeye, chum,
+} from '../../images';
 import styles from '../../styles/QuestionStyles';
 
-
 const FishDead2 = ({ navigation }) => {
-  const fish = (useSelector((state) => state.pin.fish_species).toLowerCase());
+  const fish = (useSelector((state) => state.pin.fish_species));
   const [fork, setFork] = useState(null);
   const [fin, setFin] = useState(null);
   const [gender, setGender] = useState(null);
   const [spawn, setSpawn] = useState(null);
-  console.log(fish)
+  console.log(fish);
   let image;
   switch (fish) {
     case 'coho':
@@ -70,6 +71,7 @@ const FishDead2 = ({ navigation }) => {
         answer2="No"
         choose={setSpawn}
       />
+      {image && (
       <TwoAnswer
         image={image}
         question="What gender is it?"
@@ -77,6 +79,7 @@ const FishDead2 = ({ navigation }) => {
         answer2="Female"
         choose={setGender}
       />
+      )}
 
       <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
 

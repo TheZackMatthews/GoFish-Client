@@ -27,7 +27,7 @@ const Notes = ({ navigation }) => {
       // storage based on how many exist? or will we
       // assign them to the field trip and restart each time?
       await setComments('');
-      navigation.navigate('Profile');
+      navigation.navigate('SpawnerProfile');
     }
   };
   return (

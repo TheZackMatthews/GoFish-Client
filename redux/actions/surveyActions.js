@@ -22,7 +22,7 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispa
           creek_name: creekName,
           team_lead: teamLead,
           team_members: teamMembers,
-          started_at: response.data.started_at,
+          started_at: response.data.startedAt,
         },
       });
     })
