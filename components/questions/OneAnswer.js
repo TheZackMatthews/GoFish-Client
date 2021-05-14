@@ -1,25 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import { List, TextInput } from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const OneAnswer = ({
   question, form, setForm,
 }) => {
-  const pressHandler = (answer) => {
-    setForm({ ...form, species: answer });
-  };
+  const list = [
+    { label: 'Chinook', value: 'chinook' },
+    { label: 'Coho', value: 'coho' },
+    { label: 'Sockeye', value: 'sockeye' },
+    { label: 'Pink', value: 'pink' },
+    { label: 'Chum', value: 'chum' },
+    { label: 'Trout', value: 'trout' },
+  ];
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState(list);
+
+  useEffect(() => {
+    setForm({ ...form, species: value });
+  }, [value]);
 
   return (
     <View>
-      <List.Accordion title={question}>
-        <List.Item onPress={() => pressHandler('Chinook')} title="Chinook" left={() => <List.Icon icon="fish" />} />
-        <List.Item onPress={() => pressHandler('Coho')} title="Coho" left={() => <List.Icon icon="fish" />} />
-        <List.Item onPress={() => pressHandler('Sockeye')} title="Sockeye" left={() => <List.Icon icon="fish" />} />
-        <List.Item onPress={() => pressHandler('Pink')} title="Pink" left={() => <List.Icon icon="fish" />} />
-        <List.Item onPress={() => pressHandler('Chum')} title="Chum" left={() => <List.Icon icon="fish" />} />
-        <List.Item onPress={() => pressHandler('Unknown')} title="Unknown" left={() => <List.Icon icon="fish" />} />
-      </List.Accordion>
+      <DropDownPicker
+        searchable={false}
+        placeholder={question}
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        style={{
+          borderWidth: 0,
+          backgroundColor: '#f4f4f4',
+          marginVertical: 10,
+        }}
+        dropDownContainerStyle={{
+          borderWidth: 0,
+        }}
+      />
       <TextInput
         value={form.total.toString()}
         keyboardType="numeric"

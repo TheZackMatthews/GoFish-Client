@@ -160,7 +160,7 @@ function DayStart({ navigation }) {
     if (Platform.OS === 'web') {
       if (isAgreedSafety && teamLead && members.length && creek !== '') {
         await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
-        navigation.navigate('FishOrRedd');
+        navigation.navigate('SpawnerProfile');
       } else if (!isAgreedSafety) console.log('Please review the covid safety agreement');
       else if (!teamLead) console.log('Please specify the team leader');
       else if (!members.length) console.log('It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors');
@@ -209,7 +209,7 @@ function DayStart({ navigation }) {
       );
     } else {
       await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
-      navigation.navigate('FishOrRedd');
+      navigation.navigate('SpawnerProfile');
     }
   };
 

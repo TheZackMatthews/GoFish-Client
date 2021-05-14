@@ -158,30 +158,30 @@ export default function ProjectMap({ navigation }) {
           style={[styles.button, styles.button_mapControl]}
           onPress={() => toggleBaseMap()}
         >
-          <Image source={require('../assets/mapIcons/toggleBaseMap_40px.png')} />
+          {/* <Image source={require('../assets/mapIcons/toggleBaseMap_40px.png')} /> */}
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.button_mapControl]}
           onPress={() => centerMap()}
         >
-          <Image source={require('../assets/mapIcons/centerMap_40px.png')} />
+          {/* <Image source={require('../assets/mapIcons/centerMap_40px.png')} /> */}
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('')}>
-          <Image source={require('../assets/mapIcons/instructions.png')} />
+          {/* <Image source={require('../assets/mapIcons/instructions.png')} /> */}
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => setModal((prev) => ({ ...prev, visible: true }))}
         >
-          <Image source={require('../assets/mapIcons/dropPin_60px.png')} />
+          {/* <Image source={require('../assets/mapIcons/dropPin_60px.png')} /> */}
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('ReferenceInfo')}
         >
-          <Image source={require('../assets/mapIcons/fishIcon.png')} />
+          {/* <Image source={require('../assets/mapIcons/fishIcon.png')} /> */}
         </TouchableOpacity>
       </View>
     </View>
