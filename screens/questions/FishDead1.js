@@ -32,7 +32,7 @@ const FishDead1 = ({ navigation }) => {
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <Button
-        style={{ width: SIZES.width / 3, alignSelf: 'center', backgroundColor: COLORS.blue }}
+        style={{ width: SIZES.width / 2, alignSelf: 'center' }}
         mode="contained"
         onPress={() => navigation.navigate('ReferenceInfo')}
       >

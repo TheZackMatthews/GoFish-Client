@@ -20,7 +20,6 @@ function UserProfile({ navigation }) {
   const user = useSelector((state) => state.user);
   const visit = useSelector((state) => state.visit);
   const iconColor = '#001a1a';
-  console.log(visit);
 
   useEffect(() => {
     dispatch(getUser());
@@ -100,7 +99,7 @@ function UserProfile({ navigation }) {
             && (
             <>
               <List.Subheader>Reports made on this visit</List.Subheader>
-              {/* {renderPins()} */}
+              {renderPins()}
             </>
             )}
           </List.Section>

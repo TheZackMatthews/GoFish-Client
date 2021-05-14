@@ -5,7 +5,7 @@ import { Card, Title, List } from 'react-native-paper';
 import { SIZES } from '../../constants/theme';
 
 const TwoAnswer = ({
-  question, answer1, answer2, choose, image,
+  question, answer1, answer2, choose,
 }) => {
   const [selected, setSelected] = useState(null);
 
@@ -32,24 +32,25 @@ const TwoAnswer = ({
     setSelected(answer);
   };
 
-  const renderImages = () => {
-    if (image.length === 1) {
-      return <Image style={{ width: SIZES.width - 200, height: 200 }} source={image[0]} />;
-    }
-    let i = 0;
-    return image.map((img) => {
-      i += 1;
-      return <Image key={i} style={{ width: SIZES.width - 200, height: 200 }} source={img} />;
-    });
-  };
-  console.log(image)
+  // const renderImages = () => {
+  //   if (image.length === 1) {
+  //     return <Image style={{ width: SIZES.width - 200, height: 200 }} source={image[0]} />;
+  //   }
+  //   let i = 0;
+  //   return image.map((img) => {
+  //     i += 1;
+  //     console.log(img)
+  //     return <Image key={i} style={{ width: SIZES.width - 200, height: 200 }} source={img} />;
+  //   });
+  // };
+
   return (
     <View style={{ marginVertical: 10 }}>
       <Card>
         <Card.Content>
           <Title>{question}</Title>
           <View>
-            {image[0].length > 0 && renderImages()}
+            {/* {image[0].length > 0 && renderImages()} */}
             <List.Item
               style={answer1Style()}
               title={answer1}
@@ -72,7 +73,7 @@ TwoAnswer.propTypes = {
   answer1: PropTypes.string || PropTypes.number,
   answer2: PropTypes.string || PropTypes.number,
   choose: PropTypes.func,
-  image: PropTypes.arrayOf(PropTypes.string),
+  // image: PropTypes.arrayOf(PropTypes.string),
 };
 
 TwoAnswer.defaultProps = {
@@ -80,7 +81,7 @@ TwoAnswer.defaultProps = {
   answer1: '',
   answer2: '',
   choose: () => null,
-  image: [''],
+  // image: [''],
 };
 
 export default TwoAnswer;
