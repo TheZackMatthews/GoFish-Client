@@ -7,9 +7,8 @@ import {
 } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import SearchableDropdown from 'react-native-searchable-dropdown';
 import Autocomplete from 'react-native-autocomplete-input';
-import style from '../styles/UserStyles'; // FIXME We should only have one stylesheet
+import style from '../styles/UserStyles';
 import { logOutUser, getUser } from '../redux/actions/userActions';
 import { initializeFieldVisit } from '../redux/actions/surveyActions';
 import { COLORS, SIZES } from '../constants/theme';
@@ -29,7 +28,6 @@ function DayStart({ navigation }) {
     if (!user) dispatch(getUser());
   }, []);
 
-  const [errorM, setErrorM] = useState('');
   const [teamMembers, setTeamMembers] = useState(['']);
   const [teamLead, setTeamLead] = useState(user.displayName);
   const [isUserTeamLead, setIsUserTeamLead] = useState(true);
@@ -79,6 +77,7 @@ function DayStart({ navigation }) {
   }
 
   const SearchDataFromJSON = (input) => {
+    // TODO if input exactly matches an item in creeksList, set it to the creekName
     if (input) {
       // Making the Search as Case Insensitive.
       const regex = new RegExp(`${input.trim()}`, 'i');
@@ -118,14 +117,9 @@ function DayStart({ navigation }) {
               SearchDataFromJSON(text);
               setQuery(text);
             }}
-            itemStyle={{
-              padding: 10,
-              marginTop: 2,
-              backgroundColor: '#ddd',
-              borderColor: '#bbb',
-              borderWidth: 1,
-              borderRadius: 5,
-            }}
+            inputContainerStyle={(creekName !== '') ? style.SearchBoxCompleted : style.SearchBoxUncomplete}
+            listContainerStyle={style.SearchBox}
+            listStyle={{ backgroundColor: 'red' }}
             flatListProps={{
               keyExtractor: (item) => item.key,
               renderItem: ({ item }) => (
@@ -185,19 +179,20 @@ function DayStart({ navigation }) {
   }
 
   const dispatchLogOut = async () => {
-    setErrorM('');
-    const result = await dispatch(logOutUser(setErrorM));
-    console.log(result);
+    const result = await dispatch(logOutUser());
     if (result && result.payload) {
       navigation.navigate('Profile');
     }
   };
 
   const dispatchVolunteers = async () => {
-    setErrorM('');
     const members = teamMembers.filter((e) => e.replace(/(\r\n|\n|\r)/gm, ''));
     const creek = creekName.replace(/(\r\n|\n|\r)/gm, '');
 
+    // Corrects a bug where displayName is undefined on load
+    if (!teamLead && user.displayName && isUserTeamLead) setTeamLead(user.displayName);
+
+    // This helps for debugging in the browser
     if (Platform.OS === 'web') {
       if (isAgreedSafety && teamLead && members.length && creek !== '') {
         await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
@@ -263,7 +258,11 @@ function DayStart({ navigation }) {
   };
 
   return user ? (
-    <ScrollView style={{ margin: 40, marginTop: 100 }}>
+    <ScrollView
+      style={{ margin: 40, marginTop: 100 }}
+      keyboardShouldPersistTaps="always"
+      nestedscrollenabled="{true}"
+    >
       <View style={{ alignContent: 'center' }}>
         <Title>
           {`Hello ${user?.displayName || 'surveyor'}`}
@@ -275,7 +274,7 @@ function DayStart({ navigation }) {
       </View>
     </ScrollView>
   ) : (
-    <View>{!!errorM && <Text>{errorM}</Text>}</View>
+    null
   );
 }
 
