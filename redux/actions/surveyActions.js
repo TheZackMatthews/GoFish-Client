@@ -71,7 +71,7 @@ export const updateFieldVisit = (fieldVisit) => (dispatch) => dispatch({
 export const saveVisit = (fieldVisit) => async (dispatch) => {
   try {
     const sendVisit = {
-      volunteersId: fieldVisit.volunteerId,
+      volunteersId: fieldVisit.volunteersId,
       distanceWalked: fieldVisit.distance_walked,
       waterCondition: fieldVisit.water_condition,
       viewCondition: fieldVisit.view_condition,

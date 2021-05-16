@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import {
   Title, Button, List,
 } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getUser } from '../redux/actions/userActions';
 import { createPin, saveVisit } from '../redux/actions/surveyActions';
 import Modal from '../components/Modal';
@@ -50,27 +51,33 @@ function UserProfile({ navigation }) {
     await dispatch(createPin());
     navigation.navigate(destination);
   };
-  let DATA;
-  if (visit.pins && visit.pins.length > 0) {
-    DATA = visit.pins.map((pin) => {
-      let image = false;
-      if (pin.image_object.url.length > 0) image = true;
-      return ({
-        id: JSON.stringify(Math.floor(Math.random() * 10)),
-        title: pin.fish_status,
-        fishSpecies: pin.fish_species,
-        fishCount: pin.fish_count,
-        image,
-        comments: pin.comments,
+
+  const renderData = () => {
+    if (visit.pins && visit.pins.length > 0) {
+      return visit.pins.map((pin) => {
+        let image = false;
+        if (pin.image_object.url.length > 0) image = true;
+        return ({
+          id: JSON.stringify(Math.floor(Math.random() * 10)),
+          title: pin.fish_status,
+          fishSpecies: pin.fish_species,
+          fishCount: pin.fish_count,
+          image,
+          comments: pin.comments,
+        });
       });
-    });
-  }
+    }
+    return undefined;
+  };
 
   const Item = ({
     title, fishSpecies, fishCount, image, comments,
   }) => (
     <View style={{ marginHorizontal: 15 }}>
-      <Text style={{ fontWeight: '500' }}>{`Fish status: ${title}`}</Text>
+      <Text style={{ fontWeight: '500' }}>
+        <Icon name="fish" />
+        {`Fish status: ${title}`}
+      </Text>
       <Text>{`Fish species: ${fishSpecies}`}</Text>
       <Text>{`Fish count: ${fishCount}`}</Text>
       <Text>{image ? 'Image present' : 'No image present'}</Text>
@@ -202,7 +209,7 @@ function UserProfile({ navigation }) {
               <Title>Reports made on this visit</Title>
               {/* {renderPins()} */}
               <FlatList
-                data={DATA}
+                data={renderData()}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
               />
