@@ -31,3 +31,6 @@ export const UPDATE_PIN = 'UPDATE_PIN';
 export const REMOVE_PIN = 'REMOVE_PIN';
 export const COMPLETE_PIN = 'COMPLETE_PIN';
 export const SUBMIT_LOCATION = 'SUBMIT_LOCATION';
+
+// theme action types
+export const TOGGLE_FONT = 'TOGGLE_FONT';

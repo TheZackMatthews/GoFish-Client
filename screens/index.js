@@ -1,6 +1,7 @@
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import EditUserInfo from './EditUserInfo';
+import Preferences from './Preferences';
 import ProjectMap from './ProjectMap';
 import SpawnerProfile from './SpawnerProfile';
 import ReferenceInfo from './ReferenceInfo';
@@ -38,4 +39,5 @@ export {
   Notes,
   Redd1,
   Redd2,
+  Preferences,
 };
