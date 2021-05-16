@@ -41,6 +41,7 @@ const visitReducer = (state = defaultVolunteer, { type, payload }) => {
         team_lead: payload.team_lead,
         team_members: payload.team_members,
         started_at: payload.started_at,
+        start_location: payload.start_location,
       };
     case UPDATE_VISIT:
       return {

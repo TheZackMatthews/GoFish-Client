@@ -44,6 +44,17 @@ function UserProfile({ navigation }) {
     ))
   );
 
+  const renderLocation = () => (
+    visit.pins.map((pin) => (
+      <List.Item
+        key={pin.id}
+        title={pin.fish_species}
+        description={`${pin.fish_count}\n${pin.fish_status}\n${Object.keys(pin.image_object).lenth}`}
+        style={{ width: SIZES.width * 0.8 }}
+      />
+    ))
+  );
+
   const member_map = () => {
     return visit.team_members.map((member) => ({key: member}))
   }
@@ -65,7 +76,7 @@ function UserProfile({ navigation }) {
             />
             <List.Item
               title="Start Location"
-              description={visit.start_location || 'Not saved'}
+              description={`Latitude: ${visit.start_location.latitude}\nLongitude: ${visit.start_location.longitude}`}
               left={() => <List.Icon color={iconColor} icon="ray-start-arrow" />}
             />
             <List.Item

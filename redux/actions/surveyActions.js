@@ -1,43 +1,53 @@
 /* eslint-disable no-console */
 import axios from 'axios';
+import { Platform, AsyncStorage } from 'react-native';
+import * as Location from 'expo-location';
 import {
-  NEW_FIELD_VISIT, SUBMIT_LOCATION, UPDATE_ENTRY, SAVE_SURVEY,
+  NEW_FIELD_VISIT,
+  SUBMIT_LOCATION,
+  UPDATE_ENTRY,
+  SAVE_SURVEY,
+  CREATE_PIN,
+  CREATE_VISIT,
+  UPDATE_PIN,
+  UPDATE_VISIT,
+  REMOVE_PIN,
+  REMOVE_VISIT,
+  COMPLETE_PIN,
 } from './actionTypes';
+import { defaultVolunteer, defaultPin } from '../defaultState';
+
+const API = 'https://gofish-api.herokuapp.com/';
 
 // creek_name: string, team_lead: string, team_members: string[]
-// eslint-disable-next-line import/prefer-default-export
-export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispatch) => {
+export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async (dispatch) => {
+  const location = await Location.getCurrentPositionAsync({});
+  console.log(location);
   const volunteers = {
     creekName,
     teamLead,
     teamMembers,
   };
-  return dispatch({
-    type: NEW_FIELD_VISIT,
-    payload: {
-      volunteersId: "123456",
-      creek_name: creekName,
-      team_lead: teamLead,
-      team_members: teamMembers,
-      started_at: "A few minutes ago",
-    },
-  });
-  // console.log('about to make axios call')
-  // axios.post('http://localhost:3001/saveVolunteers', volunteers)
-  //   .then((response) => {
-  //     console.log('response', response.data);
-  //     return dispatch({
-  //       type: NEW_FIELD_VISIT,
-  //       payload: {
-  //         volunteersId: response.data.volunteersId,
-  //         creek_name: creekName,
-  //         team_lead: teamLead,
-  //         team_members: teamMembers,
-  //         started_at: response.data.startedAt,
-  //       },
-  //     });
-  //   })
-  //   .catch((error) => console.log(error));
+  console.log('about to make axios call');
+  axios.post(`${API}saveVolunteers`, volunteers)
+    .then((response) => {
+      console.log('response', response.data);
+      return dispatch({
+        type: NEW_FIELD_VISIT,
+        payload: {
+          volunteersId: response.data.volunteersId,
+          creek_name: creekName,
+          team_lead: teamLead,
+          team_members: teamMembers,
+          started_at: response.data.startedAt,
+          start_location: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          },
+        },
+      });
+    })
+    .catch((error) => console.log(error));
 };
 
 export const submitLocation = (coordinates) => (dispatch) => dispatch({
@@ -50,18 +60,6 @@ export const submitLocation = (coordinates) => (dispatch) => dispatch({
 //     payload: location,
 //   })
 // }
-
-import { Platform, AsyncStorage } from 'react-native';
-import {
-  CREATE_PIN,
-  CREATE_VISIT,
-  UPDATE_PIN,
-  UPDATE_VISIT,
-  REMOVE_PIN,
-  REMOVE_VISIT,
-  COMPLETE_PIN,
-} from './actionTypes';
-import { defaultVolunteer, defaultPin } from '../defaultState';
 
 export const createFieldVisit = (location) => (dispatch) => {
   const fieldVisit = defaultVolunteer;
@@ -133,4 +131,3 @@ export const removePin = () => async (dispatch) => {
     return error;
   }
 };
-

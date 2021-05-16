@@ -32,7 +32,10 @@ export const defaultVolunteer = {
   water_condition: 0,
   view_condition: 0,
   day_end_comments: '',
-  start_location: '',
+  start_location: {
+    latitudes: 0,
+    longitude: 0,
+  },
   end_location: '',
   pins: [],
   images: [
