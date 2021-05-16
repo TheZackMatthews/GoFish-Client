@@ -12,9 +12,14 @@ import {
   Title, Button, List,
 } from 'react-native-paper';
 import { getUser } from '../redux/actions/userActions';
-import { createPin } from '../redux/actions/surveyActions';
+import { createPin, saveVisit } from '../redux/actions/surveyActions';
 import Modal from '../components/Modal';
-import { FlowType, Visibility, WaterConditions, ViewingConditions } from '../constants/WaterAir';
+import {
+  FlowType,
+  Visibility,
+  WaterConditions,
+  ViewingConditions,
+} from '../constants/WaterAir';
 import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/theme';
 
@@ -36,31 +41,30 @@ function UserProfile({ navigation }) {
     navigation.navigate(type);
   };
 
-  const updateView = () => {
-
-  };
-
-  const updateWater = () => {
-
+  const saveHandler = async () => {
+    await dispatch(saveVisit(visit));
+    navigation.navigate('Profile');
   };
 
   const navToNewPin = async (destination) => {
     await dispatch(createPin());
     navigation.navigate(destination);
   };
-
-  const DATA = visit.pins.map((pin) => {
-    let image = false;
-    if (pin.image_object.url.length > 0) image = true;
-    return ({
-      id: JSON.stringify(Math.floor(Math.random() * 10)),
-      title: pin.fish_status,
-      fishSpecies: pin.fish_species,
-      fishCount: pin.fish_count,
-      image,
-      comments: pin.comments,
+  let DATA;
+  if (visit.pins && visit.pins.length > 0) {
+    DATA = visit.pins.map((pin) => {
+      let image = false;
+      if (pin.image_object.url.length > 0) image = true;
+      return ({
+        id: JSON.stringify(Math.floor(Math.random() * 10)),
+        title: pin.fish_status,
+        fishSpecies: pin.fish_species,
+        fishCount: pin.fish_count,
+        image,
+        comments: pin.comments,
+      });
     });
-  });
+  }
 
   const Item = ({
     title, fishSpecies, fishCount, image, comments,
@@ -100,7 +104,7 @@ function UserProfile({ navigation }) {
     />
   );
   console.log(visit);
-  return user ? (
+  return user && visit ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <Modal
@@ -233,7 +237,7 @@ function UserProfile({ navigation }) {
           <Button
             style={{ width: SIZES.width / 3 }}
             mode="outlined"
-            onPress={() => navHandler('VisitSummary')}
+            onPress={saveHandler}
           >
             Finish Visit
           </Button>

@@ -1,8 +1,6 @@
 import {
   NEW_FIELD_VISIT,
-  UPDATE_ENTRY,
-  SAVE_SURVEY,
-  SUBMIT_LOCATION,
+  SAVE_VISIT,
   UPDATE_VISIT,
   REMOVE_VISIT,
   CREATE_PIN,
@@ -13,22 +11,21 @@ import {
 import { defaultVolunteer } from '../defaultState';
 
 // survey reducer
-
-const surveyReducer = (state = '', { type, payload }) => {
-  switch (type) {
-    case UPDATE_ENTRY:
-      return {
-        ...state,
-        [payload.name]: payload.value,
-      };
-    case SAVE_SURVEY:
-      return payload;
-    case SUBMIT_LOCATION:
-      return payload;
-    default:
-      return state;
-  }
-};
+// const surveyReducer = (state = '', { type, payload }) => {
+//   switch (type) {
+//     case UPDATE_ENTRY:
+//       return {
+//         ...state,
+//         [payload.name]: payload.value,
+//       };
+//     case SAVE_SURVEY:
+//       return payload;
+//     case SUBMIT_LOCATION:
+//       return payload;
+//     default:
+//       return state;
+//   }
+// };
 
 // visit reducer
 const visitReducer = (state = defaultVolunteer, { type, payload }) => {
@@ -48,6 +45,8 @@ const visitReducer = (state = defaultVolunteer, { type, payload }) => {
         ...state,
         ...payload,
       };
+    case SAVE_VISIT:
+      return payload;
     case REMOVE_VISIT:
       return payload;
     case COMPLETE_PIN:
@@ -77,4 +76,4 @@ const pinReducer = (state = '', { type, payload }) => {
   }
 };
 
-export { visitReducer, pinReducer, surveyReducer };
+export { visitReducer, pinReducer };

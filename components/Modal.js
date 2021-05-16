@@ -9,7 +9,7 @@ import { updateFieldVisit } from '../redux/actions/surveyActions';
 function ModalConditions({
   text, modalVisible, setModalVisible, data, label, update,
 }) {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const visit = useSelector((state) => state.visit);
 
@@ -18,7 +18,7 @@ function ModalConditions({
       ...visit,
       [update]: value,
     };
-    await setValue(null);
+    await setValue('');
     await dispatch(updateFieldVisit(updateVisit));
     setModalVisible(!modalVisible);
   };

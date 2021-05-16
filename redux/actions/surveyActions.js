@@ -5,10 +5,8 @@ import * as Location from 'expo-location';
 import {
   NEW_FIELD_VISIT,
   SUBMIT_LOCATION,
-  UPDATE_ENTRY,
-  SAVE_SURVEY,
+  SAVE_VISIT,
   CREATE_PIN,
-  CREATE_VISIT,
   UPDATE_PIN,
   UPDATE_VISIT,
   REMOVE_PIN,
@@ -21,7 +19,16 @@ const API = 'https://gofish-api.herokuapp.com/';
 
 // creek_name: string, team_lead: string, team_members: string[]
 export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async (dispatch) => {
-  const location = await Location.getCurrentPositionAsync({});
+  const { status } = await Location.requestForegroundPermissionsAsync();
+  let location;
+  try {
+    if (status !== 'granted') location = null;
+    else location = await Location.getCurrentPositionAsync({});
+  } catch (error) {
+    console.log(error);
+    location = null;
+  }
+
   console.log(location);
   const volunteers = {
     creekName,
@@ -35,6 +42,7 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async 
       return dispatch({
         type: NEW_FIELD_VISIT,
         payload: {
+          ...defaultVolunteer,
           volunteersId: response.data.volunteersId,
           creek_name: creekName,
           team_lead: teamLead,
@@ -54,17 +62,45 @@ export const submitLocation = (coordinates) => (dispatch) => dispatch({
   type: SUBMIT_LOCATION,
   payload: coordinates,
 });
-// export const storeLocation (location) => dispatch => {
-//   return dispatch({
-//     type: STORE_LOCATION,
-//     payload: location,
-//   })
-// }
 
 export const updateFieldVisit = (fieldVisit) => (dispatch) => dispatch({
   type: UPDATE_VISIT,
   payload: fieldVisit,
 });
+
+export const saveVisit = (fieldVisit) => async (dispatch) => {
+  try {
+    const sendVisit = {
+      volunteersId: fieldVisit.volunteerId,
+      distanceWalked: fieldVisit.distance_walked,
+      waterCondition: fieldVisit.water_condition,
+      viewCondition: fieldVisit.view_condition,
+      dayEndComments: fieldVisit.day_end_comments,
+    };
+    const result = await axios.put(`${API}saveVolunteers`, sendVisit);
+    console.log(result);
+
+    // const surveys = [];
+    // for (let i = 0; i < fieldVisit.pins.length; i += 1) {
+    //   const sendPin = {
+    //     ...fieldVisit.pin[i],
+    //     volunteersId: fieldVisit.volunteerId,
+    //   };
+    //   surveys.push(axios.post(`${API}saveSurvey`, sendPin));
+    // }
+    // await Promise.all(surveys);
+    return dispatch({
+      type: SAVE_VISIT,
+      payload: '',
+    });
+  } catch (error) {
+    console.log(error);
+    return dispatch({
+      type: SAVE_VISIT,
+      payload: fieldVisit,
+    });
+  }
+};
 
 // on logout
 export const removeVisit = () => async (dispatch) => {
