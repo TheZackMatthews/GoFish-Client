@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   FlatList,
@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
-  Title, Button, List, Paragraph,
+  Title, Button, List,
 } from 'react-native-paper';
 import { getUser } from '../redux/actions/userActions';
 import { createPin } from '../redux/actions/surveyActions';
+import Modal from '../components/Modal';
+import { FlowType, Visibility, WaterConditions, ViewingConditions } from '../constants/WaterAir';
 import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/theme';
 
@@ -20,6 +22,10 @@ function UserProfile({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const visit = useSelector((state) => state.visit);
+  const [flowModal, setFlowModal] = useState(false);
+  const [waterModal, setWaterModal] = useState(false);
+  const [visibilityModal, setVisibilityModal] = useState(false);
+  const [viewingModal, setViewingModal] = useState(false);
   const iconColor = '#001a1a';
 
   useEffect(() => {
@@ -30,17 +36,24 @@ function UserProfile({ navigation }) {
     navigation.navigate(type);
   };
 
+  const updateView = () => {
+
+  };
+
+  const updateWater = () => {
+
+  };
+
   const navToNewPin = async (destination) => {
     await dispatch(createPin());
     navigation.navigate(destination);
   };
 
-  let image = false;
-
   const DATA = visit.pins.map((pin) => {
+    let image = false;
     if (pin.image_object.url.length > 0) image = true;
     return ({
-      id: Math.floor(Math.random() * 10),
+      id: JSON.stringify(Math.floor(Math.random() * 10)),
       title: pin.fish_status,
       fishSpecies: pin.fish_species,
       fishCount: pin.fish_count,
@@ -53,13 +66,29 @@ function UserProfile({ navigation }) {
     title, fishSpecies, fishCount, image, comments,
   }) => (
     <View style={{ marginHorizontal: 15 }}>
-      <Title>{`Fish status: ${title}`}</Title>
-      <Paragraph>{`Fish species: ${fishSpecies}`}</Paragraph>
-      <Paragraph>{`Fish count: ${fishCount}`}</Paragraph>
-      <Paragraph>{image ? 'Image present' : 'No image present'}</Paragraph>
-      <Paragraph>{comments}</Paragraph>
+      <Text style={{ fontWeight: '500' }}>{`Fish status: ${title}`}</Text>
+      <Text>{`Fish species: ${fishSpecies}`}</Text>
+      <Text>{`Fish count: ${fishCount}`}</Text>
+      <Text>{image ? 'Image present' : 'No image present'}</Text>
+      <Text>{comments}</Text>
     </View>
   );
+
+  Item.propTypes = {
+    title: PropTypes.string,
+    fishSpecies: PropTypes.string,
+    fishCount: PropTypes.number,
+    image: PropTypes.bool,
+    comments: PropTypes.string,
+  };
+
+  Item.defaultProps = {
+    title: '',
+    fishSpecies: '',
+    fishCount: 0,
+    image: false,
+    comments: '',
+  };
 
   const renderItem = ({ item }) => (
     <Item
@@ -70,36 +99,42 @@ function UserProfile({ navigation }) {
       comments={item.comments}
     />
   );
-
-  // const renderPins = () => (visit.pins.map((pin) => {
-  //   const data = [
-  //     {
-  //       title: `Fish status: ${pin.fish_status}`,
-  //       key: Math.floor(Math.random() * 10),
-  //     },
-  //     {
-  //       title: `Fish species: ${pin.fish_species}`,
-  //       key: Math.floor(Math.random() * 10),
-  //     },
-  //     {
-  //       title: `Fish count: ${pin.fish_count}`,
-  //       key: Math.floor(Math.random() * 10),
-
-  //     },
-  //   ];
-  //   return (
-  //     <View>
-  //       <Text>{pin.status}</Text>
-  //       <FlatList
-  //         data={data}
-  //       />
-  //     </View>
-  //   );
-  // }));
-
+  console.log(visit);
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
+        <Modal
+          update="water_flow"
+          label="Water flow"
+          text="What is the water flow type today?"
+          modalVisible={flowModal}
+          setModalVisible={setFlowModal}
+          data={FlowType}
+        />
+        <Modal
+          update="water_condition"
+          label="Water condition"
+          text="What is the water condition today?"
+          modalVisible={waterModal}
+          setModalVisible={setWaterModal}
+          data={WaterConditions}
+        />
+        <Modal
+          update="visibility"
+          label="Visibility"
+          text="What is the visibility like today?"
+          modalVisible={visibilityModal}
+          setModalVisible={setVisibilityModal}
+          data={Visibility}
+        />
+        <Modal
+          update="view_condition"
+          label="Viewing condition"
+          text="What are the viewing conditions today?"
+          modalVisible={viewingModal}
+          setModalVisible={setViewingModal}
+          data={ViewingConditions}
+        />
         <View style={styles.headContainer}>
           <Title>Spawner Tracking</Title>
         </View>
@@ -133,21 +168,34 @@ function UserProfile({ navigation }) {
               left={() => <List.Icon color={iconColor} icon="account-group" />}
             />
             <List.Item
-              title="View Condition"
-              description={visit.view_condition || 'Not saved'}
+              onPress={() => setFlowModal(true)}
+              title="Flow Type"
+              description={visit.water_flow || 'Click to add'}
+              left={() => <List.Icon color={iconColor} icon="water-outline" />}
+            />
+            <List.Item
+              onPress={() => setWaterModal(true)}
+              title="Water Conditions"
+              description={visit.water_condition || 'Click to add'}
+              left={() => <List.Icon color={iconColor} icon="water-outline" />}
+            />
+            <List.Item
+              onPress={() => setVisibilityModal(true)}
+              title="Visibility"
+              description={visit.visibility || 'Click to add'}
               left={() => <List.Icon color={iconColor} icon="weather-partly-cloudy" />}
             />
             <List.Item
-              title="Water Condition"
-              description={visit.water_condition || 'Not saved'}
-              left={() => <List.Icon color={iconColor} icon="water-outline" />}
+              onPress={() => setViewingModal(true)}
+              title="View Condition"
+              description={visit.view_condition || 'Click to add'}
+              left={() => <List.Icon color={iconColor} icon="weather-partly-cloudy" />}
             />
           </List.Section>
-          <List.Section>
-            {visit.pins && (visit.pins.length > 0)
+          {visit.pins && (visit.pins.length > 0)
             && (
             <>
-              <List.Subheader>Reports made on this visit</List.Subheader>
+              <Title>Reports made on this visit</Title>
               {/* {renderPins()} */}
               <FlatList
                 data={DATA}
@@ -156,7 +204,7 @@ function UserProfile({ navigation }) {
               />
             </>
             )}
-          </List.Section>
+
         </View>
         <View style={styles.buttons}>
           <Button

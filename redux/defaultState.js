@@ -29,7 +29,9 @@ export const defaultVolunteer = {
   started_at: '',
   ended_at: '',
   distance_walked: 0,
+  flow_type: 0,
   water_condition: 0,
+  visibility: 0,
   view_condition: 0,
   day_end_comments: '',
   start_location: {
