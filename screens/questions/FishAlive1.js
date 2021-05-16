@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, Alert, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-native-paper';
-import { updatePin } from '../../redux/actions/storageActions';
+import { updatePin } from '../../redux/actions/surveyActions';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
 import OneAnswer from '../../components/questions/OneAnswer';

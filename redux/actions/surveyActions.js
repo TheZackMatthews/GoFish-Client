@@ -91,7 +91,7 @@ export const createPin = (location) => async (dispatch) => {
   if (!location) {
     startLocation = await Location.getCurrentPositionAsync({});
   }
-  pin.start_location = {
+  pin.location = {
     latitude: startLocation.coords.latitude,
     longitude: startLocation.coords.longitude,
   };

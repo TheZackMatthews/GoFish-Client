@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  FlatList,
   KeyboardAvoidingView,
   ScrollView,
   Text,
@@ -8,7 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
-  Title, Button, List,
+  Title, Button, List, Paragraph,
 } from 'react-native-paper';
 import { getUser } from '../redux/actions/userActions';
 import { createPin } from '../redux/actions/surveyActions';
@@ -34,16 +35,67 @@ function UserProfile({ navigation }) {
     navigation.navigate(destination);
   };
 
-  const renderPins = () => (
-    visit.pins.map((pin) => (
-      <List.Item
-        key={pin.id}
-        title={pin.fish_species}
-        description={`${pin.fish_count}\n${pin.fish_status}\n${Object.keys(pin.image_object).lenth}`}
-        style={{ width: SIZES.width * 0.8 }}
-      />
-    ))
+  let image = false;
+
+  const DATA = visit.pins.map((pin) => {
+    if (pin.image_object.url.length > 0) image = true;
+    return ({
+      id: Math.floor(Math.random() * 10),
+      title: pin.fish_status,
+      fishSpecies: pin.fish_species,
+      fishCount: pin.fish_count,
+      image,
+      comments: pin.comments,
+    });
+  });
+
+  const Item = ({
+    title, fishSpecies, fishCount, image, comments,
+  }) => (
+    <View style={{ marginHorizontal: 15 }}>
+      <Title>{`Fish status: ${title}`}</Title>
+      <Paragraph>{`Fish species: ${fishSpecies}`}</Paragraph>
+      <Paragraph>{`Fish count: ${fishCount}`}</Paragraph>
+      <Paragraph>{image ? 'Image present' : 'No image present'}</Paragraph>
+      <Paragraph>{comments}</Paragraph>
+    </View>
   );
+
+  const renderItem = ({ item }) => (
+    <Item
+      title={item.title}
+      fishSpecies={item.fishSpecies}
+      fishCount={item.fishCount}
+      image={item.image}
+      comments={item.comments}
+    />
+  );
+
+  // const renderPins = () => (visit.pins.map((pin) => {
+  //   const data = [
+  //     {
+  //       title: `Fish status: ${pin.fish_status}`,
+  //       key: Math.floor(Math.random() * 10),
+  //     },
+  //     {
+  //       title: `Fish species: ${pin.fish_species}`,
+  //       key: Math.floor(Math.random() * 10),
+  //     },
+  //     {
+  //       title: `Fish count: ${pin.fish_count}`,
+  //       key: Math.floor(Math.random() * 10),
+
+  //     },
+  //   ];
+  //   return (
+  //     <View>
+  //       <Text>{pin.status}</Text>
+  //       <FlatList
+  //         data={data}
+  //       />
+  //     </View>
+  //   );
+  // }));
 
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
@@ -96,7 +148,12 @@ function UserProfile({ navigation }) {
             && (
             <>
               <List.Subheader>Reports made on this visit</List.Subheader>
-              {renderPins()}
+              {/* {renderPins()} */}
+              <FlatList
+                data={DATA}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id}
+              />
             </>
             )}
           </List.Section>

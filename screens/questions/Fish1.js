@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../redux/actions/userActions';
-import { updatePin, getPin } from '../../redux/actions/storageActions';
+import { updatePin } from '../../redux/actions/surveyActions';
 import BackNext from '../../components/questions/BackNext';
 import TwoAnswer from '../../components/questions/TwoAnswer';
 import styles from '../../styles/QuestionStyles';
@@ -17,12 +17,6 @@ const Fish1 = ({ navigation }) => {
   const question = 'Is it alive or dead?';
   const answer1 = 'Alive';
   const answer2 = 'Dead';
-
-  useEffect(() => {
-    if (Object.keys(pin).length < 2) {
-      dispatch(getPin());
-    }
-  }, []);
 
   const navigationHandler = async (direction) => {
     if (direction === 'back') {
