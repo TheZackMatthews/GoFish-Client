@@ -61,15 +61,6 @@ export const submitLocation = (coordinates) => (dispatch) => dispatch({
 //   })
 // }
 
-export const createFieldVisit = (location) => (dispatch) => {
-  const fieldVisit = defaultVolunteer;
-  fieldVisit.start_location = location;
-  return dispatch({
-    type: CREATE_VISIT,
-    payload: fieldVisit,
-  });
-};
-
 export const updateFieldVisit = (fieldVisit) => (dispatch) => dispatch({
   type: UPDATE_VISIT,
   payload: fieldVisit,
@@ -96,7 +87,14 @@ export const removeVisit = () => async (dispatch) => {
 
 export const createPin = (location) => async (dispatch) => {
   const pin = defaultPin;
-  pin.location = location;
+  let startLocation = location;
+  if (!location) {
+    startLocation = await Location.getCurrentPositionAsync({});
+  }
+  pin.start_location = {
+    latitude: startLocation.coords.latitude,
+    longitude: startLocation.coords.longitude,
+  };
   return dispatch({
     type: CREATE_PIN,
     payload: pin,

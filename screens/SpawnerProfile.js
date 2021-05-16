@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  FlatList,
   KeyboardAvoidingView,
   ScrollView,
   Text,
@@ -12,6 +11,7 @@ import {
   Title, Button, List,
 } from 'react-native-paper';
 import { getUser } from '../redux/actions/userActions';
+import { createPin } from '../redux/actions/surveyActions';
 import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/theme';
 
@@ -25,11 +25,12 @@ function UserProfile({ navigation }) {
     dispatch(getUser());
   }, []);
 
-  const buttonHandler = (type) => {
+  const navHandler = (type) => {
     navigation.navigate(type);
   };
 
-  const navigationFunc = (destination) => {
+  const navToNewPin = async (destination) => {
+    await dispatch(createPin());
     navigation.navigate(destination);
   };
 
@@ -43,21 +44,6 @@ function UserProfile({ navigation }) {
       />
     ))
   );
-
-  const renderLocation = () => (
-    visit.pins.map((pin) => (
-      <List.Item
-        key={pin.id}
-        title={pin.fish_species}
-        description={`${pin.fish_count}\n${pin.fish_status}\n${Object.keys(pin.image_object).lenth}`}
-        style={{ width: SIZES.width * 0.8 }}
-      />
-    ))
-  );
-
-  const member_map = () => {
-    return visit.team_members.map((member) => ({key: member}))
-  }
 
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
@@ -92,7 +78,7 @@ function UserProfile({ navigation }) {
             <List.Item
               title="Team Members"
               description={visit.team_members.map((member) => `${member}, `)}
-              left={() => <List.Icon color={iconColor} icon="face-recognition" />}
+              left={() => <List.Icon color={iconColor} icon="account-group" />}
             />
             <List.Item
               title="View Condition"
@@ -119,21 +105,21 @@ function UserProfile({ navigation }) {
           <Button
             style={{ width: SIZES.width / 4 }}
             mode="outlined"
-            onPress={() => navigationFunc('FishOrRedd')}
+            onPress={() => navToNewPin('FishOrRedd')}
           >
             Start
           </Button>
           <Button
             style={{ width: SIZES.width / 4 }}
             mode="outlined"
-            onPress={() => navigationFunc('ProjectMap')}
+            onPress={() => navHandler('ProjectMap')}
           >
             Map
           </Button>
           <Button
             style={{ width: SIZES.width / 4 }}
             mode="outlined"
-            onPress={() => navigationFunc('Camera')}
+            onPress={() => navHandler('Camera')}
           >
             Camera
           </Button>
@@ -142,7 +128,7 @@ function UserProfile({ navigation }) {
           <Button
             style={{ width: SIZES.width / 3 }}
             mode="outlined"
-            onPress={() => buttonHandler('preferences')}
+            onPress={() => navHandler('VisitSummary')}
           >
             Finish Visit
           </Button>
