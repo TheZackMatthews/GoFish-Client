@@ -13,7 +13,7 @@ export const defaultPin = {
   location: '',
   fish_status: '',
   fish_species: '',
-  fish_count: '',
+  fish_count: 0,
   image_object: {
     url: '',
     comments: '',

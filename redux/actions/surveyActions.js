@@ -80,15 +80,16 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
     const result = await axios.put(`${API}saveVolunteers`, sendVisit);
     console.log(result);
 
-    // const surveys = [];
-    // for (let i = 0; i < fieldVisit.pins.length; i += 1) {
-    //   const sendPin = {
-    //     ...fieldVisit.pin[i],
-    //     volunteersId: fieldVisit.volunteerId,
-    //   };
-    //   surveys.push(axios.post(`${API}saveSurvey`, sendPin));
-    // }
-    // await Promise.all(surveys);
+    const surveys = [];
+    for (let i = 0; i < fieldVisit.pins.length; i += 1) {
+      const sendPin = {
+        ...fieldVisit.pins[i],
+        volunteersId: fieldVisit.volunteersId,
+      };
+      surveys.push(axios.post(`${API}saveSurvey`, sendPin));
+    }
+    await Promise.all(surveys);
+    console.log(surveys);
     return dispatch({
       type: SAVE_VISIT,
       payload: '',

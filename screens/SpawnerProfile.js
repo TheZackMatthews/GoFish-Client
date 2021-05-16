@@ -57,8 +57,9 @@ function UserProfile({ navigation }) {
       return visit.pins.map((pin) => {
         let image = false;
         if (pin.image_object.url.length > 0) image = true;
+        console.log(pin);
         return ({
-          id: JSON.stringify(Math.floor(Math.random() * 10)),
+          id: JSON.stringify(Math.floor(Math.random() * 100)),
           title: pin.fish_status,
           fishSpecies: pin.fish_species,
           fishCount: pin.fish_count,
