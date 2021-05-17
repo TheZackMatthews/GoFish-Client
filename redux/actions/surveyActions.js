@@ -77,8 +77,7 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
       viewCondition: fieldVisit.view_condition,
       dayEndComments: fieldVisit.day_end_comments,
     };
-    const result = await axios.put(`${API}saveVolunteers`, sendVisit);
-    console.log(result);
+    await axios.put(`${API}saveVolunteers`, sendVisit);
 
     const surveys = [];
     for (let i = 0; i < fieldVisit.pins.length; i += 1) {
@@ -93,7 +92,6 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
         },
         volunteersId: fieldVisit.volunteersId,
       };
-      console.log(sendPin)
       surveys.push(axios.post(`${API}saveSurvey`, sendPin));
     }
     await Promise.all(surveys);
