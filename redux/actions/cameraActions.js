@@ -8,7 +8,11 @@ export const savePhotoToCameraRoll = (photo) => async (dispatch) => {
   const asset = await MediaLibrary.createAssetAsync(photo.uri);
   return dispatch({
     type: SAVE_TO_ROLL,
-    payload: asset.uri,
+    payload: {
+      uri: asset.uri,
+      comment: photo.comment,
+      category: photo.category,
+    },
   });
 };
 

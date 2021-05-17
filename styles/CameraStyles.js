@@ -20,8 +20,14 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'center',
   },
+  bottomButtons: {
+    flex: 1,
+    alignContent: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   text: {
-    fontSize: 18,
+    fontSize: 15,
     color: 'white',
   },
   btnContainer: {
