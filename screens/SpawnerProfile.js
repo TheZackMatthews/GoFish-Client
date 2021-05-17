@@ -13,7 +13,7 @@ import {
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getUser } from '../redux/actions/userActions';
-import { createPin, saveVisit } from '../redux/actions/surveyActions';
+import { createPin, saveVisit, removeVisit } from '../redux/actions/surveyActions';
 import Modal from '../components/Modal';
 import {
   FlowType,
@@ -43,8 +43,13 @@ function UserProfile({ navigation }) {
   };
 
   const saveHandler = async () => {
-    await dispatch(saveVisit(visit));
-    navigation.navigate('Profile');
+    const result = await dispatch(saveVisit(visit));
+    if (result.type) {
+      await dispatch(removeVisit());
+      navigation.navigate('Profile');
+    } else {
+      console.log(result);
+    }
   };
 
   const navToNewPin = async (destination) => {
@@ -57,7 +62,6 @@ function UserProfile({ navigation }) {
       return visit.pins.map((pin) => {
         let image = false;
         if (pin.image_object.url.length > 0) image = true;
-        console.log(pin);
         return ({
           id: JSON.stringify(Math.floor(Math.random() * 100)),
           title: pin.fish_status,
@@ -111,7 +115,6 @@ function UserProfile({ navigation }) {
       comments={item.comments}
     />
   );
-  console.log(visit);
   return user && visit ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>

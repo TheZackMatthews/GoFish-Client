@@ -202,6 +202,11 @@ function DayStart({ navigation }) {
     if (Platform.OS === 'web') {
       if (isAgreedSafety && teamLead && members.length && creek !== '') {
         await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
+        await setQuery('');
+        await setFilterData([]);
+        await setTeamMembers(['']);
+        await setCreekName('');
+        await setIsAgreedSafety(false);
         navigation.navigate('SpawnerProfile');
       } else if (!isAgreedSafety) console.log('Please review the covid safety agreement');
       else if (!teamLead) console.log('Please specify the team leader');
@@ -209,6 +214,7 @@ function DayStart({ navigation }) {
       else if (creek === '') console.log('Please specify a creek name');
     } else {
     // Alert user if they haven't checked the covid safety agreement
+      // eslint-disable-next-line no-lonely-if
       if (!isAgreedSafety) {
         Alert.alert(
           'Can\'t continue',
@@ -250,8 +256,12 @@ function DayStart({ navigation }) {
           ],
         );
       } else {
-        console.log('long if trainr');
         await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
+        await setQuery('');
+        await setFilterData([]);
+        await setTeamMembers(['']);
+        await setCreekName('');
+        await setIsAgreedSafety(false);
         navigation.navigate('SpawnerProfile');
       }
     }

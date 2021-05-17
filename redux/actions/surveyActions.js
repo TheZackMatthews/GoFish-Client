@@ -111,10 +111,7 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
     });
   } catch (error) {
     console.log(error);
-    return dispatch({
-      type: SAVE_VISIT,
-      payload: fieldVisit,
-    });
+    return error;
   }
 };
 
@@ -130,7 +127,7 @@ export const removeVisit = () => async (dispatch) => {
     await LocalStorage.removeItem('fieldVisit');
     return dispatch({
       type: REMOVE_VISIT,
-      payload: true,
+      payload: defaultVolunteer,
     });
   } catch (error) {
     return error;
