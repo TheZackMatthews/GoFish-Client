@@ -83,9 +83,17 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
     const surveys = [];
     for (let i = 0; i < fieldVisit.pins.length; i += 1) {
       const sendPin = {
-        ...fieldVisit.pins[i],
+        survey: {
+          location: fieldVisit.pins[i].location,
+          fish_status: fieldVisit.pins[i].fish_status,
+          fish_species: fieldVisit.pins[i].fish_species,
+          fish_count: fieldVisit.pins[i].fish_count,
+          image_url: 'test',
+          comments: fieldVisit.pins[i].comments,
+        },
         volunteersId: fieldVisit.volunteersId,
       };
+      console.log(sendPin)
       surveys.push(axios.post(`${API}saveSurvey`, sendPin));
     }
     await Promise.all(surveys);
