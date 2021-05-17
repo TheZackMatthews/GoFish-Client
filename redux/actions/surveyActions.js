@@ -26,7 +26,12 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async 
     else location = await Location.getCurrentPositionAsync({});
   } catch (error) {
     console.log(error);
-    location = null;
+    location = {
+      coords: {
+        latitude: 0,
+        longitude: 0,
+      },
+    };
   }
 
   console.log(location);

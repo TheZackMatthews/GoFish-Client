@@ -75,7 +75,7 @@ function DayStart({ navigation }) {
       ))
     );
   }
-
+console.log(creekName)
   const SearchDataFromJSON = (input) => {
     // TODO if input exactly matches an item in creeksList, set it to the creekName
     if (input) {
@@ -126,7 +126,7 @@ function DayStart({ navigation }) {
                 <TouchableOpacity
                   onPress={() => {
                     setQuery(item);
-                    setCreekName(item.name);
+                    setCreekName(item);
                     setFilterData([]);
                   }}
                 >
