@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+  },
   SearchBoxCompleted: {
     backgroundColor: '#f6f6f6',
     borderColor: 'green',

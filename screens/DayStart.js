@@ -82,7 +82,7 @@ function DayStart({ navigation }) {
       // Making the Search as Case Insensitive.
       const regex = new RegExp(`${input.trim()}`, 'i');
       setFilterData(
-        creekList.filter((data) => data.name.search(regex) >= 0),
+        creekList.filter((data) => data.search(regex) >= 0),
       );
     } else {
       setFilterData([]);
@@ -121,16 +121,16 @@ function DayStart({ navigation }) {
             listContainerStyle={style.SearchBox}
             listStyle={{ backgroundColor: 'red' }}
             flatListProps={{
-              keyExtractor: (item) => item.key,
+              keyExtractor: (item) => item,
               renderItem: ({ item }) => (
                 <TouchableOpacity
                   onPress={() => {
-                    setQuery(item.name);
+                    setQuery(item);
                     setCreekName(item.name);
                     setFilterData([]);
                   }}
                 >
-                  <Text style={style.SearchBoxTextItem}>{item.name}</Text>
+                  <Text style={style.SearchBoxTextItem}>{item}</Text>
                 </TouchableOpacity>
               ),
             }}
