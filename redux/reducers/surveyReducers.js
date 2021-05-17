@@ -7,6 +7,7 @@ import {
   UPDATE_PIN,
   REMOVE_PIN,
   COMPLETE_PIN,
+  SAVE_TO_ROLL,
 } from '../actions/actionTypes';
 import { defaultVolunteer } from '../defaultState';
 
@@ -68,6 +69,11 @@ const pinReducer = (state = '', { type, payload }) => {
       return {
         ...state,
         ...payload,
+      };
+    case SAVE_TO_ROLL:
+      return {
+        ...state,
+        images: state.images.concat(payload),
       };
     case REMOVE_PIN:
       return '';

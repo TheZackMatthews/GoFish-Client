@@ -14,10 +14,7 @@ export const defaultPin = {
   fish_status: '',
   fish_species: '',
   fish_count: 0,
-  image_object: {
-    url: '',
-    comments: '',
-  },
+  images: [],
   comments: '',
 };
 

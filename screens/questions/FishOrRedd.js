@@ -35,6 +35,11 @@ const FishOrRedd = ({ navigation }) => {
       Alert.alert('Please choose an option!');
     }
   };
+
+  const cameraNav = () => {
+    navigation.navigate('Camera');
+  };
+  console.log(pin);
   return (
     <View style={styles.container}>
       <TwoAnswer
@@ -44,7 +49,7 @@ const FishOrRedd = ({ navigation }) => {
         choose={setSelected}
       />
       <View>
-        <AccessCamera />
+        <AccessCamera navigationHandler={cameraNav} />
         <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
       </View>
     </View>
