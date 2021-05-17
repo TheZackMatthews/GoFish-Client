@@ -24,9 +24,6 @@ function DayStart({ navigation }) {
   const dispatch = useDispatch();
   // Get the user object
   const user = useSelector((state) => state.user);
-  useEffect(() => {
-    if (!user) dispatch(getUser());
-  }, []);
 
   const [teamMembers, setTeamMembers] = useState(['']);
   const [teamLead, setTeamLead] = useState(user.displayName);
@@ -35,6 +32,15 @@ function DayStart({ navigation }) {
   const [isAgreedSafety, setIsAgreedSafety] = useState(false);
   const [query, setQuery] = useState('');
   const [filterData, setFilterData] = useState([]);
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUser());
+    }
+  }, []);
+  useEffect(() => {
+    setTeamLead(user.displayName);
+  }, [user]);
+
   const toggleUserIsTeamLead = () => {
     setIsUserTeamLead(!isUserTeamLead);
     setTeamLead(
@@ -75,7 +81,7 @@ function DayStart({ navigation }) {
       ))
     );
   }
-console.log(creekName)
+  console.log(creekName);
   const SearchDataFromJSON = (input) => {
     // TODO if input exactly matches an item in creeksList, set it to the creekName
     if (input) {
@@ -244,7 +250,7 @@ console.log(creekName)
           ],
         );
       } else {
-        console.log('long if trainr')
+        console.log('long if trainr');
         await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
         navigation.navigate('SpawnerProfile');
       }
