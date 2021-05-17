@@ -148,7 +148,7 @@ function DayStart({ navigation }) {
     const result = await dispatch(logOutUser(setErrorM));
     console.log(result);
     if (result && result.payload) {
-      navigation.navigate('SignIn');
+      navigation.navigate('Profile');
     }
   };
 

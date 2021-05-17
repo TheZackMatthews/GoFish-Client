@@ -37,6 +37,7 @@ function UserProfile({ navigation }) {
   const renderPins = () => (
     visit.pins.map((pin) => (
       <List.Item
+        key={pin.id}
         title={pin.fish_species}
         description={`${pin.fish_count}\n${pin.fish_status}\n${Object.keys(pin.image_object).lenth}`}
         style={{ width: SIZES.width * 0.8 }}
@@ -99,7 +100,7 @@ function UserProfile({ navigation }) {
             && (
             <>
               <List.Subheader>Reports made on this visit</List.Subheader>
-              {renderPins()}
+              {/* {renderPins()} */}
             </>
             )}
           </List.Section>

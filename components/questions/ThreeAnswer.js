@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Card, Title, List } from 'react-native-paper';
 import { SIZES } from '../../constants/theme';
 
-const TwoAnswer = ({
-  question, answer1, answer2, choose, image,
+const ThreeAnswer = ({
+  question, answer1, answer2, answer3, choose, image,
 }) => {
   const [selected, setSelected] = useState(null);
 
@@ -20,6 +20,15 @@ const TwoAnswer = ({
 
   const answer2Style = () => {
     if (selected === answer2) {
+      return {
+        backgroundColor: 'lightblue',
+      };
+    }
+    return null;
+  };
+
+  const answer3Style = () => {
+    if (selected === answer3) {
       return {
         backgroundColor: 'lightblue',
       };
@@ -59,6 +68,11 @@ const TwoAnswer = ({
               title={answer2}
               onPress={() => pressHandler(answer2)}
             />
+            <List.Item
+              style={answer3Style()}
+              title={answer3}
+              onPress={() => pressHandler(answer3)}
+            />
           </View>
         </Card.Content>
       </Card>
@@ -66,20 +80,22 @@ const TwoAnswer = ({
   );
 };
 
-TwoAnswer.propTypes = {
+ThreeAnswer.propTypes = {
   question: PropTypes.string,
   answer1: PropTypes.string || PropTypes.number,
   answer2: PropTypes.string || PropTypes.number,
+  answer3: PropTypes.string || PropTypes.number,
   choose: PropTypes.func,
   image: PropTypes.arrayOf(PropTypes.string),
 };
 
-TwoAnswer.defaultProps = {
+ThreeAnswer.defaultProps = {
   question: '',
   answer1: '',
   answer2: '',
+  answer3: '',
   choose: () => null,
   image: [''],
 };
 
-export default TwoAnswer;
+export default ThreeAnswer;

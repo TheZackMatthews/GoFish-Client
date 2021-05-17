@@ -12,9 +12,10 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => (dispa
     teamLead,
     teamMembers,
   };
-  axios.post('http://localhost:3001/saveVolunteers', volunteers)
+  console.log('about to make axios call')
+  axios.post('http://192.168.0.221:3001/saveVolunteers', volunteers)
     .then((response) => {
-      console.log(response.data);
+      console.log('response', response.data);
       return dispatch({
         type: NEW_FIELD_VISIT,
         payload: {
