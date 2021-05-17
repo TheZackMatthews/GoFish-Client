@@ -22,8 +22,16 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async 
   const { status } = await Location.requestForegroundPermissionsAsync();
   let location;
   try {
-    if (status !== 'granted') location = null;
-    else location = await Location.getCurrentPositionAsync();
+    if (status !== 'granted') {
+      location = {
+        coords: {
+          latitude: 0,
+          longitude: 0,
+        },
+      };
+    } else {
+      location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+    }
   } catch (error) {
     console.log(error);
     location = {
@@ -134,7 +142,7 @@ export const createPin = (location) => async (dispatch) => {
   let startLocation = location;
   try {
     if (!location) {
-      startLocation = await Location.getCurrentPositionAsync({});
+      startLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
     }
     pin.location = {
       latitude: startLocation.coords.latitude,
