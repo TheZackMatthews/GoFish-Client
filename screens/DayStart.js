@@ -208,7 +208,7 @@ function DayStart({ navigation }) {
           ],
         );
       } else {
-        console.log('long if train')
+        console.log('long if trainr')
         await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
         navigation.navigate('SpawnerProfile');
       }

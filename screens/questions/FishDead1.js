@@ -3,11 +3,11 @@ import { KeyboardAvoidingView, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { updatePin } from '../../redux/actions/storageActions';
+import { updatePin } from '../../redux/actions/surveyActions';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
 import OneAnswer from '../../components/questions/OneAnswer';
-import { COLORS, SIZES } from '../../constants/theme';
+import { SIZES } from '../../constants/theme';
 
 const FishDead1 = ({ navigation }) => {
   const pin = useSelector((state) => state.pin);

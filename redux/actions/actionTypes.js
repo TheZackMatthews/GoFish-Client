@@ -26,8 +26,12 @@ export const UPLOAD_PHOTO = 'UPLOAD_PHOTO';
 export const CREATE_VISIT = 'CREATE_VISIT';
 export const UPDATE_VISIT = 'UPDATE_VISIT';
 export const REMOVE_VISIT = 'REMOVE_VISIT';
+export const SAVE_VISIT = 'SAVE_VISIT';
 export const CREATE_PIN = 'CREATE_PIN';
 export const UPDATE_PIN = 'UPDATE_PIN';
 export const REMOVE_PIN = 'REMOVE_PIN';
 export const COMPLETE_PIN = 'COMPLETE_PIN';
 export const SUBMIT_LOCATION = 'SUBMIT_LOCATION';
+
+// theme action types
+export const TOGGLE_FONT = 'TOGGLE_FONT';

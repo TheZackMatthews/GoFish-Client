@@ -13,7 +13,7 @@ export const defaultPin = {
   location: '',
   fish_status: '',
   fish_species: '',
-  fish_count: '',
+  fish_count: 0,
   image_object: {
     url: '',
     comments: '',
@@ -29,10 +29,15 @@ export const defaultVolunteer = {
   started_at: '',
   ended_at: '',
   distance_walked: 0,
+  flow_type: 0,
   water_condition: 0,
+  visibility: 0,
   view_condition: 0,
   day_end_comments: '',
-  start_location: '',
+  start_location: {
+    latitudes: 0,
+    longitude: 0,
+  },
   end_location: '',
   pins: [],
   images: [

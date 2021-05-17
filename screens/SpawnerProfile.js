@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   FlatList,
@@ -11,7 +11,16 @@ import PropTypes from 'prop-types';
 import {
   Title, Button, List,
 } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getUser } from '../redux/actions/userActions';
+import { createPin, saveVisit } from '../redux/actions/surveyActions';
+import Modal from '../components/Modal';
+import {
+  FlowType,
+  Visibility,
+  WaterConditions,
+  ViewingConditions,
+} from '../constants/WaterAir';
 import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/theme';
 
@@ -19,38 +28,125 @@ function UserProfile({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const visit = useSelector((state) => state.visit);
+  const [flowModal, setFlowModal] = useState(false);
+  const [waterModal, setWaterModal] = useState(false);
+  const [visibilityModal, setVisibilityModal] = useState(false);
+  const [viewingModal, setViewingModal] = useState(false);
   const iconColor = '#001a1a';
 
   useEffect(() => {
     dispatch(getUser());
   }, []);
 
-  const buttonHandler = (type) => {
+  const navHandler = (type) => {
     navigation.navigate(type);
   };
 
-  const navigationFunc = (destination) => {
+  const saveHandler = async () => {
+    await dispatch(saveVisit(visit));
+    navigation.navigate('Profile');
+  };
+
+  const navToNewPin = async (destination) => {
+    await dispatch(createPin());
     navigation.navigate(destination);
   };
 
-  const renderPins = () => (
-    visit.pins.map((pin) => (
-      <List.Item
-        key={pin.id}
-        title={pin.fish_species}
-        description={`${pin.fish_count}\n${pin.fish_status}\n${Object.keys(pin.image_object).lenth}`}
-        style={{ width: SIZES.width * 0.8 }}
-      />
-    ))
+  const renderData = () => {
+    if (visit.pins && visit.pins.length > 0) {
+      return visit.pins.map((pin) => {
+        let image = false;
+        if (pin.image_object.url.length > 0) image = true;
+        console.log(pin);
+        return ({
+          id: JSON.stringify(Math.floor(Math.random() * 100)),
+          title: pin.fish_status,
+          fishSpecies: pin.fish_species,
+          fishCount: pin.fish_count,
+          image,
+          comments: pin.comments,
+        });
+      });
+    }
+    return undefined;
+  };
+
+  const Item = ({
+    title, fishSpecies, fishCount, image, comments,
+  }) => (
+    <View style={{ marginHorizontal: 15 }}>
+      <Text style={{ fontWeight: '500' }}>
+        <Icon name="fish" />
+        {`Fish status: ${title}`}
+      </Text>
+      <Text>{`Fish species: ${fishSpecies}`}</Text>
+      <Text>{`Fish count: ${fishCount}`}</Text>
+      <Text>{image ? 'Image present' : 'No image present'}</Text>
+      <Text>{comments}</Text>
+    </View>
   );
 
-  const member_map = () => {
-    return visit.team_members.map((member) => ({key: member}))
-  }
+  Item.propTypes = {
+    title: PropTypes.string,
+    fishSpecies: PropTypes.string,
+    fishCount: PropTypes.number,
+    image: PropTypes.bool,
+    comments: PropTypes.string,
+  };
 
-  return user ? (
+  Item.defaultProps = {
+    title: '',
+    fishSpecies: '',
+    fishCount: 0,
+    image: false,
+    comments: '',
+  };
+
+  const renderItem = ({ item }) => (
+    <Item
+      title={item.title}
+      fishSpecies={item.fishSpecies}
+      fishCount={item.fishCount}
+      image={item.image}
+      comments={item.comments}
+    />
+  );
+  console.log(visit);
+  return user && visit ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
+        <Modal
+          update="water_flow"
+          label="Water flow"
+          text="What is the water flow type today?"
+          modalVisible={flowModal}
+          setModalVisible={setFlowModal}
+          data={FlowType}
+        />
+        <Modal
+          update="water_condition"
+          label="Water condition"
+          text="What is the water condition today?"
+          modalVisible={waterModal}
+          setModalVisible={setWaterModal}
+          data={WaterConditions}
+        />
+        <Modal
+          update="visibility"
+          label="Visibility"
+          text="What is the visibility like today?"
+          modalVisible={visibilityModal}
+          setModalVisible={setVisibilityModal}
+          data={Visibility}
+        />
+        <Modal
+          update="view_condition"
+          label="Viewing condition"
+          text="What are the viewing conditions today?"
+          modalVisible={viewingModal}
+          setModalVisible={setViewingModal}
+          data={ViewingConditions}
+        />
         <View style={styles.headContainer}>
           <Title>Spawner Tracking</Title>
         </View>
@@ -65,7 +161,7 @@ function UserProfile({ navigation }) {
             />
             <List.Item
               title="Start Location"
-              description={visit.start_location || 'Not saved'}
+              description={`Latitude: ${visit.start_location.latitude}\nLongitude: ${visit.start_location.longitude}`}
               left={() => <List.Icon color={iconColor} icon="ray-start-arrow" />}
             />
             <List.Item
@@ -81,48 +177,66 @@ function UserProfile({ navigation }) {
             <List.Item
               title="Team Members"
               description={visit.team_members.map((member) => `${member}, `)}
-              left={() => <List.Icon color={iconColor} icon="face-recognition" />}
+              left={() => <List.Icon color={iconColor} icon="account-group" />}
             />
             <List.Item
-              title="View Condition"
-              description={visit.view_condition || 'Not saved'}
+              onPress={() => setFlowModal(true)}
+              title="Flow Type"
+              description={visit.water_flow || 'Click to add'}
+              left={() => <List.Icon color={iconColor} icon="water-outline" />}
+            />
+            <List.Item
+              onPress={() => setWaterModal(true)}
+              title="Water Conditions"
+              description={visit.water_condition || 'Click to add'}
+              left={() => <List.Icon color={iconColor} icon="water-outline" />}
+            />
+            <List.Item
+              onPress={() => setVisibilityModal(true)}
+              title="Visibility"
+              description={visit.visibility || 'Click to add'}
               left={() => <List.Icon color={iconColor} icon="weather-partly-cloudy" />}
             />
             <List.Item
-              title="Water Condition"
-              description={visit.water_condition || 'Not saved'}
-              left={() => <List.Icon color={iconColor} icon="water-outline" />}
+              onPress={() => setViewingModal(true)}
+              title="View Condition"
+              description={visit.view_condition || 'Click to add'}
+              left={() => <List.Icon color={iconColor} icon="weather-partly-cloudy" />}
             />
           </List.Section>
-          <List.Section>
-            {visit.pins && (visit.pins.length > 0)
+          {visit.pins && (visit.pins.length > 0)
             && (
             <>
-              <List.Subheader>Reports made on this visit</List.Subheader>
-              {renderPins()}
+              <Title>Reports made on this visit</Title>
+              {/* {renderPins()} */}
+              <FlatList
+                data={renderData()}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id}
+              />
             </>
             )}
-          </List.Section>
+
         </View>
         <View style={styles.buttons}>
           <Button
             style={{ width: SIZES.width / 4 }}
             mode="outlined"
-            onPress={() => navigationFunc('FishOrRedd')}
+            onPress={() => navToNewPin('FishOrRedd')}
           >
             Start
           </Button>
           <Button
             style={{ width: SIZES.width / 4 }}
             mode="outlined"
-            onPress={() => navigationFunc('ProjectMap')}
+            onPress={() => navHandler('ProjectMap')}
           >
             Map
           </Button>
           <Button
             style={{ width: SIZES.width / 4 }}
             mode="outlined"
-            onPress={() => navigationFunc('Camera')}
+            onPress={() => navHandler('Camera')}
           >
             Camera
           </Button>
@@ -131,7 +245,7 @@ function UserProfile({ navigation }) {
           <Button
             style={{ width: SIZES.width / 3 }}
             mode="outlined"
-            onPress={() => buttonHandler('preferences')}
+            onPress={saveHandler}
           >
             Finish Visit
           </Button>

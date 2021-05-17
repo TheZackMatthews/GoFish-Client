@@ -9,18 +9,20 @@ import {
 import PropTypes from 'prop-types';
 import {
   Title, Button, List, Avatar,
+  useTheme,
 } from 'react-native-paper';
 import { logOutUser, getUser } from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
+import { SIZES } from '../constants/theme';
 
 function UserProfile({ navigation }) {
   const [errorM, setErrorM] = useState('');
-
+  const theme = useTheme();
+  const { fonts: { regular: { fontSize } } } = theme;
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
   const pin = useSelector((state) => state.pin);
-  console.log(pin);
 
   useEffect(() => {
     dispatch(getUser());
@@ -32,10 +34,6 @@ function UserProfile({ navigation }) {
     if (result && result.payload) {
       navigation.navigate('SignIn');
     }
-  };
-
-  const buttonHandler = (type) => {
-    navigation.navigate(type);
   };
 
   const navigationFunc = (destination) => {
@@ -55,13 +53,15 @@ function UserProfile({ navigation }) {
             <Avatar.Icon size={200} icon="camera-plus-outline" />
           )}
         </View>
-        <View style={styles.bodyContainer}>
+        <View>
           <List.Section>
             <List.Subheader>Volunteer Information</List.Subheader>
             <List.Item
               title="Display Name"
+              // titleStyle={{ fontSize }}
               description={user.displayName}
-              style={{ width: 350 }}
+              // descriptionStyle={{ fontSize: fontSize - 2 }}
+              style={{ width: SIZES.width * 0.8 }}
               left={() => <List.Icon icon="face-outline" />}
             />
             <List.Item
@@ -90,7 +90,7 @@ function UserProfile({ navigation }) {
           <Button mode="outlined" onPress={() => navigationFunc('EditUserInfo')}>
             Edit Info
           </Button>
-          <Button mode="outlined" onPress={() => buttonHandler('preferences')}>
+          <Button mode="outlined" onPress={() => navigationFunc('Preferences')}>
             Preferences
           </Button>
         </View>
@@ -100,18 +100,18 @@ function UserProfile({ navigation }) {
             <List.Item
               title="Chinook Salmon Monitoring"
               style={{ width: 350 }}
-              onPress={() => buttonHandler('DayStart')}
+              onPress={() => navigationFunc('DayStart')}
               left={() => <List.Icon color="#000" icon="fish" />}
             />
             <List.Item
               title="Vegetation Monitoring"
-              onPress={() => buttonHandler('Vegetation Monitoring')}
+              onPress={() => navigationFunc('Profile')}
               left={() => <List.Icon color="#000" icon="tree-outline" />}
             />
           </List.Section>
         </View>
         <View style={styles.buttons}>
-          <Button mode="outlined" onPress={() => buttonHandler('user map')}>
+          <Button mode="outlined" onPress={() => navigationFunc('Profile')}>
             User Map
           </Button>
           <Button mode="outlined" onPress={() => navigationFunc('Camera')}>
@@ -124,7 +124,13 @@ function UserProfile({ navigation }) {
       </ScrollView>
     </KeyboardAvoidingView>
   ) : (
-    <View>{!!errorM && <Text>{errorM}</Text>}</View>
+    <View style={styles.container}>
+      <Button
+        onPress={() => navigation.navigate('SignIn')}
+      >
+        Sign In.
+      </Button>
+    </View>
   );
 }
 

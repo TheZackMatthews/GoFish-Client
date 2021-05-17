@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Title, TextInput } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { completePin, removePin } from '../../redux/actions/storageActions';
+import { completePin, removePin } from '../../redux/actions/surveyActions';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
 import { COLORS } from '../../constants/theme';
@@ -22,10 +22,6 @@ const Notes = ({ navigation }) => {
         comments,
       }));
       await dispatch(removePin());
-      // THEN > update field visit with pin info
-      // do we need a way to change the value of the key for the
-      // storage based on how many exist? or will we
-      // assign them to the field trip and restart each time?
       await setComments('');
       navigation.navigate('SpawnerProfile');
     }

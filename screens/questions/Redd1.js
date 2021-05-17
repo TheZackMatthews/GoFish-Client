@@ -17,9 +17,9 @@ const Redd1 = ({ navigation }) => {
     } else if (selected === answer1) {
       navigation.navigate('Redd2');
     } else if (selected === answer2) {
-      console.log('somethign else');
+      navigation.navigate('Notes');
     } else {
-      Alert.alert('Please enter amount!');
+      Alert.alert('Please answer yes or no!');
     }
   };
 
