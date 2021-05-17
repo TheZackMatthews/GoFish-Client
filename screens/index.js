@@ -18,6 +18,38 @@ import FishDead2 from './questions/FishDead2';
 import Notes from './questions/Notes';
 import Redd1 from './questions/Redd1';
 import Redd2 from './questions/Redd2';
+import LiveSalmon1 from './liveSalmonTree/LiveSalmon1';
+import LiveSalmonY from './liveSalmonTree/LiveSalmonY';
+import LiveSalmonN from './liveSalmonTree/LiveSalmonN';
+import LiveSalmonYY from './liveSalmonTree/LiveSalmonYY';
+import LiveSalmonNY from './liveSalmonTree/LiveSalmonNY';
+import LiveSalmonNYY from './liveSalmonTree/LiveSalmonNYY';
+import LiveSalmonYN from './liveSalmonTree/LiveSalmonYN';
+import LiveSalmonNN from './liveSalmonTree/LiveSalmonNN';
+import LiveSalmonNYN from './liveSalmonTree/LiveSalmonNYN';
+import LiveSalmonNYNY from './liveSalmonTree/LiveSalmonNYNY';
+import LiveSalmonNYNN from './liveSalmonTree/LiveSalmonNYNN';
+import LiveSalmonNNY from './liveSalmonTree/LiveSalmonNNY';
+import LiveSalmonNNN from './liveSalmonTree/LiveSalmonNNN';
+
+import DeadSalmon1 from './deadSalmonTree/DeadSalmon1';
+import DeadSalmonY from './deadSalmonTree/DeadSalmonY';
+import DeadSalmonN from './deadSalmonTree/DeadSalmonN';
+import DeadSalmonU from './deadSalmonTree/DeadSalmonU';
+import DeadSalmonYN from './deadSalmonTree/DeadSalmonYN';
+import DeadSalmonYY from './deadSalmonTree/DeadSalmonYY';
+import DeadSalmonNN from './deadSalmonTree/DeadSalmonNN';
+import DeadSalmonUN from './deadSalmonTree/DeadSalmonUN';
+import DeadSalmonUNN from './deadSalmonTree/DeadSalmonUNN';
+import DeadSalmonUNY from './deadSalmonTree/DeadSalmonUNY';
+import DeadSalmonUNNY from './deadSalmonTree/DeadSalmonUNNY';
+import DeadSalmonUNYN from './deadSalmonTree/DeadSalmonUNYN';
+import DeadChinook from './deadSalmonTree/DeadChinook';
+import DeadChum from './deadSalmonTree/DeadChum';
+import DeadCoho from './deadSalmonTree/DeadCoho';
+import DeadPink from './deadSalmonTree/DeadPink';
+import DeadSockeye from './deadSalmonTree/DeadSockeye';
+import Unknown from './deadSalmonTree/Unknown';
 
 export {
   Camera,
@@ -40,4 +72,35 @@ export {
   Redd1,
   Redd2,
   Preferences,
+  LiveSalmon1,
+  LiveSalmonY,
+  LiveSalmonYY,
+  LiveSalmonN,
+  LiveSalmonNY,
+  LiveSalmonNYY,
+  LiveSalmonYN,
+  LiveSalmonNN,
+  LiveSalmonNYN,
+  LiveSalmonNYNY,
+  LiveSalmonNYNN,
+  LiveSalmonNNY,
+  LiveSalmonNNN,
+  DeadSalmon1,
+  DeadSalmonY,
+  DeadSalmonN,
+  DeadSalmonU,
+  DeadSalmonYN,
+  DeadSalmonYY,
+  DeadSalmonNN,
+  DeadSalmonUNN,
+  DeadSalmonUN,
+  DeadSalmonUNY,
+  DeadSalmonUNNY,
+  DeadSalmonUNYN,
+  DeadChinook,
+  DeadChum,
+  DeadCoho,
+  DeadPink,
+  DeadSockeye,
+  Unknown,
 };

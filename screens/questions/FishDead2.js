@@ -18,7 +18,6 @@ const FishDead2 = ({ navigation }) => {
   const [fin, setFin] = useState(null);
   const [gender, setGender] = useState(null);
   const [spawn, setSpawn] = useState(null);
-
   let image;
   switch (fish) {
     case 'coho':

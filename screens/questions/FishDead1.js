@@ -34,7 +34,7 @@ const FishDead1 = ({ navigation }) => {
       <Button
         style={{ width: SIZES.width / 2, alignSelf: 'center' }}
         mode="contained"
-        onPress={() => navigation.navigate('ReferenceInfo')}
+        onPress={() => navigation.navigate('DeadSalmon1')}
       >
         Unable to ID
       </Button>
