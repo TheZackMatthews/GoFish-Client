@@ -23,7 +23,7 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async 
   let location;
   try {
     if (status !== 'granted') location = null;
-    else location = await Location.getCurrentPositionAsync({});
+    else location = await Location.getCurrentPositionAsync();
   } catch (error) {
     console.log(error);
     location = {
@@ -34,32 +34,28 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async 
     };
   }
 
-  console.log(location);
   const volunteers = {
     creekName,
     teamLead,
     teamMembers,
   };
-  console.log('about to make axios call');
+
   axios.post(`${API}saveVolunteers`, volunteers)
-    .then((response) => {
-      console.log('response', response.data);
-      return dispatch({
-        type: NEW_FIELD_VISIT,
-        payload: {
-          ...defaultVolunteer,
-          volunteersId: response.data.volunteersId,
-          creek_name: creekName,
-          team_lead: teamLead,
-          team_members: teamMembers,
-          started_at: response.data.startedAt,
-          start_location: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-          },
+    .then((response) => dispatch({
+      type: NEW_FIELD_VISIT,
+      payload: {
+        ...defaultVolunteer,
+        volunteersId: response.data.volunteersId,
+        creek_name: creekName,
+        team_lead: teamLead,
+        team_members: teamMembers,
+        started_at: response.data.startedAt,
+        start_location: {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
         },
-      });
-    })
+      },
+    }))
     .catch((error) => console.log(error));
 };
 
@@ -136,13 +132,23 @@ export const removeVisit = () => async (dispatch) => {
 export const createPin = (location) => async (dispatch) => {
   const pin = defaultPin;
   let startLocation = location;
-  if (!location) {
-    startLocation = await Location.getCurrentPositionAsync({});
+  try {
+    if (!location) {
+      startLocation = await Location.getCurrentPositionAsync({});
+    }
+    pin.location = {
+      latitude: startLocation.coords.latitude,
+      longitude: startLocation.coords.longitude,
+    };
+  } catch (error) {
+    console.log(error);
+    pin.location = {
+      coords: {
+        latitude: 0,
+        longitude: 0,
+      },
+    };
   }
-  pin.location = {
-    latitude: startLocation.coords.latitude,
-    longitude: startLocation.coords.longitude,
-  };
   return dispatch({
     type: CREATE_PIN,
     payload: pin,
