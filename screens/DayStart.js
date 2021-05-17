@@ -128,6 +128,7 @@ function DayStart({ navigation }) {
             listStyle={{ backgroundColor: 'red' }}
             flatListProps={{
               keyExtractor: (item) => item,
+              // eslint-disable-next-line react/prop-types
               renderItem: ({ item }) => (
                 <TouchableOpacity
                   onPress={() => {
