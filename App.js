@@ -25,6 +25,37 @@ import {
   Notes,
   Redd1,
   Redd2,
+  LiveSalmon1,
+  LiveSalmonY,
+  LiveSalmonYY,
+  LiveSalmonN,
+  LiveSalmonNY,
+  LiveSalmonNYY,
+  LiveSalmonYN,
+  LiveSalmonNN,
+  LiveSalmonNYN,
+  LiveSalmonNYNY,
+  LiveSalmonNYNN,
+  LiveSalmonNNY,
+  LiveSalmonNNN,
+  DeadSalmon1,
+  DeadSalmonY,
+  DeadSalmonN,
+  DeadSalmonU,
+  DeadSalmonYN,
+  DeadSalmonYY,
+  DeadSalmonNN,
+  DeadSalmonUNN,
+  DeadSalmonUN,
+  DeadSalmonUNY,
+  DeadSalmonUNNY,
+  DeadSalmonUNYN,
+  DeadChinook,
+  DeadChum,
+  DeadCoho,
+  DeadPink,
+  DeadSockeye,
+  Unknown,
 } from './screens/index';
 import { useStore } from './redux/store';
 import AuthProvider from './auth';
@@ -56,7 +87,7 @@ export default function App() {
               <NavigationContainer>
                 <Stack.Navigator
                   screenOptions={{ headerShown: false }}
-                  initialRouteName="SignIn"
+                  initialRouteName="FishDead1"
                 >
                   <Stack.Screen name="SignIn" component={SignIn} />
                   <Stack.Screen name="SignUp" component={SignUp} />
@@ -83,6 +114,40 @@ export default function App() {
                   {/* Redd */}
                   <Stack.Screen name="Redd1" component={Redd1} />
                   <Stack.Screen name="Redd2" component={Redd2} />
+                  {/* Live Salmon Tree */}
+                  <Stack.Screen name="LiveSalmon1" component={LiveSalmon1} />
+                  <Stack.Screen name="LiveSalmonY" component={LiveSalmonY} />
+                  <Stack.Screen name="LiveSalmonYY" component={LiveSalmonYY} />
+                  <Stack.Screen name="LiveSalmonN" component={LiveSalmonN} />
+                  <Stack.Screen name="LiveSalmonNY" component={LiveSalmonNY} />
+                  <Stack.Screen name="LiveSalmonNYY" component={LiveSalmonNYY} />
+                  <Stack.Screen name="LiveSalmonYN" component={LiveSalmonYN} />
+                  <Stack.Screen name="LiveSalmonNN" component={LiveSalmonNN} />
+                  <Stack.Screen name="LiveSalmonNYN" component={LiveSalmonNYN} />
+                  <Stack.Screen name="LiveSalmonNYNY" component={LiveSalmonNYNY} />
+                  <Stack.Screen name="LiveSalmonNYNN" component={LiveSalmonNYNN} />
+                  <Stack.Screen name="LiveSalmonNNY" component={LiveSalmonNNY} />
+                  <Stack.Screen name="LiveSalmonNNN" component={LiveSalmonNNN} />
+                  {/* Dead Salmon Tree */}
+                  <Stack.Screen name="DeadSalmon1" component={DeadSalmon1} />
+                  <Stack.Screen name="DeadSalmonY" component={DeadSalmonY} />
+                  <Stack.Screen name="DeadSalmonN" component={DeadSalmonN} />
+                  <Stack.Screen name="DeadSalmonU" component={DeadSalmonU} />
+                  <Stack.Screen name="DeadSalmonYN" component={DeadSalmonYN} />
+                  <Stack.Screen name="DeadSalmonYY" component={DeadSalmonYY} />
+                  <Stack.Screen name="DeadSalmonNN" component={DeadSalmonNN} />
+                  <Stack.Screen name="DeadSalmonUNN" component={DeadSalmonUNN} />
+                  <Stack.Screen name="DeadSalmonUN" component={DeadSalmonUN} />
+                  <Stack.Screen name="DeadSalmonUNY" component={DeadSalmonUNY} />
+                  <Stack.Screen name="DeadSalmonUNNY" component={DeadSalmonUNNY} />
+                  <Stack.Screen name="DeadSalmonUNYN" component={DeadSalmonUNYN} />
+                  <Stack.Screen name="DeadChinook" component={DeadChinook} />
+                  <Stack.Screen name="DeadChum" component={DeadChum} />
+                  <Stack.Screen name="DeadCoho" component={DeadCoho} />
+                  <Stack.Screen name="DeadPink" component={DeadPink} />
+                  <Stack.Screen name="DeadSockeye" component={DeadSockeye} />
+                  <Stack.Screen name="Unknown" component={Unknown} />
+
                 </Stack.Navigator>
               </NavigationContainer>
             </View>
