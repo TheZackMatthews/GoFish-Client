@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { AppRegistry, StyleSheet, View } from 'react-native';
+import { AppRegistry, View } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -59,19 +59,13 @@ import {
 } from './screens/index';
 import { useStore } from './redux/store';
 import AuthProvider from './auth';
+import styles from './styles/AppStyles';
 
 let Main;
 
 const theme = {
   ...DefaultTheme,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-});
 
 export default function App() {
   const { store, persistor } = useStore({});
@@ -87,7 +81,7 @@ export default function App() {
               <NavigationContainer>
                 <Stack.Navigator
                   screenOptions={{ headerShown: false }}
-                  initialRouteName="FishOrRedd"
+                  initialRouteName="Profile"
                 >
                   <Stack.Screen name="SignIn" component={SignIn} />
                   <Stack.Screen name="SignUp" component={SignUp} />

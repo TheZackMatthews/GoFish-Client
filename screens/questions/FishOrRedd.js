@@ -39,7 +39,7 @@ const FishOrRedd = ({ navigation }) => {
   const cameraNav = () => {
     navigation.navigate('Camera');
   };
-  console.log(pin);
+
   return (
     <View style={styles.container}>
       <TwoAnswer

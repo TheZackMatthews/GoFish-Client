@@ -53,7 +53,7 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async 
       type: NEW_FIELD_VISIT,
       payload: {
         ...defaultVolunteer,
-        volunteersId: response.data.volunteersId,
+        group_id: response.data.group_id,
         creek_name: creekName,
         team_lead: teamLead,
         team_members: teamMembers,
@@ -80,7 +80,7 @@ export const updateFieldVisit = (fieldVisit) => (dispatch) => dispatch({
 export const saveVisit = (fieldVisit) => async (dispatch) => {
   try {
     const sendVisit = {
-      volunteersId: fieldVisit.volunteersId,
+      group_id: fieldVisit.group_id,
       distanceWalked: fieldVisit.distance_walked,
       waterCondition: fieldVisit.water_condition,
       viewCondition: fieldVisit.view_condition,
@@ -99,12 +99,11 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
           image_url: 'test',
           comments: fieldVisit.pins[i].comments,
         },
-        volunteersId: fieldVisit.volunteersId,
+        group_id: fieldVisit.group_id,
       };
       surveys.push(axios.post(`${API}saveSurvey`, sendPin));
     }
     await Promise.all(surveys);
-    console.log(surveys);
     return dispatch({
       type: SAVE_VISIT,
       payload: '',

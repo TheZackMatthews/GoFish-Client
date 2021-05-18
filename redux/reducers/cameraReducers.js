@@ -4,7 +4,7 @@ import { SAVE_PHOTO } from '../actions/actionTypes';
 const cameraReducer = (state = '', { type, payload }) => {
   switch (type) {
     case SAVE_PHOTO:
-      return payload;
+      return state.concat(payload);
     default:
       return state;
   }

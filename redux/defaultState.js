@@ -19,7 +19,7 @@ export const defaultPin = {
 };
 
 export const defaultVolunteer = {
-  volunteersId: '',
+  group_id: '',
   creek_name: '',
   team_lead: '',
   team_members: [''],

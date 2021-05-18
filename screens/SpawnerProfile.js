@@ -14,6 +14,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getUser } from '../redux/actions/userActions';
 import { createPin, saveVisit, removeVisit } from '../redux/actions/surveyActions';
+import { savePhotoToFB } from '../redux/actions/cameraActions';
 import Modal from '../components/Modal';
 import {
   FlowType,
@@ -43,6 +44,13 @@ function UserProfile({ navigation }) {
   };
 
   const saveHandler = async () => {
+    const photoResults = [];
+    for (let i = 0; i < visit.pins.length; i += 1) {
+      for (let j = 0; j < visit.pins[i].images.length; j += 1) {
+        photoResults.push(dispatch(savePhotoToFB(visit.pins[i].images[j], visit)));
+      }
+    }
+    await Promise.all(photoResults);
     const result = await dispatch(saveVisit(visit));
     if (result.type) {
       await dispatch(removeVisit());
@@ -61,7 +69,7 @@ function UserProfile({ navigation }) {
     if (visit.pins && visit.pins.length > 0) {
       return visit.pins.map((pin) => {
         let image = false;
-        if (pin.image_object.url.length > 0) image = true;
+        if (Object.keys(pin.images).length > 0) image = true;
         return ({
           id: JSON.stringify(Math.floor(Math.random() * 100)),
           title: pin.fish_status,

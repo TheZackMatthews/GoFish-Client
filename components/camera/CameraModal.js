@@ -6,7 +6,7 @@ import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 function ModalCamera({
-  modalVisible, setModalVisible, imageObject, setImageObject, savePhoto,
+  modalVisible, setModalVisible, imageObject, savePhoto,
 }) {
   const [comment, setComment] = useState('');
   const list = [
@@ -79,7 +79,6 @@ ModalCamera.propTypes = {
     comment: PropTypes.string,
     category: PropTypes.string,
   }),
-  setImageObject: PropTypes.func,
   savePhoto: PropTypes.func,
 };
 
@@ -91,7 +90,6 @@ ModalCamera.defaultProps = {
     comment: '',
     category: '',
   },
-  setImageObject: () => null,
   savePhoto: () => null,
 };
 

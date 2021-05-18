@@ -1,5 +1,6 @@
 import * as MediaLibrary from 'expo-media-library';
 import firebase from 'firebase/app';
+import { Platform } from 'react-native';
 import { SAVE_PHOTO, SAVE_TO_ROLL } from './actionTypes';
 import { firebaseClient } from '../../auth/firebaseClient';
 import 'firebase/storage';
@@ -16,28 +17,36 @@ export const savePhotoToCameraRoll = (photo) => async (dispatch) => {
   });
 };
 
-export const savePhotoToFB = (photo) => (dispatch) => {
+export const savePhotoToFB = (photo, visit) => async (dispatch) => {
   firebaseClient();
-  // console.log(photo)
-  const user = firebase.auth().currentUser;
+  // const user = firebase.auth().currentUser;
+
   const storageRef = firebase.storage().ref();
-  const filename = photo.uri.substring(photo.uri.lastIndexOf('/') + 1);
-  const imageRef = storageRef.child(`${user.uid}.${Date.now()}.${filename}`);
-  // const message = `data:image/jpg;base64, ${filename}`
-
-  imageRef.putFile(filename).then((snapshot) => {
-    console.log(snapshot);
-    console.log('uploaded!');
+  let uploadTask;
+  console.log(photo)
+  const imagesRef = storageRef.child(`images/${visit.group_id}/${Date.now()}.jpg`);
+  if (Platform.OS !== 'android') {
+    const base64 = photo.uri.substring(photo.uri.indexOf(',') + 1);
+    uploadTask = imagesRef.putString(base64, 'base64');
+  } else {
+    const result = await fetch(photo.uri);
+    const blob = result.blob();
+    uploadTask = imagesRef.put(blob);
+  }
+  let resultPhoto;
+  uploadTask.on('state_changed', () => {
+    console.log('working...');
+  }, (error) => console.log(error), () => {
+    imagesRef.getDownloadURL()
+      .then((url) => {
+        resultPhoto = {
+          ...photo,
+          uri: url,
+        };
+      });
   });
-
-  // let URL = imageRef.getDownloadURL((url, error) => {
-  //   if (error) console.log(error);
-  //   else return url;
-  // })
-
-  // console.log(URL)
   return dispatch({
     type: SAVE_PHOTO,
-    payload: true,
+    payload: resultPhoto,
   });
 };

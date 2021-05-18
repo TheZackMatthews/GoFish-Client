@@ -11,30 +11,13 @@ import {
 } from '../actions/actionTypes';
 import { defaultVolunteer } from '../defaultState';
 
-// survey reducer
-// const surveyReducer = (state = '', { type, payload }) => {
-//   switch (type) {
-//     case UPDATE_ENTRY:
-//       return {
-//         ...state,
-//         [payload.name]: payload.value,
-//       };
-//     case SAVE_SURVEY:
-//       return payload;
-//     case SUBMIT_LOCATION:
-//       return payload;
-//     default:
-//       return state;
-//   }
-// };
-
 // visit reducer
 const visitReducer = (state = defaultVolunteer, { type, payload }) => {
   switch (type) {
     case NEW_FIELD_VISIT:
       return {
         ...defaultVolunteer,
-        volunteersId: payload.volunteersId,
+        group_id: payload.group_id,
         creek_name: payload.creek_name,
         team_lead: payload.team_lead,
         team_members: payload.team_members,
