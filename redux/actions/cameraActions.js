@@ -23,14 +23,13 @@ export const savePhotoToFB = (photo, visit) => async (dispatch) => {
 
   const storageRef = firebase.storage().ref();
   let uploadTask;
-  console.log(photo);
   const imagesRef = storageRef.child(`images/${visit.group_id}/${Date.now()}.jpg`);
   if (Platform.OS !== 'android') {
     const base64 = photo.uri.substring(photo.uri.indexOf(',') + 1);
     uploadTask = imagesRef.putString(base64, 'base64');
   } else {
     const result = await fetch(photo.uri);
-    const blob = result.blob();
+    const blob = await result.blob();
     uploadTask = imagesRef.put(blob);
   }
   let resultPhoto;

@@ -110,7 +110,7 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
       // }
     }
     await Promise.all(surveys);
-    console.log(surveys);
+    surveys.forEach((one) => console.log(one))
     return dispatch({
       type: SAVE_VISIT,
       payload: '',

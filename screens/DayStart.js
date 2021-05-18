@@ -202,7 +202,7 @@ function DayStart({ navigation }) {
     await setCreekName('');
     await setIsAgreedSafety(false);
     navigation.navigate('SpawnerProfile');
-  }
+  };
 
   const dispatchVolunteers = () => {
     const members = teamMembers.filter((e) => e.replace(/(\r\n|\n|\r)/gm, ''));

@@ -25,7 +25,7 @@ import {
 import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/theme';
 
-function UserProfile({ navigation }) {
+const SpawnerProfile = ({ navigation }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const visit = useSelector((state) => state.visit);
@@ -52,6 +52,7 @@ function UserProfile({ navigation }) {
       }
     }
     await Promise.all(photoResults);
+    console.log(photoResults);
     const result = await dispatch(saveVisit(visit, setLoading));
     if (result.type) {
       await dispatch(removeVisit());
@@ -286,18 +287,18 @@ function UserProfile({ navigation }) {
       />
     </View>
   );
-}
+};
 
-UserProfile.propTypes = {
+SpawnerProfile.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
   }),
 };
 
-UserProfile.defaultProps = {
+SpawnerProfile.defaultProps = {
   navigation: {
     navigate: () => null,
   },
 };
 
-export default UserProfile;
+export default SpawnerProfile;
