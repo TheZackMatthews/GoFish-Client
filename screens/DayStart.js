@@ -3,7 +3,7 @@ import {
   TouchableOpacity, ScrollView, Platform, Alert, Text, View,
 } from 'react-native';
 import {
-  Checkbox, Button, TextInput, Title, Paragraph,
+  Checkbox, Button, TextInput, Title, Paragraph, ActivityIndicator,
 } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,6 +32,8 @@ function DayStart({ navigation }) {
   const [isAgreedSafety, setIsAgreedSafety] = useState(false);
   const [query, setQuery] = useState('');
   const [filterData, setFilterData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (!user) {
       dispatch(getUser());
@@ -192,7 +194,17 @@ function DayStart({ navigation }) {
     }
   };
 
-  const dispatchVolunteers = async () => {
+  const initializeVisit = async () => {
+    await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
+    await setQuery('');
+    await setFilterData([]);
+    await setTeamMembers(['']);
+    await setCreekName('');
+    await setIsAgreedSafety(false);
+    navigation.navigate('SpawnerProfile');
+  }
+
+  const dispatchVolunteers = () => {
     const members = teamMembers.filter((e) => e.replace(/(\r\n|\n|\r)/gm, ''));
     const creek = creekName.replace(/(\r\n|\n|\r)/gm, '');
 
@@ -202,13 +214,8 @@ function DayStart({ navigation }) {
     // This helps for debugging in the browser
     if (Platform.OS === 'web') {
       if (isAgreedSafety && teamLead && members.length && creek !== '') {
-        await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
-        await setQuery('');
-        await setFilterData([]);
-        await setTeamMembers(['']);
-        await setCreekName('');
-        await setIsAgreedSafety(false);
-        navigation.navigate('SpawnerProfile');
+        setLoading(true);
+        initializeVisit();
       } else if (!isAgreedSafety) console.log('Please review the covid safety agreement');
       else if (!teamLead) console.log('Please specify the team leader');
       else if (!members.length) console.log('It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors');
@@ -257,13 +264,8 @@ function DayStart({ navigation }) {
           ],
         );
       } else {
-        await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
-        await setQuery('');
-        await setFilterData([]);
-        await setTeamMembers(['']);
-        await setCreekName('');
-        await setIsAgreedSafety(false);
-        navigation.navigate('SpawnerProfile');
+        setLoading(true);
+        initializeVisit();
       }
     }
   };
@@ -276,7 +278,7 @@ function DayStart({ navigation }) {
     }
   };
 
-  return user ? (
+  return user && !loading ? (
     <ScrollView
       style={{ margin: 40, marginTop: 100 }}
       keyboardShouldPersistTaps="always"
@@ -293,7 +295,12 @@ function DayStart({ navigation }) {
       </View>
     </ScrollView>
   ) : (
-    null
+    <View style={{ height: SIZES.height, justifyContent: 'center' }}>
+      <ActivityIndicator
+        size="large"
+        loading={loading}
+      />
+    </View>
   );
 }
 

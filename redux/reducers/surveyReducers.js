@@ -8,11 +8,12 @@ import {
   REMOVE_PIN,
   COMPLETE_PIN,
   SAVE_TO_ROLL,
+  FAILED_UPLOAD,
 } from '../actions/actionTypes';
 import { defaultVolunteer } from '../defaultState';
 
 // visit reducer
-const visitReducer = (state = defaultVolunteer, { type, payload }) => {
+export const visitReducer = (state = defaultVolunteer, { type, payload }) => {
   switch (type) {
     case NEW_FIELD_VISIT:
       return {
@@ -44,7 +45,7 @@ const visitReducer = (state = defaultVolunteer, { type, payload }) => {
 };
 
 // pin reducer
-const pinReducer = (state = '', { type, payload }) => {
+export const pinReducer = (state = '', { type, payload }) => {
   switch (type) {
     case CREATE_PIN:
       return payload;
@@ -65,4 +66,12 @@ const pinReducer = (state = '', { type, payload }) => {
   }
 };
 
-export { visitReducer, pinReducer };
+// cache for failed uploads
+export const cacheReducer = (state = [], { type, payload }) => {
+  switch (type) {
+    case FAILED_UPLOAD:
+      return state.concat(payload);
+    default:
+      return state;
+  }
+};

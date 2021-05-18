@@ -1,7 +1,7 @@
 import * as MediaLibrary from 'expo-media-library';
 import firebase from 'firebase/app';
 import { Platform } from 'react-native';
-import { SAVE_PHOTO, SAVE_TO_ROLL } from './actionTypes';
+import { FAILED_UPLOAD, SAVE_PHOTO, SAVE_TO_ROLL } from './actionTypes';
 import { firebaseClient } from '../../auth/firebaseClient';
 import 'firebase/storage';
 
@@ -23,7 +23,7 @@ export const savePhotoToFB = (photo, visit) => async (dispatch) => {
 
   const storageRef = firebase.storage().ref();
   let uploadTask;
-  console.log(photo)
+  console.log(photo);
   const imagesRef = storageRef.child(`images/${visit.group_id}/${Date.now()}.jpg`);
   if (Platform.OS !== 'android') {
     const base64 = photo.uri.substring(photo.uri.indexOf(',') + 1);
@@ -36,7 +36,12 @@ export const savePhotoToFB = (photo, visit) => async (dispatch) => {
   let resultPhoto;
   uploadTask.on('state_changed', () => {
     console.log('working...');
-  }, (error) => console.log(error), () => {
+  }, (error) => {
+    dispatch({
+      type: FAILED_UPLOAD,
+      payload: visit,
+    });
+  }, () => {
     imagesRef.getDownloadURL()
       .then((url) => {
         resultPhoto = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { AppRegistry, View } from 'react-native';
+import { AppRegistry, View, LogBox } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -59,7 +59,7 @@ import {
 } from './screens/index';
 import { useStore } from './redux/store';
 import AuthProvider from './auth';
-import styles from './styles/AppStyles';
+import { appStyles } from './styles/AppStyles';
 
 let Main;
 
@@ -68,6 +68,7 @@ const theme = {
 };
 
 export default function App() {
+  LogBox.ignoreLogs(['VirtualizedLists']);
   const { store, persistor } = useStore({});
   console.log('App is working');
   const Stack = createStackNavigator();
@@ -77,7 +78,7 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <AuthProvider>
           <PaperProvider theme={theme}>
-            <View style={styles.container}>
+            <View style={appStyles.container}>
               <NavigationContainer>
                 <Stack.Navigator
                   screenOptions={{ headerShown: false }}

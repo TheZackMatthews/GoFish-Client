@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image,
+  Text, View, Image,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import { references } from '../images';
-import { COLORS, SIZES, FONTS } from '../constants/theme';
+import { refStyles as styles } from '../styles/AppStyles';
 
 function ReferenceInfo({ navigation }) {
   return (
@@ -28,18 +28,5 @@ function ReferenceInfo({ navigation }) {
     </View>
   );
 }
-const styles = StyleSheet.create({
-  header: {
-    ...FONTS.h1,
-    marginTop: SIZES.padding * 5, // I couldnt change space in btwn
-  },
-  constainer: {
-    flex: 1,
-  },
-  img: {
-    height: '100%',
-    width: '100%',
-  },
-});
 
 export default ReferenceInfo;

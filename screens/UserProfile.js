@@ -5,6 +5,7 @@ import {
   ScrollView,
   Text,
   View,
+  FlatList,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -22,7 +23,7 @@ function UserProfile({ navigation }) {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
-  const pin = useSelector((state) => state.pin);
+  const cache = useSelector((state) => state.cache);
 
   useEffect(() => {
     dispatch(getUser());
@@ -39,6 +40,33 @@ function UserProfile({ navigation }) {
   const navigationFunc = (destination) => {
     navigation.navigate(destination);
   };
+
+  const renderData = () => cache.map((visit) => ({
+    id: visit.group_id,
+  }));
+
+  const Item = ({ id }) => (
+    <View style={{ marginHorizontal: 15 }}>
+      <Text style={{ fontWeight: '500' }}>
+        {` Fish status: ${id}`}
+      </Text>
+    </View>
+  );
+
+  Item.propTypes = {
+    id: PropTypes.string,
+  };
+
+  Item.defaultProps = {
+    id: '',
+  };
+
+  const renderItem = ({ item }) => (
+    <Item
+      id={item.id}
+    />
+  );
+  console.log(cache)
 
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
@@ -94,6 +122,17 @@ function UserProfile({ navigation }) {
             Preferences
           </Button>
         </View>
+        {cache && (cache.length > 0)
+            && (
+            <>
+              <Title>Unsubmitted Reports</Title>
+              <FlatList
+                data={renderData()}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id}
+              />
+            </>
+            )}
         <View style={styles.bodyContainer}>
           <List.Section>
             <List.Subheader>Projects</List.Subheader>

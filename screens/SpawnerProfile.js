@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
-  Title, Button, List,
+  Title, Button, List, ActivityIndicator,
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getUser } from '../redux/actions/userActions';
@@ -29,6 +29,7 @@ function UserProfile({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const visit = useSelector((state) => state.visit);
+  const [loading, setLoading] = useState(false);
   const [flowModal, setFlowModal] = useState(false);
   const [waterModal, setWaterModal] = useState(false);
   const [visibilityModal, setVisibilityModal] = useState(false);
@@ -43,7 +44,7 @@ function UserProfile({ navigation }) {
     navigation.navigate(type);
   };
 
-  const saveHandler = async () => {
+  const sendToRedux = async () => {
     const photoResults = [];
     for (let i = 0; i < visit.pins.length; i += 1) {
       for (let j = 0; j < visit.pins[i].images.length; j += 1) {
@@ -51,13 +52,18 @@ function UserProfile({ navigation }) {
       }
     }
     await Promise.all(photoResults);
-    const result = await dispatch(saveVisit(visit));
+    const result = await dispatch(saveVisit(visit, setLoading));
     if (result.type) {
       await dispatch(removeVisit());
       navigation.navigate('Profile');
     } else {
-      console.log(result);
+      console.log('error', result);
     }
+  };
+
+  const saveHandler = () => {
+    setLoading(true);
+    sendToRedux();
   };
 
   const navToNewPin = async (destination) => {
@@ -77,6 +83,8 @@ function UserProfile({ navigation }) {
           fishCount: pin.fish_count,
           image,
           comments: pin.comments,
+          lat: pin.location.latitude,
+          long: pin.location.longitude,
         });
       });
     }
@@ -84,17 +92,18 @@ function UserProfile({ navigation }) {
   };
 
   const Item = ({
-    title, fishSpecies, fishCount, image, comments,
+    title, fishSpecies, fishCount, image, comments, lat, long,
   }) => (
     <View style={{ marginHorizontal: 15 }}>
       <Text style={{ fontWeight: '500' }}>
         <Icon name="fish" />
-        {`Fish status: ${title}`}
+        {` Fish status: ${title}`}
       </Text>
       <Text>{`Fish species: ${fishSpecies}`}</Text>
       <Text>{`Fish count: ${fishCount}`}</Text>
       <Text>{image ? 'Image present' : 'No image present'}</Text>
-      <Text>{comments}</Text>
+      <Text>{`Location: ${lat} x ${long}`}</Text>
+      <Text>{`Comments: ${comments}`}</Text>
     </View>
   );
 
@@ -104,6 +113,8 @@ function UserProfile({ navigation }) {
     fishCount: PropTypes.number,
     image: PropTypes.bool,
     comments: PropTypes.string,
+    lat: PropTypes.number,
+    long: PropTypes.number,
   };
 
   Item.defaultProps = {
@@ -112,6 +123,8 @@ function UserProfile({ navigation }) {
     fishCount: 0,
     image: false,
     comments: '',
+    lat: 0,
+    long: 0,
   };
 
   const renderItem = ({ item }) => (
@@ -121,9 +134,11 @@ function UserProfile({ navigation }) {
       fishCount={item.fishCount}
       image={item.image}
       comments={item.comments}
+      lat={item.lat}
+      long={item.long}
     />
   );
-  return user && visit ? (
+  return user && visit && !loading ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <Modal
@@ -264,7 +279,12 @@ function UserProfile({ navigation }) {
       </ScrollView>
     </KeyboardAvoidingView>
   ) : (
-    <View><Text>Project not found.</Text></View>
+    <View style={{ height: SIZES.height, justifyContent: 'center' }}>
+      <ActivityIndicator
+        size="large"
+        loading={loading}
+      />
+    </View>
   );
 }
 

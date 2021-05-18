@@ -12,6 +12,7 @@ import {
   REMOVE_PIN,
   REMOVE_VISIT,
   COMPLETE_PIN,
+  FAILED_UPLOAD,
 } from './actionTypes';
 import { defaultVolunteer, defaultPin } from '../defaultState';
 
@@ -89,6 +90,7 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
     await axios.put(`${API}saveVolunteers`, sendVisit);
 
     const surveys = [];
+    // const photos = [];
     for (let i = 0; i < fieldVisit.pins.length; i += 1) {
       const sendPin = {
         survey: {
@@ -96,21 +98,28 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
           fish_status: fieldVisit.pins[i].fish_status,
           fish_species: fieldVisit.pins[i].fish_species,
           fish_count: fieldVisit.pins[i].fish_count,
-          image_url: 'test',
           comments: fieldVisit.pins[i].comments,
         },
         group_id: fieldVisit.group_id,
       };
       surveys.push(axios.post(`${API}saveSurvey`, sendPin));
+      // for (let j = 0; j < fieldVisit.pins[i].images; j += 1) {
+      //   const sendImage = {
+      //     surveyId
+      //   }
+      // }
     }
     await Promise.all(surveys);
+    console.log(surveys);
     return dispatch({
       type: SAVE_VISIT,
       payload: '',
     });
   } catch (error) {
-    console.log(error);
-    return error;
+    return dispatch({
+      type: FAILED_UPLOAD,
+      payload: fieldVisit,
+    });
   }
 };
 
