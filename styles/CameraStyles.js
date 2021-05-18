@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { SIZES } from '../constants/theme';
 
 const styles = StyleSheet.create({
   container: {
@@ -6,7 +7,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    width: '100%',
+    width: SIZES.width,
   },
   buttonContainer: {
     flex: 1,
@@ -35,6 +36,12 @@ const styles = StyleSheet.create({
   btnBorder: {
     alignSelf: 'center',
     flex: 1,
+    alignItems: 'center',
+  },
+  twoBtnBorder: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   btn: {

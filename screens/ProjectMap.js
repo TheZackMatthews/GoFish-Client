@@ -30,6 +30,18 @@ const getLocationPermission = async () => {
   if (status !== 'granted') return false;
   return true;
 };
+
+const debounce = (cb, delay) => {
+  let timer;
+  return function (...args) {
+    if (timer) return;
+    // () => cb(args);
+    timer = setTimeout(() => {
+      timer = null;
+    }, delay);
+  };
+};
+
 // when you do any action on the map, view returns to map region
 export default function ProjectMap({ navigation }) {
   const dispatch = useDispatch();
@@ -58,7 +70,6 @@ export default function ProjectMap({ navigation }) {
     // just a failsafe
     if (markers.length > 1) throw new Error('Too many map markers!');
     const loc = markers[0] ? markers[0].coordinate : currentLocation.coords;
-    console.log('loc', loc);
     const coords = {
       lat: loc.latitude,
       lng: loc.longitude,
@@ -119,6 +130,20 @@ export default function ProjectMap({ navigation }) {
     }
   };
 
+  const test = () => console.log('test');
+
+  // does work without cb in debounce
+  const onChange = (args) => {
+    console.log('set');
+    // setMapRegion(args[0]);
+  };
+
+  const debChange = debounce(onChange, 5000);
+
+  const onRegionChange = (region) => {
+    if (!buttons.centerMap) debChange(region);
+  };
+
   const centerMap = async () => {
     setMapRegion((prevRegion) => ({
       ...prevRegion,
@@ -129,7 +154,6 @@ export default function ProjectMap({ navigation }) {
 
   // gets location from MyLocationMapMarker
   const locationFromChild = (data) => {
-    console.log(data);
     setCurrentLocation(data);
   };
 
@@ -145,7 +169,7 @@ export default function ProjectMap({ navigation }) {
         style={styles.map}
         region={mapRegion}
         onPress={(e) => onMapPress(e)}
-        /* onRegionChange={onRegionChange} */
+        onRegionChange={onRegionChange}
       >
         <MyLocationMapMarker dataToParent={locationFromChild} />
 

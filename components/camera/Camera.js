@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Text, View, TouchableOpacity, Alert,
-} from 'react-native';
+import { Text, View, Alert } from 'react-native';
+import { Button } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
@@ -47,7 +46,6 @@ const CameraComponent = ({ navigation }) => {
   };
 
   const retakePicture = () => {
-    console.log('retake');
     setCapturedImage(null);
     setPreviewVisible(false);
   };
@@ -74,6 +72,7 @@ const CameraComponent = ({ navigation }) => {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
   return (
     <View style={styles.container}>
       {previewVisible && capturedImage ? (
@@ -86,6 +85,7 @@ const CameraComponent = ({ navigation }) => {
         <Camera
           style={styles.camera}
           type={type}
+          ratio="16:9"
           // eslint-disable-next-line no-return-assign
           ref={(r) => camera = r}
         >
@@ -93,7 +93,8 @@ const CameraComponent = ({ navigation }) => {
             <CameraButton
               takePicture={takePicture}
             />
-            <TouchableOpacity
+            <Button
+              mode="contained"
               style={styles.button}
               onPress={() => {
                 setType(
@@ -104,7 +105,7 @@ const CameraComponent = ({ navigation }) => {
               }}
             >
               <Text style={styles.text}> Flip </Text>
-            </TouchableOpacity>
+            </Button>
           </View>
         </Camera>
       )}

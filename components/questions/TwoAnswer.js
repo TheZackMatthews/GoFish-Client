@@ -42,14 +42,14 @@ const TwoAnswer = ({
       return <Image key={i} style={{ width: SIZES.width - 200, height: 200 }} source={img} />;
     });
   };
-
+  console.log(image)
   return (
     <View style={{ marginVertical: 10 }}>
       <Card>
         <Card.Content>
           <Title>{question}</Title>
           <View>
-            {image.length > 0 && renderImages()}
+            {image[0].length > 0 && renderImages()}
             <List.Item
               style={answer1Style()}
               title={answer1}

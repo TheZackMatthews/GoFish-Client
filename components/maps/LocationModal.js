@@ -10,7 +10,6 @@ const LocationModal = (props) => {
     dropPin,
     submitLocation,
   } = props;
-  console.log(props);
 
   useEffect(() => {
     if (visible !== modalVisible) setModalVisible(visible);

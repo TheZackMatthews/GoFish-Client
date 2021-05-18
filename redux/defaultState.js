@@ -35,4 +35,10 @@ export const defaultVolunteer = {
   start_location: '',
   end_location: '',
   pins: [],
+  images: [
+    {
+      uri: '',
+      comment: '',
+    },
+  ],
 };
