@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Platform, Alert, Text, View,
+  TouchableOpacity, ScrollView, Platform, Alert, Text, View,
 } from 'react-native';
 import {
   Checkbox, Button, TextInput, Title, Paragraph,
 } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import tempStyles from '../styles/UserStyles'; // FIXME We should only have one stylesheet
+import Autocomplete from 'react-native-autocomplete-input';
+import style from '../styles/UserStyles';
 import { logOutUser, getUser } from '../redux/actions/userActions';
 import { initializeFieldVisit } from '../redux/actions/surveyActions';
 import { COLORS, SIZES } from '../constants/theme';
 import BackNext from '../components/questions/BackNext';
+
+import { creekList } from '../assets/creeknames.json';
 
 const safetyAgreement = 'I certify that all team members report no Covid-19 symptoms and have all required PPE including face masks (to be worn when team members are within 6 feet of each other) and high visibility vests';
 
@@ -21,16 +24,22 @@ function DayStart({ navigation }) {
   const dispatch = useDispatch();
   // Get the user object
   const user = useSelector((state) => state.user);
-  useEffect(() => {
-    if (!user) dispatch(getUser());
-  }, []);
 
-  const [errorM, setErrorM] = useState('');
   const [teamMembers, setTeamMembers] = useState(['']);
   const [teamLead, setTeamLead] = useState(user.displayName);
   const [isUserTeamLead, setIsUserTeamLead] = useState(true);
   const [creekName, setCreekName] = useState('');
   const [isAgreedSafety, setIsAgreedSafety] = useState(false);
+  const [query, setQuery] = useState('');
+  const [filterData, setFilterData] = useState([]);
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUser());
+    }
+  }, []);
+  useEffect(() => {
+    setTeamLead(user.displayName);
+  }, [user]);
 
   const toggleUserIsTeamLead = () => {
     setIsUserTeamLead(!isUserTeamLead);
@@ -64,7 +73,7 @@ function DayStart({ navigation }) {
               <Checkbox
                 key={String.fromCharCode((index + 1) * -1)}
                 status={teamLead === member ? 'checked' : 'unchecked'}
-                onPress={() => { (teamLead === member) ? setTeamLead(null) : setTeamLead(member); }}
+                onPress={() => { setTeamLead((teamLead === member) ? null : member); }}
               />
             </View>
           )}
@@ -72,6 +81,19 @@ function DayStart({ navigation }) {
       ))
     );
   }
+  console.log(creekName);
+  const SearchDataFromJSON = (input) => {
+    // TODO if input exactly matches an item in creeksList, set it to the creekName
+    if (input) {
+      // Making the Search as Case Insensitive.
+      const regex = new RegExp(`${input.trim()}`, 'i');
+      setFilterData(
+        creekList.filter((data) => data.search(regex) >= 0),
+      );
+    } else {
+      setFilterData([]);
+    }
+  };
 
   function renderForm() {
     return (
@@ -82,7 +104,6 @@ function DayStart({ navigation }) {
             status={isUserTeamLead ? 'checked' : 'unchecked'}
             onPress={() => {
               toggleUserIsTeamLead();
-              console.log(teamLead);
             }}
           />
 
@@ -92,13 +113,33 @@ function DayStart({ navigation }) {
           <Text>
             Which creek are you surveying today?
           </Text>
-          <TextInput
-            mode="outlined"
+
+          <Autocomplete
+            data={filterData}
+            value={query}
+            autoCorrect
+            hideResults={false}
             onChangeText={(text) => {
-              setCreekName(text);
+              SearchDataFromJSON(text);
+              setQuery(text);
             }}
-            value={creekName}
-            label="Creek name"
+            inputContainerStyle={(creekName !== '') ? style.SearchBoxCompleted : style.SearchBoxUncomplete}
+            listContainerStyle={style.SearchBox}
+            listStyle={{ backgroundColor: 'red' }}
+            flatListProps={{
+              keyExtractor: (item) => item,
+              renderItem: ({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    setQuery(item);
+                    setCreekName(item);
+                    setFilterData([]);
+                  }}
+                >
+                  <Text style={style.SearchBoxTextItem}>{item}</Text>
+                </TouchableOpacity>
+              ),
+            }}
           />
         </View>
 
@@ -144,72 +185,85 @@ function DayStart({ navigation }) {
   }
 
   const dispatchLogOut = async () => {
-    setErrorM('');
-    const result = await dispatch(logOutUser(setErrorM));
-    console.log(result);
+    const result = await dispatch(logOutUser());
     if (result && result.payload) {
-      navigation.navigate('SignIn');
+      navigation.navigate('Profile');
     }
   };
 
   const dispatchVolunteers = async () => {
-    setErrorM('');
     const members = teamMembers.filter((e) => e.replace(/(\r\n|\n|\r)/gm, ''));
     const creek = creekName.replace(/(\r\n|\n|\r)/gm, '');
 
+    // Corrects a bug where displayName is undefined on load
+    if (!teamLead && user.displayName && isUserTeamLead) setTeamLead(user.displayName);
+
+    // This helps for debugging in the browser
     if (Platform.OS === 'web') {
       if (isAgreedSafety && teamLead && members.length && creek !== '') {
         await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
+        await setQuery('');
+        await setFilterData([]);
+        await setTeamMembers(['']);
+        await setCreekName('');
+        await setIsAgreedSafety(false);
         navigation.navigate('SpawnerProfile');
       } else if (!isAgreedSafety) console.log('Please review the covid safety agreement');
       else if (!teamLead) console.log('Please specify the team leader');
       else if (!members.length) console.log('It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors');
       else if (creek === '') console.log('Please specify a creek name');
-    }
-    // Alert user if they haven't checked the covid safety agreement
-    if (!isAgreedSafety) {
-      Alert.alert(
-        'Can\'t continue',
-        'Please review the covid safety agreement',
-        [
-          {
-            text: 'Log out',
-            onPress: dispatchLogOut,
-            style: 'cancel',
-          },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-      );
-    } else if (!teamLead) {
-      // Alert the user if they haven't specified a team lead
-      Alert.alert(
-        'Can\'t continue',
-        'Please specify the team leader',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-      );
-    } else if (!members.length) {
-      // Alert the user if they don't have any team members
-      Alert.alert(
-        'Can\'t continue',
-        'It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-      );
-    } else if (!creek || creek === '') {
-      // Alert the user if they haven't specified a creek name
-      Alert.alert(
-        'Can\'t continue',
-        'Please specify a creek name',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-      );
     } else {
-      await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
-      navigation.navigate('SpawnerProfile');
+    // Alert user if they haven't checked the covid safety agreement
+      // eslint-disable-next-line no-lonely-if
+      if (!isAgreedSafety) {
+        Alert.alert(
+          'Can\'t continue',
+          'Please review the covid safety agreement',
+          [
+            {
+              text: 'Log out',
+              onPress: dispatchLogOut,
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+        );
+      } else if (!teamLead) {
+      // Alert the user if they haven't specified a team lead
+        Alert.alert(
+          'Can\'t continue',
+          'Please specify the team leader',
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+        );
+      } else if (!members.length) {
+      // Alert the user if they don't have any team members
+        Alert.alert(
+          'Can\'t continue',
+          'It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors',
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+        );
+      } else if (!creek || creek === '') {
+      // Alert the user if they haven't specified a creek name
+        Alert.alert(
+          'Can\'t continue',
+          'Please specify a creek name',
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+        );
+      } else {
+        await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
+        await setQuery('');
+        await setFilterData([]);
+        await setTeamMembers(['']);
+        await setCreekName('');
+        await setIsAgreedSafety(false);
+        navigation.navigate('SpawnerProfile');
+      }
     }
   };
 
@@ -222,19 +276,23 @@ function DayStart({ navigation }) {
   };
 
   return user ? (
-    <View style={{ margin: 40, marginTop: 100 }}>
+    <ScrollView
+      style={{ margin: 40, marginTop: 100 }}
+      keyboardShouldPersistTaps="always"
+      nestedscrollenabled="{true}"
+    >
       <View style={{ alignContent: 'center' }}>
         <Title>
           {`Hello ${user?.displayName || 'surveyor'}`}
         </Title>
       </View>
       {renderForm()}
-      <View styles={tempStyles.buttons}>
+      <View styles={style.buttons}>
         <BackNext navigationHandler={navigationHandler} />
       </View>
-    </View>
+    </ScrollView>
   ) : (
-    <View>{!!errorM && <Text>{errorM}</Text>}</View>
+    null
   );
 }
 

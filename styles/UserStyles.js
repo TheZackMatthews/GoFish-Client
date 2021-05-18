@@ -22,6 +22,62 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 350,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  SearchBoxCompleted: {
+    backgroundColor: '#f6f6f6',
+    borderColor: 'green',
+    opacity: 0.5,
+  },
+  SearchBoxUncomplete: {
+    backgroundColor: '#f6f6f6',
+    opacity: 0.5,
+  },
+  SearchBoxTextItem: {
+    margin: 5,
+    fontSize: 16,
+    paddingTop: 4,
+    opacity: 0.6,
+  },
 });
 
 export default styles;
