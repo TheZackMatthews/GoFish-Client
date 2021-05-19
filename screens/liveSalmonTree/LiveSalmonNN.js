@@ -7,7 +7,7 @@ import styles from '../../styles/QuestionStyles';
 
 const LiveSalmonNN = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const question = 'Did the salmon have a prominent hump in front of the dorsal fin?';
+  const question = 'Does the salmon have a prominent hump in front of the dorsal fin?';
   const answer1 = 'Yes';
   const answer2 = 'No';
 

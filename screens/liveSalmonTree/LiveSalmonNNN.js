@@ -9,17 +9,10 @@ import {
 } from 'react-native-paper';
 import styles from '../../styles/QuestionStyles';
 import { coho } from '../../images';
-import { SIZES } from '../../constants/theme';
 
 const LiveSalmonNNN = ({ navigation }) => (
   <View style={styles.answerContainer}>
-    <Surface style={{
-      width: SIZES.width * 0.8,
-      height: SIZES.height * 0.8,
-      padding: 20,
-      alignSelf: 'center',
-    }}
-    >
+    <Surface style={styles.surface}>
       <Title style={{ alignSelf: 'center' }}>Trout or Jack</Title>
       <Image
         source={coho.cohoFemale}

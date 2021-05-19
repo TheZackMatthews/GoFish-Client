@@ -1,43 +1,35 @@
+/* eslint-disable global-require */
 // logo options
-const logo = require('./assets/logo1.png');
-const logo2 = require('./assets/GoFishLogo1.png');
-const logo3 = require('./assets/earthdaySalmon.png');
-const logo4 = require('./assets/GoFishLogo2.png');
-const logo5 = require('./assets/GoFishLogo3.png');
+export const logo = require('./assets/logo1.png');
+export const logo2 = require('./assets/GoFishLogo1.png');
+export const logo3 = require('./assets/earthdaySalmon.png');
+export const logo4 = require('./assets/GoFishLogo2.png');
+export const logo5 = require('./assets/GoFishLogo3.png');
 
 // fish images
-const chinookFemale = require('./assets/fishes/chinookFemale.png');
-const chinookMale = require('./assets/fishes/chinookMale.png');
-const chumFemale = require('./assets/fishes/chumFemale.png');
-const chumMale = require('./assets/fishes/chumMale.png');
-const cohoFemale = require('./assets/fishes/cohoFemale.png');
-const cohoMale = require('./assets/fishes/cohoMale.png');
-const pinkFemale = require('./assets/fishes/pinkFemale.png');
-const pinkMale = require('./assets/fishes/pinkMale.png');
-const sockeyeFemale = require('./assets/fishes/sockeyeFemale.png');
-const sockeyeMale = require('./assets/fishes/sockeyeMale.png');
+export const chinook = {
+  normal: require('./assets/fishes/chinook.png'),
+  spawn: require('./assets/fishes/chinookSpawn.png'),
+};
+export const chum = {
+  normal: require('./assets/fishes/chum.png'),
+  spawn: require('./assets/fishes/chumSpawn.png'),
+};
+export const coho = {
+  normal: require('./assets/fishes/coho.png'),
+  spawn: require('./assets/fishes/cohoSpawn.png'),
+};
+export const pink = {
+  normal: require('./assets/fishes/pink.png'),
+  spawn: require('./assets/fishes/pinkSpawn.png'),
+};
+export const sockeye = {
+  normal: require('./assets/fishes/sockeye.png'),
+  spawn: require('./assets/fishes/sockeyeSpawn.png'),
+};
 
 // reference images
-const referenceImg = require('./assets/salmonQuickReference.png');
-const adiposeFin = require('./assets/references/AdiposeFin.png');
-const forkLength = require('./assets/references/forkLength.png');
-const hatcheryWild = require('./assets/references/HatcheryWild.jpeg');
-
-export const logos = {
-  logo,
-  logo2,
-  logo3,
-  logo4,
-  logo5,
-};
-export const chinook = { chinookFemale, chinookMale };
-export const chum = { chumFemale, chumMale };
-export const coho = { cohoFemale, cohoMale };
-export const pink = { pinkFemale, pinkMale };
-export const sockeye = { sockeyeFemale, sockeyeMale };
-export const references = {
-  referenceImg,
-  adiposeFin,
-  forkLength,
-  hatcheryWild,
-};
+export const referenceImg = require('./assets/salmonQuickReference.png');
+export const adiposeFin = require('./assets/references/AdiposeFin.png');
+export const forkLength = require('./assets/references/forkLength.png');
+export const hatcheryWild = require('./assets/references/HatcheryWild.jpeg');

@@ -1,21 +1,24 @@
 import React from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button, Card } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import styles from '../../styles/QuestionStyles';
 import { pink } from '../../images';
+import LiveTree from '../../components/questions/LiveTree';
 
 const LiveSalmonNNY = ({ navigation }) => (
   <View style={styles.container}>
-    <Card>
-      <Card.Title title="Pink" subtitle="White belly, gray back" />
-      <Card.Cover source={pink.pinkFemale} />
-    </Card>
+    <LiveTree
+      fish="Pink"
+      description="White belly, grey back"
+      normal={pink.normal}
+      spawn={pink.spawn}
+    />
     <Button
       mode="contained"
       onPress={() => navigation.navigate('FishAlive1')}
     >
-      Main Page
+      Return
     </Button>
   </View>
 );

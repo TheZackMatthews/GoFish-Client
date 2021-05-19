@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Card, Title, List } from 'react-native-paper';
+import {
+  Card,
+  Title,
+  List,
+  useTheme,
+} from 'react-native-paper';
 
 const TwoAnswer = ({
   question, answer1, answer2, choose,
 }) => {
   const [selected, setSelected] = useState(null);
+  const theme = useTheme();
 
   const answer1Style = () => {
     if (selected === answer1) {
       return {
-        backgroundColor: 'lightblue',
+        backgroundColor: theme.colors.light,
       };
     }
     return null;
@@ -20,7 +26,7 @@ const TwoAnswer = ({
   const answer2Style = () => {
     if (selected === answer2) {
       return {
-        backgroundColor: 'lightblue',
+        backgroundColor: theme.colors.light,
       };
     }
     return null;

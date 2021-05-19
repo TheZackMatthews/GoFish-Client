@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { SIZES } from '../constants/theme';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +29,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
+  },
+  surface: {
+    width: SIZES.width * 0.8,
+    height: SIZES.height * 0.8,
+    padding: 20,
+    alignSelf: 'center',
+    margin: 20,
   },
 });
 
