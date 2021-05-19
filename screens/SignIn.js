@@ -5,9 +5,8 @@ import {
   View,
   KeyboardAvoidingView,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, Button } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import GoFishLogo from '../components/GoFishLogo';
 import styles from '../styles/FormStyles';
@@ -48,47 +47,35 @@ function SignIn({ navigation }) {
             label="Password"
             secureTextEntry={!showPassword}
           />
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() => setShowPassword(!showPassword)}
-          >
-            {/* <Image
-                        source={showPassword ? icons.disable_eye : icons.eye}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.white
-                        }}
-                    /> */}
-          </TouchableOpacity>
         </View>
       </View>
+
     );
   }
 
   function renderButton() {
     return (
       <View style={styles.submitView}>
-        <TouchableOpacity
-          style={styles.submitButton}
+        <Button
+          mode="contained"
           onPress={submitHandler}
         >
-          <Text style={styles.buttonText}>Sign In</Text>
-        </TouchableOpacity>
+          Sign In
+        </Button>
       </View>
     );
   }
 
   function renderSignUpLink() {
     return (
-      <TouchableOpacity
-        style={styles.signInLink}
-        onPress={() => navigation.navigate('SignUp')}
-      >
-        <Text style={styles.textP}>
+      <View style={styles.submitView}>
+        <Button
+          mode="outlined"
+          onPress={() => navigation.navigate('SignUp')}
+        >
           Create Account
-        </Text>
-      </TouchableOpacity>
+        </Button>
+      </View>
     );
   }
   return (

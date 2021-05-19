@@ -72,7 +72,7 @@ const SpawnerProfile = ({ navigation }) => {
     if (visit.pins && visit.pins.length > 0) {
       return visit.pins.map((pin) => {
         let image = false;
-        if (Object.keys(pin.images).length > 0) image = true;
+        if (pin.images.length > 0) image = true;
         return ({
           id: JSON.stringify(Math.floor(Math.random() * 100)),
           title: pin.fish_status,
@@ -255,34 +255,27 @@ const SpawnerProfile = ({ navigation }) => {
         </View>
         <View style={styles.buttons}>
           <Button
-            style={{ width: SIZES.width / 4 }}
-            mode="outlined"
+            style={{ width: SIZES.width * 0.4 }}
+            mode="contained"
             onPress={() => navToNewPin('FishOrRedd')}
           >
             Start
           </Button>
           <Button
-            style={{ width: SIZES.width / 4 }}
-            mode="outlined"
+            style={{ width: SIZES.width * 0.4 }}
+            mode="contained"
             onPress={() => navHandler('ProjectMap')}
           >
             Map
           </Button>
-          <Button
-            style={{ width: SIZES.width / 4 }}
-            mode="outlined"
-            onPress={() => navHandler('Camera')}
-          >
-            Camera
-          </Button>
         </View>
         <View style={styles.buttons}>
           <Button
-            style={{ width: SIZES.width / 3 }}
+            style={{ width: SIZES.width / 2, marginBottom: 15 }}
             mode="outlined"
             onPress={saveHandler}
           >
-            Finish Visit
+            Submit Visit Data
           </Button>
         </View>
       </ScrollView>

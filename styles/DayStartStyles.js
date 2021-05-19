@@ -9,6 +9,8 @@ const styles = StyleSheet.create({
   },
   SearchBox: {
     paddingHorizontal: 0,
+    left: -10,
+    width: 333,
   },
   SearchBoxCompleted: {
     backgroundColor: '#f6f6f6',

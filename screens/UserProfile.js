@@ -73,7 +73,7 @@ function UserProfile({ navigation }) {
         <View style={styles.headContainer}>
           {!!errorM && <Text>{errorM}</Text>}
           <Title
-            style={{ fontSize: 25, color: theme.colors.primary, fontWeight: 'bold' }}
+            style={{ fontSize: 25, color: theme.colors.accent, fontWeight: 'bold' }}
           >
             User Profile
           </Title>
@@ -128,6 +128,7 @@ function UserProfile({ navigation }) {
         </View>
         <View style={styles.buttons}>
           <Button
+            style={{ width: SIZES.width * 0.4 }}
             mode="contained"
             onPress={() => navigationFunc('EditUserInfo')}
             labelStyle={{ fontWeight: 'bold' }}
@@ -136,6 +137,7 @@ function UserProfile({ navigation }) {
             Edit Info
           </Button>
           <Button
+            style={{ width: SIZES.width * 0.4 }}
             onPress={() => navigationFunc('Preferences')}
             mode="contained"
             labelStyle={{ fontWeight: 'bold' }}
@@ -177,22 +179,7 @@ function UserProfile({ navigation }) {
         </View>
         <View style={styles.buttons}>
           <Button
-            onPress={() => navigationFunc('Profile')}
-            mode="contained"
-            labelStyle={{ fontWeight: 'bold' }}
-            color={theme.colors.light}
-          >
-            User Map
-          </Button>
-          <Button
-            onPress={() => navigationFunc('Camera')}
-            mode="contained"
-            labelStyle={{ fontWeight: 'bold' }}
-            color={theme.colors.light}
-          >
-            Camera
-          </Button>
-          <Button
+            style={{ width: SIZES.width / 3, marginBottom: 20 }}
             onPress={submitHandler}
             mode="contained"
             labelStyle={{ fontWeight: 'bold' }}

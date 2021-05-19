@@ -133,7 +133,7 @@ function DayStart({ navigation }) {
                 setQuery(text);
               }}
               inputContainerStyle={(creekName !== '') ? style.SearchBoxCompleted : style.SearchBoxUncomplete}
-              // listContainerStyle={style.SearchBox}
+              listContainerStyle={style.SearchBox}
               // listStyle={style.SearchBox}
               flatListProps={{
                 keyExtractor: (item) => item,

@@ -6,7 +6,6 @@ import { getUser } from '../../redux/actions/userActions';
 import { updatePin } from '../../redux/actions/surveyActions';
 import BackNext from '../../components/questions/BackNext';
 import TwoAnswer from '../../components/questions/TwoAnswer';
-import AccessCamera from '../../components/camera/AccessCamera';
 import styles from '../../styles/QuestionStyles';
 
 const FishOrRedd = ({ navigation }) => {
@@ -36,10 +35,6 @@ const FishOrRedd = ({ navigation }) => {
     }
   };
 
-  const cameraNav = () => {
-    navigation.navigate('Camera');
-  };
-
   return (
     <View style={styles.container}>
       <TwoAnswer
@@ -49,7 +44,6 @@ const FishOrRedd = ({ navigation }) => {
         choose={setSelected}
       />
       <View>
-        <AccessCamera navigationHandler={cameraNav} />
         <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
       </View>
     </View>

@@ -4,10 +4,9 @@ import {
   View,
   KeyboardAvoidingView,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { TextInput } from 'react-native-paper';
+import { TextInput, Button } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { createUser, updateProfile } from '../redux/actions/userActions';
 import GoFishLogo from '../components/GoFishLogo';
@@ -70,19 +69,6 @@ function SignUp({ navigation }) {
             secureTextEntry={!showPassword}
             label="Password"
           />
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() => setShowPassword(!showPassword)}
-          >
-            {/* <Image
-                        source={showPassword ? icons.disable_eye : icons.eye}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.white
-                        }}
-                    /> */}
-          </TouchableOpacity>
         </View>
 
         <View style={styles.view}>
@@ -91,19 +77,6 @@ function SignUp({ navigation }) {
             secureTextEntry={!showPassword}
             label="Confirm password"
           />
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() => setShowPassword(!showPassword)}
-          >
-            {/* <Image
-                        source={showPassword ? icons.disable_eye : icons.eye}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.white
-                        }}
-                    /> */}
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -112,21 +85,26 @@ function SignUp({ navigation }) {
   function renderButton() {
     return (
       <View style={styles.submitView}>
-        <TouchableOpacity style={styles.submitButton} onPress={submitHandler}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
+        <Button
+          mode="contained"
+          onPress={submitHandler}
+        >
+          Sign Up
+        </Button>
       </View>
     );
   }
 
   function renderSignInLink() {
     return (
-      <TouchableOpacity
-        style={styles.signInLink}
-        onPress={() => navigation.navigate('SignIn')}
-      >
-        <Text style={styles.textP}>Already have an account? Log in.</Text>
-      </TouchableOpacity>
+      <View style={styles.submitView}>
+        <Button
+          mode="outlined"
+          onPress={() => navigation.navigate('SignIn')}
+        >
+          Already have an account? Log in.
+        </Button>
+      </View>
     );
   }
   return (

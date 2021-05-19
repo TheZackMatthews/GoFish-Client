@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Alert } from 'react-native';
+import { KeyboardAvoidingView, Alert, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,19 +31,20 @@ const FishDead1 = ({ navigation }) => {
   };
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
-      <Button
-        style={{ width: SIZES.width / 2, alignSelf: 'center' }}
-        mode="contained"
-        onPress={() => navigation.navigate('DeadSalmon1')}
-      >
-        Unable to ID
-      </Button>
-      <OneAnswer
-        question={question}
-        form={form}
-        setForm={setForm}
-      />
-
+      <View>
+        <Button
+          style={{ width: SIZES.width / 2, alignSelf: 'center' }}
+          mode="contained"
+          onPress={() => navigation.navigate('DeadSalmon1')}
+        >
+          Unable to ID
+        </Button>
+        <OneAnswer
+          question={question}
+          form={form}
+          setForm={setForm}
+        />
+      </View>
       <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
     </KeyboardAvoidingView>
   );
