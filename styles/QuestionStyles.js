@@ -9,6 +9,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
+  answerContainer: {
+    flex: 1,
+    margin: 30,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
   btnContainer: {
     margin: 20,
     flexDirection: 'row',

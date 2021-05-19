@@ -1,6 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { AppRegistry, View, LogBox } from 'react-native';
+import {
+  AppRegistry,
+  View,
+  LogBox,
+  Platform,
+} from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -68,7 +73,9 @@ const theme = {
 };
 
 export default function App() {
-  LogBox.ignoreLogs(['VirtualizedLists']);
+  if (Platform.OS === 'android') {
+    LogBox.ignoreLogs(['VirtualizedLists']);
+  }
   const { store, persistor } = useStore({});
   console.log('App is working');
   const Stack = createStackNavigator();
@@ -82,7 +89,7 @@ export default function App() {
               <NavigationContainer>
                 <Stack.Navigator
                   screenOptions={{ headerShown: false }}
-                  initialRouteName="SpawnerProfile"
+                  initialRouteName="LiveSalmonNNN"
                 >
                   <Stack.Screen name="SignIn" component={SignIn} />
                   <Stack.Screen name="SignUp" component={SignUp} />

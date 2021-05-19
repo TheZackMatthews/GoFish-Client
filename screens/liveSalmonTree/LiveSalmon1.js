@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Alert } from 'react-native';
 import PropTypes from 'prop-types';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { getUser } from '../../redux/actions/userActions';
-// import { updatePin, getPin } from '../../redux/actions/storageActions';
 import BackNext from '../../components/questions/BackNext';
 import TwoAnswer from '../../components/questions/TwoAnswer';
 import styles from '../../styles/QuestionStyles';
@@ -14,12 +11,6 @@ const LiveSalmon1 = ({ navigation }) => {
   const question = 'Is the stream you are surveying associated with a large lake?';
   const answer1 = 'Yes';
   const answer2 = 'No';
-
-  // useEffect(() => {
-  //   if (Object.keys(pin).length < 2) {
-  //     dispatch(getPin());
-  //   }
-  // }, []);
 
   const navigationHandler = async (direction) => {
     if (direction === 'back') {
