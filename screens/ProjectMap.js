@@ -11,20 +11,20 @@ import MyLocationMapMarker from '../components/maps/MyLocationMarker';
 import LocationModal from '../components/maps/LocationModal';
 import { COLORS } from '../constants/theme';
 
-const CustomMarker = () => (
-  <View
-    style={{
-      paddingVertical: 10,
-      paddingHorizontal: 30,
-      backgroundColor: '#007bff',
-      borderColor: '#eee',
-      borderRadius: 5,
-      elevation: 10,
-    }}
-  >
-    <Text style={{ color: '#fff' }}>CM</Text>
-  </View>
-);
+// const CustomMarker = () => (
+// <View
+// style={{
+// paddingVertical: 10,
+// paddingHorizontal: 30,
+// backgroundColor: '#007bff',
+// borderColor: '#eee',
+// borderRadius: 5,
+// elevation: 10,
+// }}
+// >
+//    <Text style={{ color: '#fff' }}>CM</Text>
+// </View>
+// );
 
 const getLocationPermission = async () => {
   const { status } = await Location.requestForegroundPermissionsAsync();
@@ -115,23 +115,27 @@ export default function ProjectMap({ navigation }) {
   }),
   [];
 
-  // follows user location
-  //  useEffect(() => {
-  // if (currentLocation) {
-  // console.log('setting loc');
-  /// /  const latDiff = Math.abs(mapRegion.latitude - currentLocation.coords.latitude);
-  /// /  const lngDiff = Math.abs(mapRegion.longitude - currentLocation.coords.longitude);
-  /// /     if (latDiff > 0.000001 && lngDiff > 0.000001) {
-  // setMapRegion((prevRegion) => ({
-  // ...prevRegion,
-  // latitude: currentLocation.coords.latitude,
-  // longitude: currentLocation.coords.longitude,
-  // latitudeDelta: 0.04,
-  // longitudeDelta: 0.05,
-  // }));
-  /// /   }
-  // }
-  //  }, [currentLocation]);
+  //   follows user location
+  useEffect(() => {
+    if (currentLocation && mapRegion) {
+      console.log('setting loc');
+      const latDiff = Math.abs(mapRegion.latitude - currentLocation.coords.latitude);
+      const lngDiff = Math.abs(mapRegion.longitude - currentLocation.coords.longitude);
+      console.log(latDiff, lngDiff);
+      if (latDiff > 0.002 || lngDiff > 0.001) {
+        setTimeout(
+          () => setMapRegion((prevRegion) => ({
+            ...prevRegion,
+            latitude: currentLocation.coords.latitude,
+            longitude: currentLocation.coords.longitude,
+            latitudeDelta: 0.04,
+            longitudeDelta: 0.05,
+          })),
+          500,
+        );
+      }
+    }
+  }, [currentLocation]);
 
   // if marker added, open modal
   useEffect(() => {
@@ -150,13 +154,11 @@ export default function ProjectMap({ navigation }) {
     }
   };
 
-  // does work without cb in debounce
-  const onChange = (args) => {
-    // console.log('set');
-    setMapRegion(null);
-  };
+  //  const onChange = (args) => {
+  // setMapRegion(null);
+  // };
 
-  const debChange = debounce(onChange, 500);
+  //  const debChange = debounce(onChange, 500);
 
   const onRegionChange = (region) => {
     // if (!buttons.centerMap) debChange(region);
