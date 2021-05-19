@@ -3,12 +3,18 @@ import {
   TouchableOpacity, ScrollView, Platform, Alert, Text, View,
 } from 'react-native';
 import {
-  Checkbox, Button, TextInput, Title, Paragraph, ActivityIndicator,
+  Checkbox,
+  Button,
+  TextInput,
+  Title,
+  Paragraph,
+  ActivityIndicator,
+  useTheme,
 } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Autocomplete from 'react-native-autocomplete-input';
-import style from '../styles/UserStyles';
+import style from '../styles/DayStartStyles';
 import { logOutUser, getUser } from '../redux/actions/userActions';
 import { initializeFieldVisit } from '../redux/actions/surveyActions';
 import { COLORS, SIZES } from '../constants/theme';
@@ -21,6 +27,7 @@ const safetyAgreement = 'I certify that all team members report no Covid-19 symp
 // TODO: We should probably prevent them from continuing if dispatch(initializeFieldVisit) fails
 
 function DayStart({ navigation }) {
+  const theme = useTheme();
   const dispatch = useDispatch();
   // Get the user object
   const user = useSelector((state) => state.user);
@@ -115,43 +122,44 @@ function DayStart({ navigation }) {
           <Text>
             Which creek are you surveying today?
           </Text>
-
-          <Autocomplete
-            data={filterData}
-            value={query}
-            autoCorrect
-            hideResults={false}
-            onChangeText={(text) => {
-              SearchDataFromJSON(text);
-              setQuery(text);
-            }}
-            inputContainerStyle={(creekName !== '') ? style.SearchBoxCompleted : style.SearchBoxUncomplete}
-            listContainerStyle={style.SearchBox}
-            listStyle={{ backgroundColor: 'red' }}
-            flatListProps={{
-              keyExtractor: (item) => item,
-              // eslint-disable-next-line react/prop-types
-              renderItem: ({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    setQuery(item);
-                    setCreekName(item);
-                    setFilterData([]);
-                  }}
-                >
-                  <Text style={style.SearchBoxTextItem}>{item}</Text>
-                </TouchableOpacity>
-              ),
-            }}
-          />
+          <View>
+            <Autocomplete
+              data={filterData}
+              value={query}
+              autoCorrect
+              hideResults={false}
+              onChangeText={(text) => {
+                SearchDataFromJSON(text);
+                setQuery(text);
+              }}
+              inputContainerStyle={(creekName !== '') ? style.SearchBoxCompleted : style.SearchBoxUncomplete}
+              // listContainerStyle={style.SearchBox}
+              // listStyle={style.SearchBox}
+              flatListProps={{
+                keyExtractor: (item) => item,
+                // eslint-disable-next-line react/prop-types
+                renderItem: ({ item }) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setQuery(item);
+                      setCreekName(item);
+                      setFilterData([]);
+                    }}
+                  >
+                    <Text style={style.SearchBoxTextItem}>{item}</Text>
+                  </TouchableOpacity>
+                ),
+              }}
+            />
+          </View>
         </View>
 
         <Paragraph> Who is surveying with you? </Paragraph>
         <View style={{ flexDirection: 'row' }}>
           <Button
             style={{ margin: 10, width: SIZES.width / 3 }}
+            color={theme.colors.light}
             icon="plus"
-            color={COLORS.blue}
             mode="contained"
             onPress={() => setTeamMembers(teamMembers.concat(['']))}
           >
@@ -159,8 +167,8 @@ function DayStart({ navigation }) {
           </Button>
           <Button
             style={{ margin: 10, width: SIZES.width / 3 }}
+            color={theme.colors.light}
             icon="minus"
-            color={COLORS.blue}
             mode="contained"
             disabled={teamMembers.length <= 1}
             onPress={() => setTeamMembers(teamMembers.splice(0, teamMembers.length - 1))}
