@@ -6,9 +6,10 @@ import {
   StyleSheet, Text, Button, View, Dimensions, TouchableOpacity, Image,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { submitLocation } from '../redux/actions/surveyActions';
+import { submitLocation, createPin } from '../redux/actions/surveyActions';
 import MyLocationMapMarker from '../components/maps/MyLocationMarker';
 import LocationModal from '../components/maps/LocationModal';
+import { COLORS } from '../constants/theme';
 
 const CustomMarker = () => (
   <View
@@ -35,8 +36,9 @@ const debounce = (cb, delay) => {
   let timer;
   return function (...args) {
     if (timer) return;
-    // () => cb(args);
-    timer = setTimeout(() => {
+    cb(...args);
+    timer = true;
+    setTimeout(() => {
       timer = null;
     }, delay);
   };
@@ -113,6 +115,24 @@ export default function ProjectMap({ navigation }) {
   }),
   [];
 
+  // follows user location
+  //  useEffect(() => {
+  // if (currentLocation) {
+  // console.log('setting loc');
+  /// /  const latDiff = Math.abs(mapRegion.latitude - currentLocation.coords.latitude);
+  /// /  const lngDiff = Math.abs(mapRegion.longitude - currentLocation.coords.longitude);
+  /// /     if (latDiff > 0.000001 && lngDiff > 0.000001) {
+  // setMapRegion((prevRegion) => ({
+  // ...prevRegion,
+  // latitude: currentLocation.coords.latitude,
+  // longitude: currentLocation.coords.longitude,
+  // latitudeDelta: 0.04,
+  // longitudeDelta: 0.05,
+  // }));
+  /// /   }
+  // }
+  //  }, [currentLocation]);
+
   // if marker added, open modal
   useEffect(() => {
     if (markers.length) setModal((prev) => ({ ...prev, visible: true, pinDropped: true }));
@@ -130,25 +150,26 @@ export default function ProjectMap({ navigation }) {
     }
   };
 
-  const test = () => console.log('test');
-
   // does work without cb in debounce
   const onChange = (args) => {
-    console.log('set');
-    // setMapRegion(args[0]);
+    // console.log('set');
+    setMapRegion(null);
   };
 
-  const debChange = debounce(onChange, 5000);
+  const debChange = debounce(onChange, 500);
 
   const onRegionChange = (region) => {
-    if (!buttons.centerMap) debChange(region);
+    // if (!buttons.centerMap) debChange(region);
+    setMapRegion(region);
   };
 
-  const centerMap = async () => {
+  const centerMap = (region) => {
     setMapRegion((prevRegion) => ({
       ...prevRegion,
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
+      // latitudeDelta: 0.05,
+      // longitudeDelta: 0.04,
     }));
   };
 
@@ -169,7 +190,7 @@ export default function ProjectMap({ navigation }) {
         style={styles.map}
         region={mapRegion}
         onPress={(e) => onMapPress(e)}
-        onRegionChange={onRegionChange}
+        onRegionChangeComplete={onRegionChange}
       >
         <MyLocationMapMarker dataToParent={locationFromChild} />
 
@@ -225,8 +246,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   map: {
-    width: Dimensions.get('screen').width,
-    height: Dimensions.get('screen').height,
+    ...StyleSheet.absoluteFillObject,
+    // width: Dimensions.get('screen').width,
+    // height: Dimensions.get('screen').height,
   },
   buttonContainer: {
     display: 'flex',
@@ -245,7 +267,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   button: {
-    backgroundColor: '#ff3399',
+    backgroundColor: COLORS.lightBlue,
     borderRadius: 12,
     padding: 5,
     margin: 20,
