@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
+  SearchBox: {
+    width: 100,
+  },
   SearchBoxCompleted: {
     backgroundColor: '#f6f6f6',
     borderColor: 'green',
@@ -77,6 +80,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingTop: 4,
     opacity: 0.6,
+  },
+  autoCompleteContainer: {
+    flex: 1,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 1,
   },
 });
 

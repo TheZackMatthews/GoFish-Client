@@ -2,6 +2,8 @@
 import axios from 'axios';
 import { Platform, AsyncStorage } from 'react-native';
 import * as Location from 'expo-location';
+// eslint-disable-next-line import/no-unresolved
+import { API } from '@env';
 import {
   NEW_FIELD_VISIT,
   SUBMIT_LOCATION,
@@ -12,10 +14,10 @@ import {
   REMOVE_PIN,
   REMOVE_VISIT,
   COMPLETE_PIN,
+  FAILED_UPLOAD,
 } from './actionTypes';
 import { defaultVolunteer, defaultPin } from '../defaultState';
-
-const API = 'https://gofish-api.herokuapp.com/';
+import { savePhotoToFB } from './cameraActions';
 
 // creek_name: string, team_lead: string, team_members: string[]
 export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async (dispatch) => {
@@ -53,7 +55,7 @@ export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async 
       type: NEW_FIELD_VISIT,
       payload: {
         ...defaultVolunteer,
-        volunteersId: response.data.volunteersId,
+        group_id: response.data.group_id,
         creek_name: creekName,
         team_lead: teamLead,
         team_members: teamMembers,
@@ -80,7 +82,7 @@ export const updateFieldVisit = (fieldVisit) => (dispatch) => dispatch({
 export const saveVisit = (fieldVisit) => async (dispatch) => {
   try {
     const sendVisit = {
-      volunteersId: fieldVisit.volunteersId,
+      group_id: fieldVisit.group_id,
       distanceWalked: fieldVisit.distance_walked,
       waterCondition: fieldVisit.water_condition,
       viewCondition: fieldVisit.view_condition,
@@ -96,22 +98,40 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
           fish_status: fieldVisit.pins[i].fish_status,
           fish_species: fieldVisit.pins[i].fish_species,
           fish_count: fieldVisit.pins[i].fish_count,
-          image_url: 'test',
           comments: fieldVisit.pins[i].comments,
         },
-        volunteersId: fieldVisit.volunteersId,
+        group_id: fieldVisit.group_id,
       };
       surveys.push(axios.post(`${API}saveSurvey`, sendPin));
     }
-    await Promise.all(surveys);
-    console.log(surveys);
+    Promise.all(surveys)
+      .then((values) => {
+        for (let j = 0; j < values.length; j += 1) {
+          const { id } = values[j].data;
+          const pinImages = fieldVisit.pins[j].images;
+          for (let k = 0; k < pinImages.length; k += 1) {
+            const sendPhoto = {
+              surveyId: id,
+              photo: {
+                category: pinImages[k].category,
+                comment: pinImages[k].comment,
+                uri: pinImages[k].uri,
+              },
+            };
+            dispatch(savePhotoToFB(sendPhoto, fieldVisit));
+          }
+        }
+      });
     return dispatch({
       type: SAVE_VISIT,
       payload: '',
     });
   } catch (error) {
     console.log(error);
-    return error;
+    return dispatch({
+      type: FAILED_UPLOAD,
+      payload: fieldVisit,
+    });
   }
 };
 

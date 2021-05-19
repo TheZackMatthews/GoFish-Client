@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
-  Title, Button, List,
+  Title, Button, List, ActivityIndicator,
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getUser } from '../redux/actions/userActions';
@@ -24,10 +24,11 @@ import {
 import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/theme';
 
-function UserProfile({ navigation }) {
+const SpawnerProfile = ({ navigation }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const visit = useSelector((state) => state.visit);
+  const [loading, setLoading] = useState(false);
   const [flowModal, setFlowModal] = useState(false);
   const [waterModal, setWaterModal] = useState(false);
   const [visibilityModal, setVisibilityModal] = useState(false);
@@ -35,21 +36,31 @@ function UserProfile({ navigation }) {
   const iconColor = '#001a1a';
 
   useEffect(() => {
-    dispatch(getUser());
+    if (!user) {
+      dispatch(getUser());
+      setLoading(false);
+    }
   }, []);
 
   const navHandler = (type) => {
     navigation.navigate(type);
   };
 
-  const saveHandler = async () => {
-    const result = await dispatch(saveVisit(visit));
-    if (result.type) {
-      await dispatch(removeVisit());
-      navigation.navigate('Profile');
+  const sendToRedux = async () => {
+    const result = await dispatch(saveVisit(visit, setLoading));
+    if (result.type === 'SAVE_VISIT') {
+      setLoading(false);
+      dispatch(removeVisit())
+        .then(() => navigation.navigate('Profile'));
     } else {
-      console.log(result);
+      console.log('error', result);
     }
+    // });
+  };
+
+  const saveHandler = () => {
+    setLoading(true);
+    sendToRedux();
   };
 
   const navToNewPin = async (destination) => {
@@ -61,7 +72,7 @@ function UserProfile({ navigation }) {
     if (visit.pins && visit.pins.length > 0) {
       return visit.pins.map((pin) => {
         let image = false;
-        if (pin.image_object.url.length > 0) image = true;
+        if (pin.images.length > 0) image = true;
         return ({
           id: JSON.stringify(Math.floor(Math.random() * 100)),
           title: pin.fish_status,
@@ -69,6 +80,8 @@ function UserProfile({ navigation }) {
           fishCount: pin.fish_count,
           image,
           comments: pin.comments,
+          lat: pin.location.latitude,
+          long: pin.location.longitude,
         });
       });
     }
@@ -76,17 +89,18 @@ function UserProfile({ navigation }) {
   };
 
   const Item = ({
-    title, fishSpecies, fishCount, image, comments,
+    title, fishSpecies, fishCount, image, comments, lat, long,
   }) => (
     <View style={{ marginHorizontal: 15 }}>
       <Text style={{ fontWeight: '500' }}>
         <Icon name="fish" />
-        {`Fish status: ${title}`}
+        {` Fish status: ${title}`}
       </Text>
       <Text>{`Fish species: ${fishSpecies}`}</Text>
       <Text>{`Fish count: ${fishCount}`}</Text>
       <Text>{image ? 'Image present' : 'No image present'}</Text>
-      <Text>{comments}</Text>
+      <Text>{`Location: ${lat} x ${long}`}</Text>
+      <Text>{`Comments: ${comments}`}</Text>
     </View>
   );
 
@@ -96,6 +110,8 @@ function UserProfile({ navigation }) {
     fishCount: PropTypes.number,
     image: PropTypes.bool,
     comments: PropTypes.string,
+    lat: PropTypes.number,
+    long: PropTypes.number,
   };
 
   Item.defaultProps = {
@@ -104,6 +120,8 @@ function UserProfile({ navigation }) {
     fishCount: 0,
     image: false,
     comments: '',
+    lat: 0,
+    long: 0,
   };
 
   const renderItem = ({ item }) => (
@@ -113,9 +131,23 @@ function UserProfile({ navigation }) {
       fishCount={item.fishCount}
       image={item.image}
       comments={item.comments}
+      lat={item.lat}
+      long={item.long}
     />
   );
-  return user && visit ? (
+
+  if (!visit) {
+    return (
+      <View style={{ margin: 100 }}>
+        <Button
+          onPress={() => navigation.navigate('DayStart')}
+        >
+          Go Back
+        </Button>
+      </View>
+    );
+  }
+  return user && !loading ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <Modal
@@ -223,53 +255,51 @@ function UserProfile({ navigation }) {
         </View>
         <View style={styles.buttons}>
           <Button
-            style={{ width: SIZES.width / 4 }}
-            mode="outlined"
+            style={{ width: SIZES.width * 0.4 }}
+            mode="contained"
             onPress={() => navToNewPin('FishOrRedd')}
           >
             Start
           </Button>
           <Button
-            style={{ width: SIZES.width / 4 }}
-            mode="outlined"
+            style={{ width: SIZES.width * 0.4 }}
+            mode="contained"
             onPress={() => navHandler('ProjectMap')}
           >
             Map
           </Button>
-          <Button
-            style={{ width: SIZES.width / 4 }}
-            mode="outlined"
-            onPress={() => navHandler('Camera')}
-          >
-            Camera
-          </Button>
         </View>
         <View style={styles.buttons}>
           <Button
-            style={{ width: SIZES.width / 3 }}
+            style={{ width: SIZES.width / 2, marginBottom: 15 }}
             mode="outlined"
             onPress={saveHandler}
           >
-            Finish Visit
+            Submit Visit Data
           </Button>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
   ) : (
-    <View><Text>Project not found.</Text></View>
+    <View style={{ height: SIZES.height, justifyContent: 'center' }}>
+      <ActivityIndicator
+        size="large"
+        loading={loading}
+      />
+    </View>
   );
-}
+};
 
-UserProfile.propTypes = {
+SpawnerProfile.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
   }),
 };
 
-UserProfile.defaultProps = {
+SpawnerProfile.defaultProps = {
   navigation: {
     navigate: () => null,
   },
 };
 
-export default UserProfile;
+export default SpawnerProfile;

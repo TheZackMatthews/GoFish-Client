@@ -3,8 +3,6 @@ import {
   Card, Title, Paragraph,
 } from 'react-native-paper';
 import PropTypes from 'prop-types';
-// import images from '../images';
-// import styles from '../styles/FormStyles';
 
 const FishCard = ({ title, characteristic, pic }) => (
 

@@ -1,18 +1,22 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Button } from 'react-native-paper';
+import { View } from 'react-native';
+import { Button, Card, Title } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import styles from '../../styles/QuestionStyles';
 
 const LiveSalmonYN = ({ navigation }) => (
   <View style={styles.container}>
+    <Card>
+      <Card.Content>
+        <Title>We are unable to identify this fish. Please respond with &quot;unknown.&quot;</Title>
+      </Card.Content>
+    </Card>
 
-    <Text>Sockeye</Text>
     <Button
       mode="contained"
       onPress={() => navigation.navigate('FishAlive1')}
     >
-      Main Page
+      Return
     </Button>
   </View>
 );

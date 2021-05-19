@@ -7,7 +7,7 @@ import styles from '../../styles/QuestionStyles';
 
 const LiveSalmonNYN = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const question = 'Was it bright red with a green head?';
+  const question = 'Is the body of the fish dark red with an olive green back?';
   const answer1 = 'Yes';
   const answer2 = 'No';
 
@@ -15,9 +15,9 @@ const LiveSalmonNYN = ({ navigation }) => {
     if (direction === 'back') {
       navigation.navigate('LiveSalmon1');
     } else if (selected === answer1) {
-      navigation.navigate('LiveSalmonYY');
+      navigation.navigate('LiveSalmonNYNY');
     } else if (selected === answer2) {
-      navigation.navigate('LiveSalmonYN');
+      navigation.navigate('LiveSalmonNYNN');
     } else {
       Alert.alert('Please choose an option!');
     }

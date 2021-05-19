@@ -23,8 +23,11 @@ export const logInUser = (email, password, setErrorM) => (dispatch) => {
       .then((result) => dispatch({
         type: LOG_IN,
         payload: {
-          uid: result.user.uid,
-          email: result.user.email,
+          uid: result.uid,
+          email: result.email,
+          displayName: result.displayName,
+          photoURL: result.photoURL,
+          phoneNumber: result.phoneNumber,
         },
       }))
       .catch((error) => {
@@ -56,8 +59,13 @@ export const createUser = (signUp, setErrorM) => (dispatch) => {
     .then((result) => dispatch({
       type: NEW_USER,
       payload: {
-        uid: result.user.uid,
-        email: result.user.email,
+        uid: result.uid,
+        email: result.email,
+        displayName: result.displayName,
+        photoURL: result.photoURL,
+        phoneNumber: result.phoneNumber,
+        creationTime: result.metadata.creationTime,
+        lastSignInTime: result.metadata.lastSignInTime,
       },
     }))
     .catch((error) => {
@@ -127,7 +135,6 @@ export const profilePicture = (picture, platform, setErrorM, setProgress) => asy
     const base64 = picture.substring(picture.indexOf(',') + 1);
     uploadTask = imagesRef.putString(base64, 'base64');
   } else {
-    console.log('here');
     const response = await fetch(picture);
     const blob = await response.blob();
     uploadTask = imagesRef.put(blob);

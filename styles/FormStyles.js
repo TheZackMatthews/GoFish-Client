@@ -4,10 +4,11 @@ import { COLORS, SIZES, FONTS } from '../constants/theme';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginVertical: 25,
   },
   headContainer: {
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: 60,
   },
   firstHeader: {
     marginBottom: SIZES.padding,
@@ -27,7 +28,8 @@ const styles = StyleSheet.create({
   },
   signUp: {
     marginTop: SIZES.padding * 5,
-    color: 'black',
+    color: COLORS.sDarkGreen,
+    fontWeight: 'bold',
     fontSize: SIZES.h1,
   },
   textInputStyle: {
@@ -45,10 +47,10 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
   },
-  view: { marginTop: SIZES.padding * 2 },
+  view: { marginTop: SIZES.padding },
   label: { ...FONTS.body3 },
   outsideView: {
-    marginTop: SIZES.padding,
+    marginVertical: SIZES.padding,
     marginHorizontal: SIZES.padding * 3,
   },
   signInLink: {
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
   submitView: {
     marginLeft: SIZES.padding * 3,
     marginRight: SIZES.padding * 3,
+    marginBottom: 10,
   },
   buttonText: { color: COLORS.white, ...FONTS.h3 },
   logo2: {

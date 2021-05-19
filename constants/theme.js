@@ -3,31 +3,32 @@ import { Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
 export const COLORS = {
+  // skagit colours
+  sDarkGreen: '#314f2c',
+  sMedGreen: '#587e4d',
+  sLightGreen: '#91ba78',
+  sNeutral: '#c6cca0',
+  sLightBlue: '#96afdb',
+  sMedBlue: '#394e7d',
+  sPerwinkle: '#9daae2',
+
   // base colors
   primary: '#24C16B', // green
   secondary: '#0C381F', // dark green
-
   green: '#66D59A', // light green
   lightGreen: '#E6FEF0', // lighter green
-
   lime: '#00BA63',
   emerald: '#2BC978',
-
   blue: '#10A5F5',
   lightBlue: '#00DBFF',
-
   red: '#FF4134',
   lightRed: '#FFF1F0',
-
   purple: '#6B3CE9',
   lightpurple: '#F3EFFF',
-
   yellow: '#FFC664',
   lightyellow: '#FFF9EC',
-
   black: '#1E1F20',
   white: '#FFFFFF',
-
   lightGray: '#FCFBFC',
   gray: '#C1C3C5',
   darkgray: '#C3C6C7',

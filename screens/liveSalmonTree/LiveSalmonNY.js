@@ -7,7 +7,7 @@ import styles from '../../styles/QuestionStyles';
 
 const LiveSalmonNY = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const question = 'Did you observe bands of color running virtually on their body?';
+  const question = 'Did you observe bands of color running vertically on its body?';
   const answer1 = 'Yes';
   const answer2 = 'No';
 

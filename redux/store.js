@@ -4,6 +4,7 @@ import { AsyncStorage } from 'react-native';
 import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 
@@ -15,13 +16,22 @@ const persistConfig = {
   blacklist: ['user', 'theme'],
 };
 
+const logger = createLogger({
+  collapsed: true,
+  level: {
+    prevState: false,
+    nextState: false,
+    error: false,
+  },
+});
+
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 function initStore(initialState) {
   return createStore(
     persistedReducer,
     initialState,
-    composeWithDevTools(applyMiddleware(thunkMiddleware)),
+    composeWithDevTools(applyMiddleware(thunkMiddleware, logger)),
   );
 }
 

@@ -47,8 +47,10 @@
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
+    "remote-redux-devtools": "^0.5.16",
     "unimodules-permissions-interface": "^6.1.0"
   },
   "devDependencies": {
@@ -64,8 +66,7 @@
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier-eslint": "^12.0.0",
     "react-devtools": "^4.13.2",
-    "react-native-dotenv": "^2.5.5",
-    "redux-logger": "^3.0.6"
+    "react-native-dotenv": "^2.5.5"
   },
   "private": true
 }

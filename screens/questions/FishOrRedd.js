@@ -21,7 +21,7 @@ const FishOrRedd = ({ navigation }) => {
 
   const navigationHandler = async (direction) => {
     if (direction === 'back') {
-      navigation.navigate('Profile');
+      navigation.navigate('SpawnerProfile');
     } else if (selected === answer1) {
       navigation.navigate('Fish1');
     } else if (selected === answer2) {
@@ -34,6 +34,7 @@ const FishOrRedd = ({ navigation }) => {
       Alert.alert('Please choose an option!');
     }
   };
+
   return (
     <View style={styles.container}>
       <TwoAnswer
@@ -42,7 +43,9 @@ const FishOrRedd = ({ navigation }) => {
         answer2={answer2}
         choose={setSelected}
       />
-      <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
+      <View>
+        <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
+      </View>
     </View>
   );
 };

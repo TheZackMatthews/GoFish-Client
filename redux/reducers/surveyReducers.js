@@ -7,33 +7,18 @@ import {
   UPDATE_PIN,
   REMOVE_PIN,
   COMPLETE_PIN,
+  SAVE_TO_ROLL,
+  FAILED_UPLOAD,
 } from '../actions/actionTypes';
 import { defaultVolunteer } from '../defaultState';
 
-// survey reducer
-// const surveyReducer = (state = '', { type, payload }) => {
-//   switch (type) {
-//     case UPDATE_ENTRY:
-//       return {
-//         ...state,
-//         [payload.name]: payload.value,
-//       };
-//     case SAVE_SURVEY:
-//       return payload;
-//     case SUBMIT_LOCATION:
-//       return payload;
-//     default:
-//       return state;
-//   }
-// };
-
 // visit reducer
-const visitReducer = (state = defaultVolunteer, { type, payload }) => {
+export const visitReducer = (state = defaultVolunteer, { type, payload }) => {
   switch (type) {
     case NEW_FIELD_VISIT:
       return {
         ...defaultVolunteer,
-        volunteersId: payload.volunteersId,
+        group_id: payload.group_id,
         creek_name: payload.creek_name,
         team_lead: payload.team_lead,
         team_members: payload.team_members,
@@ -60,7 +45,7 @@ const visitReducer = (state = defaultVolunteer, { type, payload }) => {
 };
 
 // pin reducer
-const pinReducer = (state = '', { type, payload }) => {
+export const pinReducer = (state = '', { type, payload }) => {
   switch (type) {
     case CREATE_PIN:
       return payload;
@@ -69,6 +54,11 @@ const pinReducer = (state = '', { type, payload }) => {
         ...state,
         ...payload,
       };
+    case SAVE_TO_ROLL:
+      return {
+        ...state,
+        images: state.images.concat(payload),
+      };
     case REMOVE_PIN:
       return '';
     default:
@@ -76,4 +66,12 @@ const pinReducer = (state = '', { type, payload }) => {
   }
 };
 
-export { visitReducer, pinReducer };
+// cache for failed uploads
+export const cacheReducer = (state = [], { type, payload }) => {
+  switch (type) {
+    case FAILED_UPLOAD:
+      return state.concat(payload);
+    default:
+      return state;
+  }
+};

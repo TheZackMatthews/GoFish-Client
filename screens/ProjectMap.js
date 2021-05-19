@@ -6,7 +6,7 @@ import {
   StyleSheet, Text, Button, View, Dimensions, TouchableOpacity, Image,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { submitLocation } from '../redux/actions/surveyActions';
+import { submitLocation, createPin } from '../redux/actions/surveyActions';
 import MyLocationMapMarker from '../components/maps/MyLocationMarker';
 import LocationModal from '../components/maps/LocationModal';
 
@@ -58,12 +58,13 @@ export default function ProjectMap({ navigation }) {
     // just a failsafe
     if (markers.length > 1) throw new Error('Too many map markers!');
     const loc = markers[0] ? markers[0].coordinate : currentLocation.coords;
-    console.log('loc', loc);
+    // console.log('loc', loc);
     const coords = {
       lat: loc.latitude,
       lng: loc.longitude,
     };
     const result = await dispatch(submitLocation(coords));
+    await dispatch(createPin({coords: loc}));
     if (result && result.payload) {
       setMapState(); // resets map state
       navigation.navigate('FishOrRedd');
@@ -99,8 +100,7 @@ export default function ProjectMap({ navigation }) {
       }
     };
     if (hasLocationPermissions === null) getLocPerm();
-  }),
-  [];
+  }), [];
 
   // if marker added, open modal
   useEffect(() => {
@@ -129,7 +129,7 @@ export default function ProjectMap({ navigation }) {
 
   // gets location from MyLocationMapMarker
   const locationFromChild = (data) => {
-    console.log(data);
+    // console.log(data);
     setCurrentLocation(data);
   };
 

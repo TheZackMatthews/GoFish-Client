@@ -14,15 +14,12 @@ export const defaultPin = {
   fish_status: '',
   fish_species: '',
   fish_count: 0,
-  image_object: {
-    url: '',
-    comments: '',
-  },
+  images: [],
   comments: '',
 };
 
 export const defaultVolunteer = {
-  volunteersId: '',
+  group_id: '',
   creek_name: '',
   team_lead: '',
   team_members: [''],
@@ -40,10 +37,5 @@ export const defaultVolunteer = {
   },
   end_location: '',
   pins: [],
-  images: [
-    {
-      uri: '',
-      comment: '',
-    },
-  ],
+  images: [],
 };

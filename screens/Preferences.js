@@ -1,31 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import {
   Title, Switch, Paragraph, Button,
 } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleFont } from '../redux/actions/themeActions';
-import { SIZES } from '../constants/theme';
-
-const styles = StyleSheet.create({
-  container: {
-    margin: 30,
-  },
-  title: {
-    alignSelf: 'center',
-  },
-  fontLarge: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-  },
-  button: {
-    width: SIZES.width / 2,
-    alignSelf: 'center',
-    marginVertical: 10,
-  },
-});
+import { prefStyles } from '../styles/AppStyles';
 
 const Preferences = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -43,15 +24,15 @@ const Preferences = ({ navigation }) => {
   }, [theme]);
 
   return (
-    <ScrollView style={styles.container}>
-      <Title style={styles.title}>Preferences</Title>
-      <View style={styles.fontLarge}>
+    <ScrollView style={prefStyles.container}>
+      <Title style={prefStyles.title}>Preferences</Title>
+      <View style={prefStyles.fontLarge}>
         <Paragraph>Large font view</Paragraph>
         <Switch value={switchOn} onValueChange={onToggleSwitch} />
       </View>
       <View>
         <Button
-          style={styles.button}
+          style={prefStyles.button}
           mode="contained"
           onPress={() => navigation.navigate('Profile')}
         >

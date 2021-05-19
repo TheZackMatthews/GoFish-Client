@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 // import surveyReducer from './surveyReducers';
 import userReducer from './userReducers';
 import cameraReducer from './cameraReducers';
-import { visitReducer, pinReducer } from './surveyReducers';
+import { visitReducer, pinReducer, cacheReducer } from './surveyReducers';
 import themeReducer from './themeReducers';
 
 const reducers = {
@@ -11,6 +11,7 @@ const reducers = {
   visit: visitReducer,
   pin: pinReducer,
   theme: themeReducer,
+  cache: cacheReducer,
 };
 
 export default combineReducers(reducers);

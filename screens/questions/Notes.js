@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Title, TextInput } from 'react-native-paper';
+import { Title, TextInput, useTheme } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { completePin, removePin } from '../../redux/actions/surveyActions';
 import BackNext from '../../components/questions/BackNext';
 import styles from '../../styles/QuestionStyles';
-import { COLORS } from '../../constants/theme';
+import AccessCamera from '../../components/camera/AccessCamera';
 
 const Notes = ({ navigation }) => {
   const [comments, setComments] = useState('');
+  const theme = useTheme();
   const dispatch = useDispatch();
   const pin = useSelector((state) => state.pin);
 
@@ -26,13 +27,16 @@ const Notes = ({ navigation }) => {
       navigation.navigate('SpawnerProfile');
     }
   };
+  const cameraNav = () => {
+    navigation.navigate('Camera');
+  };
   return (
     <View style={styles.container}>
       <View style={styles.notesContainer}>
         <Title>Notes</Title>
         <View style={{
           backgroundColor: '#f4f4f4',
-          borderColor: COLORS.blue,
+          borderColor: theme.colors.light,
           borderWidth: 2,
         }}
         >
@@ -44,6 +48,7 @@ const Notes = ({ navigation }) => {
           />
         </View>
       </View>
+      <AccessCamera navigationHandler={cameraNav} />
       <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
     </View>
   );

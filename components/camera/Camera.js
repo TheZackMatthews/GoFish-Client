@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useDispatch, useSelector } from 'react-redux';
+import CameraModal from './CameraModal';
 import CameraButton from './CameraButton';
 import PreviewPhoto from './PreviewPhoto';
 import { getUser } from '../../redux/actions/userActions';
@@ -17,6 +18,8 @@ const CameraComponent = ({ navigation }) => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [rollPermission, setRollPermission] = useState(null);
+  const [imageObject, setImageObject] = useState({ uri: '', comment: '', category: '' });
+  const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -41,6 +44,10 @@ const CameraComponent = ({ navigation }) => {
   const takePicture = async () => {
     if (!camera) return;
     const photo = await camera.takePictureAsync();
+    setImageObject({
+      ...imageObject,
+      uri: photo.uri,
+    });
     setPreviewVisible(true);
     setCapturedImage(photo);
   };
@@ -50,7 +57,11 @@ const CameraComponent = ({ navigation }) => {
     setPreviewVisible(false);
   };
 
-  const savePhoto = async () => {
+  const addComment = () => {
+    setModalVisible(true);
+  };
+
+  const savePhoto = async (photo) => {
     if (rollPermission === null || rollPermission === false) {
       Alert.alert(
         'Access denied',
@@ -61,7 +72,7 @@ const CameraComponent = ({ navigation }) => {
         }],
       );
     } else {
-      await dispatch(savePhotoToCameraRoll(capturedImage));
+      await dispatch(savePhotoToCameraRoll(photo));
       navigation.goBack();
     }
   };
@@ -76,15 +87,26 @@ const CameraComponent = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {previewVisible && capturedImage ? (
-        <PreviewPhoto
-          photo={capturedImage}
-          savePhoto={savePhoto}
-          retakePicture={retakePicture}
-        />
+        <>
+          <CameraModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            imageObject={imageObject}
+            setImageObject={setImageObject}
+            savePhoto={savePhoto}
+          />
+          <PreviewPhoto
+            photo={capturedImage}
+            savePhoto={addComment}
+            retakePicture={retakePicture}
+          />
+        </>
       ) : (
         <Camera
           style={styles.camera}
           type={type}
+          // this will be different for different screens, this should be
+          // a function
           ratio="16:9"
           // eslint-disable-next-line no-return-assign
           ref={(r) => camera = r}
@@ -93,19 +115,28 @@ const CameraComponent = ({ navigation }) => {
             <CameraButton
               takePicture={takePicture}
             />
-            <Button
-              mode="contained"
-              style={styles.button}
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back,
-                );
-              }}
-            >
-              <Text style={styles.text}> Flip </Text>
-            </Button>
+            <View style={styles.bottomButtons}>
+              <Button
+                mode="contained"
+                style={styles.button}
+                onPress={() => navigation.goBack()}
+              >
+                <Text style={styles.text}>Back</Text>
+              </Button>
+              <Button
+                mode="contained"
+                style={styles.button}
+                onPress={() => {
+                  setType(
+                    type === Camera.Constants.Type.back
+                      ? Camera.Constants.Type.front
+                      : Camera.Constants.Type.back,
+                  );
+                }}
+              >
+                <Text style={styles.text}> Flip </Text>
+              </Button>
+            </View>
           </View>
         </Camera>
       )}
