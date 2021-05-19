@@ -37,16 +37,6 @@ const TwoAnswer = ({
     setSelected(answer);
   };
 
-  // const renderImages = () => {
-  //   if (image.length === 1) {
-  //     return <Image style={{ width: SIZES.width - 200, height: 200 }} source={image[0]} />;
-  //   }
-  //   let i = 0;
-  //   return image.map((img) => {
-  //     i += 1;
-  //     return <Image key={i} style={{ width: SIZES.width - 200, height: 200 }} source={img} />;
-  //   });
-  // };
   return (
     <View style={{ marginVertical: 10 }}>
       <Card>
