@@ -6,24 +6,25 @@ import {
   StyleSheet, Text, Button, View, Dimensions, TouchableOpacity, Image,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { submitLocation } from '../redux/actions/surveyActions';
+import { submitLocation, createPin } from '../redux/actions/surveyActions';
 import MyLocationMapMarker from '../components/maps/MyLocationMarker';
 import LocationModal from '../components/maps/LocationModal';
+import { COLORS } from '../constants/theme';
 
-const CustomMarker = () => (
-  <View
-    style={{
-      paddingVertical: 10,
-      paddingHorizontal: 30,
-      backgroundColor: '#007bff',
-      borderColor: '#eee',
-      borderRadius: 5,
-      elevation: 10,
-    }}
-  >
-    <Text style={{ color: '#fff' }}>CM</Text>
-  </View>
-);
+// const CustomMarker = () => (
+// <View
+// style={{
+// paddingVertical: 10,
+// paddingHorizontal: 30,
+// backgroundColor: '#007bff',
+// borderColor: '#eee',
+// borderRadius: 5,
+// elevation: 10,
+// }}
+// >
+//    <Text style={{ color: '#fff' }}>CM</Text>
+// </View>
+// );
 
 const getLocationPermission = async () => {
   const { status } = await Location.requestForegroundPermissionsAsync();
@@ -31,6 +32,19 @@ const getLocationPermission = async () => {
   return true;
 };
 
+const debounce = (cb, delay) => {
+  let timer;
+  return function (...args) {
+    if (timer) return;
+    cb(...args);
+    timer = true;
+    setTimeout(() => {
+      timer = null;
+    }, delay);
+  };
+};
+
+// when you do any action on the map, view returns to map region
 export default function ProjectMap({ navigation }) {
   const dispatch = useDispatch();
   const [mapRegion, setMapRegion] = useState(null);
@@ -58,7 +72,6 @@ export default function ProjectMap({ navigation }) {
     // just a failsafe
     if (markers.length > 1) throw new Error('Too many map markers!');
     const loc = markers[0] ? markers[0].coordinate : currentLocation.coords;
-    console.log('loc', loc);
     const coords = {
       lat: loc.latitude,
       lng: loc.longitude,
@@ -102,6 +115,28 @@ export default function ProjectMap({ navigation }) {
   }),
   [];
 
+  //   follows user location
+  useEffect(() => {
+    if (currentLocation && mapRegion) {
+      console.log('setting loc');
+      const latDiff = Math.abs(mapRegion.latitude - currentLocation.coords.latitude);
+      const lngDiff = Math.abs(mapRegion.longitude - currentLocation.coords.longitude);
+      console.log(latDiff, lngDiff);
+      if (latDiff > 0.002 || lngDiff > 0.001) {
+        setTimeout(
+          () => setMapRegion((prevRegion) => ({
+            ...prevRegion,
+            latitude: currentLocation.coords.latitude,
+            longitude: currentLocation.coords.longitude,
+            latitudeDelta: 0.04,
+            longitudeDelta: 0.05,
+          })),
+          500,
+        );
+      }
+    }
+  }, [currentLocation]);
+
   // if marker added, open modal
   useEffect(() => {
     if (markers.length) setModal((prev) => ({ ...prev, visible: true, pinDropped: true }));
@@ -119,17 +154,29 @@ export default function ProjectMap({ navigation }) {
     }
   };
 
-  const centerMap = async () => {
+  //  const onChange = (args) => {
+  // setMapRegion(null);
+  // };
+
+  //  const debChange = debounce(onChange, 500);
+
+  const onRegionChange = (region) => {
+    // if (!buttons.centerMap) debChange(region);
+    setMapRegion(region);
+  };
+
+  const centerMap = (region) => {
     setMapRegion((prevRegion) => ({
       ...prevRegion,
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
+      // latitudeDelta: 0.05,
+      // longitudeDelta: 0.04,
     }));
   };
 
   // gets location from MyLocationMapMarker
   const locationFromChild = (data) => {
-    console.log(data);
     setCurrentLocation(data);
   };
 
@@ -145,7 +192,7 @@ export default function ProjectMap({ navigation }) {
         style={styles.map}
         region={mapRegion}
         onPress={(e) => onMapPress(e)}
-        /* onRegionChange={onRegionChange} */
+        onRegionChangeComplete={onRegionChange}
       >
         <MyLocationMapMarker dataToParent={locationFromChild} />
 
@@ -168,7 +215,10 @@ export default function ProjectMap({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SpawnerProfile')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('SpawnerProfile')}
+        >
           <Image source={require('../assets/mapIcons/instructions.png')} />
         </TouchableOpacity>
         <TouchableOpacity
@@ -198,8 +248,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   map: {
-    width: Dimensions.get('screen').width,
-    height: Dimensions.get('screen').height,
+    ...StyleSheet.absoluteFillObject,
+    // width: Dimensions.get('screen').width,
+    // height: Dimensions.get('screen').height,
   },
   buttonContainer: {
     display: 'flex',
@@ -218,7 +269,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   button: {
-    backgroundColor: '#ff3399',
+    backgroundColor: COLORS.lightBlue,
     borderRadius: 12,
     padding: 5,
     margin: 20,

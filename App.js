@@ -87,7 +87,7 @@ export default function App() {
               <NavigationContainer>
                 <Stack.Navigator
                   screenOptions={{ headerShown: false }}
-                  initialRouteName="DayStart"
+                  initialRouteName="ProjectMap"
                 >
                   <Stack.Screen name="SignIn" component={SignIn} />
                   <Stack.Screen name="SignUp" component={SignUp} />
@@ -147,7 +147,6 @@ export default function App() {
                   <Stack.Screen name="DeadPink" component={DeadPink} />
                   <Stack.Screen name="DeadSockeye" component={DeadSockeye} />
                   <Stack.Screen name="Unknown" component={Unknown} />
-
                 </Stack.Navigator>
               </NavigationContainer>
             </View>

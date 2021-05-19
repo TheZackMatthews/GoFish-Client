@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from 'react-native-paper';
 import {
   Alert, Modal, StyleSheet, Text, Pressable, View,
 } from 'react-native';
+import { COLORS } from '../../constants/theme';
 
 const LocationModal = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -10,7 +12,6 @@ const LocationModal = (props) => {
     dropPin,
     submitLocation,
   } = props;
-  console.log(props);
 
   useEffect(() => {
     if (visible !== modalVisible) setModalVisible(visible);
@@ -33,18 +34,18 @@ const LocationModal = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Pressable style={[styles.button, styles.buttonClose]} onPress={() => submitLocation()}>
+            <Button style={[styles.button]} onPress={() => submitLocation()}>
               {toggleText}
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
+            </Button>
+            <Button
+              style={[styles.button]}
               onPress={() => {
                 // setModalVisible(!modalVisible);
                 dropPin(true);
               }}
             >
               <Text style={styles.textStyle}>Drop Pin</Text>
-            </Pressable>
+            </Button>
           </View>
         </View>
       </Modal>
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: '#ffe6f2',
+    backgroundColor: COLORS.lightGray,
     borderRadius: 10,
     padding: 10,
     alignItems: 'center',
@@ -75,17 +76,18 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 7,
-    padding: 10,
+    borderRadius: 3,
+    padding: 0,
     marginTop: 4,
     marginBottom: 4,
+    backgroundColor: COLORS.blue,
     elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: '#b3ccff',
+    backgroundColor: COLORS.lightGreen,
   },
   buttonClose: {
-    backgroundColor: '#a3a3c2',
+    backgroundColor: COLORS.lightGreen,
   },
   textStyle: {
     color: 'white',
