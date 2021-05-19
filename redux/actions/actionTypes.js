@@ -18,8 +18,9 @@ export const SAVE_SURVEY = 'SAVE_SURVEY';
 
 // picture action types
 export const SAVE_PHOTO = 'SAVE_PHOTO';
-export const SAVE_TO_ROLL = 'SAVE_TO_ROLL';
 export const UPLOAD_PHOTO = 'UPLOAD_PHOTO';
+export const SAVE_TO_ROLL = 'SAVE_TO_ROLL';
+export const SAVE_TO_FB = 'SAVE_TO_FB';
 
 // map action types
 

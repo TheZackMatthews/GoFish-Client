@@ -1,9 +1,12 @@
 import * as MediaLibrary from 'expo-media-library';
 import firebase from 'firebase/app';
 import { Platform } from 'react-native';
+import axios from 'axios';
 import { FAILED_UPLOAD, SAVE_PHOTO, SAVE_TO_ROLL } from './actionTypes';
 import { firebaseClient } from '../../auth/firebaseClient';
 import 'firebase/storage';
+
+const API = 'https://gofish-api.herokuapp.com/';
 
 export const savePhotoToCameraRoll = (photo) => async (dispatch) => {
   const asset = await MediaLibrary.createAssetAsync(photo.uri);
@@ -19,8 +22,10 @@ export const savePhotoToCameraRoll = (photo) => async (dispatch) => {
 
 export const savePhotoToFB = (photo, visit) => async (dispatch) => {
   firebaseClient();
-  // const user = firebase.auth().currentUser;
-
+  const { photo: { category, comment, uri } } = photo;
+  const { surveyId } = photo;
+console.log(photo)
+  const user = firebase.auth().currentUser;
   const storageRef = firebase.storage().ref();
   let uploadTask;
   const imagesRef = storageRef.child(`images/${visit.group_id}/${Date.now()}.jpg`);
@@ -28,7 +33,7 @@ export const savePhotoToFB = (photo, visit) => async (dispatch) => {
     const base64 = photo.uri.substring(photo.uri.indexOf(',') + 1);
     uploadTask = imagesRef.putString(base64, 'base64');
   } else {
-    const result = await fetch(photo.uri);
+    const result = await fetch(uri);
     const blob = await result.blob();
     uploadTask = imagesRef.put(blob);
   }
@@ -44,9 +49,16 @@ export const savePhotoToFB = (photo, visit) => async (dispatch) => {
     imagesRef.getDownloadURL()
       .then((url) => {
         resultPhoto = {
-          ...photo,
-          uri: url,
+          surveyId,
+          photo: {
+            photoURL: url,
+            reasonForSubmission: category,
+            comment,
+          },
         };
+        axios.post(`${API}savePhoto`, resultPhoto)
+          .then((res) => console.log(res))
+          .catch((error) => console.log(error));
       });
   });
   return dispatch({

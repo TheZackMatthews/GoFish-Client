@@ -13,7 +13,7 @@ let store;
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage || storage,
-  blacklist: ['user', 'theme'],
+  blacklist: ['user', 'theme',, 'camera'],
 };
 
 const logger = createLogger({

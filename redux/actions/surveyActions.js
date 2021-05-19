@@ -13,8 +13,10 @@ import {
   REMOVE_VISIT,
   COMPLETE_PIN,
   FAILED_UPLOAD,
+  SAVE_TO_FB,
 } from './actionTypes';
 import { defaultVolunteer, defaultPin } from '../defaultState';
+import { savePhotoToFB } from './cameraActions';
 
 const API = 'https://gofish-api.herokuapp.com/';
 
@@ -90,7 +92,6 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
     await axios.put(`${API}saveVolunteers`, sendVisit);
 
     const surveys = [];
-    // const photos = [];
     for (let i = 0; i < fieldVisit.pins.length; i += 1) {
       const sendPin = {
         survey: {
@@ -103,19 +104,31 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
         group_id: fieldVisit.group_id,
       };
       surveys.push(axios.post(`${API}saveSurvey`, sendPin));
-      // for (let j = 0; j < fieldVisit.pins[i].images; j += 1) {
-      //   const sendImage = {
-      //     surveyId
-      //   }
-      // }
     }
-    await Promise.all(surveys);
-    surveys.forEach((one) => console.log(one))
+    Promise.all(surveys)
+      .then((values) => {
+        for (let j = 0; j < values.length; j += 1) {
+          const { id } = values[j].data;
+          const pinImages = fieldVisit.pins[j].images;
+          for (let k = 0; k < pinImages.length; k += 1) {
+            const sendPhoto = {
+              surveyId: id,
+              photo: {
+                category: pinImages[k].category,
+                comment: pinImages[k].comment,
+                uri: pinImages[k].uri,
+              },
+            };
+            dispatch(savePhotoToFB(sendPhoto, fieldVisit));
+          }
+        }
+      });
     return dispatch({
       type: SAVE_VISIT,
       payload: '',
     });
   } catch (error) {
+    console.log(error);
     return dispatch({
       type: FAILED_UPLOAD,
       payload: fieldVisit,

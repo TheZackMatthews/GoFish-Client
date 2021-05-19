@@ -47,10 +47,11 @@
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
-    "unimodules-permissions-interface": "^6.1.0",
-    "redux-logger": "^3.0.6"
+    "remote-redux-devtools": "^0.5.16",
+    "unimodules-permissions-interface": "^6.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

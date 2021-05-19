@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import {
   Title, Button, List, Avatar,
-  useTheme,
+  // useTheme,
 } from 'react-native-paper';
 import { logOutUser, getUser } from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
@@ -18,8 +18,8 @@ import { SIZES } from '../constants/theme';
 
 function UserProfile({ navigation }) {
   const [errorM, setErrorM] = useState('');
-  const theme = useTheme();
-  const { fonts: { regular: { fontSize } } } = theme;
+  // const theme = useTheme();
+  // const { fonts: { regular: { fontSize } } } = theme;
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
@@ -66,7 +66,7 @@ function UserProfile({ navigation }) {
       id={item.id}
     />
   );
-  console.log(cache)
+  console.log(cache);
 
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
@@ -163,8 +163,9 @@ function UserProfile({ navigation }) {
       </ScrollView>
     </KeyboardAvoidingView>
   ) : (
-    <View style={styles.container}>
+    <View style={{ margin: 100 }}>
       <Button
+        mode="outlined"
         onPress={() => navigation.navigate('SignIn')}
       >
         Sign In.

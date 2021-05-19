@@ -22,7 +22,7 @@ const FishOrRedd = ({ navigation }) => {
 
   const navigationHandler = async (direction) => {
     if (direction === 'back') {
-      navigation.navigate('Profile');
+      navigation.navigate('SpawnerProfile');
     } else if (selected === answer1) {
       navigation.navigate('Fish1');
     } else if (selected === answer2) {

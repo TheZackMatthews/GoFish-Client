@@ -23,8 +23,13 @@ export const logInUser = (email, password, setErrorM) => (dispatch) => {
       .then((result) => dispatch({
         type: LOG_IN,
         payload: {
-          uid: result.user.uid,
-          email: result.user.email,
+          uid: result.uid,
+          email: result.email,
+          displayName: result.displayName,
+          photoURL: result.photoURL,
+          phoneNumber: result.phoneNumber,
+          creationTime: result.metadata.creationTime,
+          lastSignInTime: result.metadata.lastSignInTime,
         },
       }))
       .catch((error) => {

@@ -29,6 +29,7 @@ const SpawnerProfile = ({ navigation }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const visit = useSelector((state) => state.visit);
+  const camera = useSelector((state) => state.camera);
   const [loading, setLoading] = useState(false);
   const [flowModal, setFlowModal] = useState(false);
   const [waterModal, setWaterModal] = useState(false);
@@ -37,7 +38,10 @@ const SpawnerProfile = ({ navigation }) => {
   const iconColor = '#001a1a';
 
   useEffect(() => {
-    dispatch(getUser());
+    if (!user) {
+      dispatch(getUser());
+      setLoading(false);
+    }
   }, []);
 
   const navHandler = (type) => {
@@ -45,21 +49,21 @@ const SpawnerProfile = ({ navigation }) => {
   };
 
   const sendToRedux = async () => {
-    const photoResults = [];
-    for (let i = 0; i < visit.pins.length; i += 1) {
-      for (let j = 0; j < visit.pins[i].images.length; j += 1) {
-        photoResults.push(dispatch(savePhotoToFB(visit.pins[i].images[j], visit)));
-      }
-    }
-    await Promise.all(photoResults);
-    console.log(photoResults);
     const result = await dispatch(saveVisit(visit, setLoading));
-    if (result.type) {
-      await dispatch(removeVisit());
-      navigation.navigate('Profile');
-    } else {
-      console.log('error', result);
-    }
+    // const photoResults = [];
+    // for (let i = 0; i < camera.length; i += 1) {
+    //   photoResults.push(dispatch(savePhotoToFB(camera[i], { group_id: 'test'})));
+    // }
+    // Promise.all(photoResults)
+      // .then(() => {
+        if (result.type === 'SAVE_VISIT') {
+          setLoading(false);
+          dispatch(removeVisit())
+            .then(() => navigation.navigate('Profile'));
+        } else {
+          console.log('error', result);
+        }
+      // });
   };
 
   const saveHandler = () => {
@@ -139,7 +143,19 @@ const SpawnerProfile = ({ navigation }) => {
       long={item.long}
     />
   );
-  return user && visit && !loading ? (
+
+  if (!visit) {
+    return (
+      <View style={{ margin: 100 }}>
+        <Button
+          onPress={() => navigation.navigate('DayStart')}
+        >
+          Go Back
+        </Button>
+      </View>
+    );
+  }
+  return user && !loading ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <Modal

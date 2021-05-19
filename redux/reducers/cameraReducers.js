@@ -1,10 +1,12 @@
-import { SAVE_PHOTO } from '../actions/actionTypes';
+import { SAVE_PHOTO, SAVE_TO_FB } from '../actions/actionTypes';
 
 // camera reducer
-const cameraReducer = (state = '', { type, payload }) => {
+const cameraReducer = (state = [], { type, payload }) => {
   switch (type) {
     case SAVE_PHOTO:
-      return state.concat(payload);
+      return [];
+    case SAVE_TO_FB:
+      return [...state, payload];
     default:
       return state;
   }
