@@ -27,6 +27,10 @@ export const sockeye = {
   normal: require('./assets/fishes/sockeye.png'),
   spawn: require('./assets/fishes/sockeyeSpawn.png'),
 };
+export const trout = {
+  normal: require('./assets/fishes/trout.png'),
+  spawn: require('./assets/fishes/trout-sea-run.png'),
+};
 
 // reference images
 export const referenceImg = require('./assets/salmonQuickReference.png');

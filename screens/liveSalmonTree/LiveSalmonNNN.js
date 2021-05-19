@@ -1,38 +1,28 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  Surface,
-  Title,
-  Subheading,
-} from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import styles from '../../styles/QuestionStyles';
-import { coho } from '../../images';
+import { trout } from '../../images';
+import LiveTree from '../../components/questions/LiveTree';
 
 const LiveSalmonNNN = ({ navigation }) => (
-  <View style={styles.answerContainer}>
-    <Surface style={styles.surface}>
-      <Title style={{ alignSelf: 'center' }}>Trout or Jack</Title>
-      <Image
-        source={coho.cohoFemale}
-        style={{ flex: 1, width: undefined, height: undefined }}
-        resizeMode="contain"
+  <ScrollView>
+    <View style={styles.answerContainer}>
+      <LiveTree
+        fish="Trout"
+        description="White belly, gray back"
+        normal={trout.normal}
+        spawn={trout.spawn}
       />
-      <Image
-        source={coho.cohoMale}
-        style={{ flex: 1, width: undefined, height: undefined }}
-        resizeMode="contain"
-      />
-      <Subheading style={{ alignSelf: 'center' }}>White belly, gray back</Subheading>
-    </Surface>
-    <Button
-      mode="contained"
-      onPress={() => navigation.navigate('FishAlive1')}
-    >
-      Main Page
-    </Button>
-  </View>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('FishAlive1')}
+      >
+        Main Page
+      </Button>
+    </View>
+  </ScrollView>
 );
 LiveSalmonNNN.propTypes = {
   navigation: PropTypes.shape({

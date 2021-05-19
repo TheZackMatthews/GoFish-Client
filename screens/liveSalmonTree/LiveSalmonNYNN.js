@@ -7,7 +7,7 @@ import { chinook } from '../../images';
 import LiveTree from '../../components/questions/LiveTree';
 
 const LiveSalmonNYNN = ({ navigation }) => (
-  <View style={styles.container}>
+  <View style={styles.answerContainer}>
     <LiveTree
       fish="Chinook"
       description="Olive and maroon body"

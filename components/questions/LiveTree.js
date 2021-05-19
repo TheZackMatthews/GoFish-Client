@@ -29,8 +29,8 @@ const LiveTree = ({
 LiveTree.propTypes = {
   fish: PropTypes.string,
   description: PropTypes.string,
-  normal: PropTypes.string,
-  spawn: PropTypes.string,
+  normal: PropTypes.string || PropTypes.number,
+  spawn: PropTypes.string || PropTypes.number,
 };
 
 LiveTree.defaultProps = {

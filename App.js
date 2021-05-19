@@ -61,6 +61,7 @@ import {
   DeadPink,
   DeadSockeye,
   Unknown,
+  Preferences,
 } from './screens/index';
 import { useStore } from './redux/store';
 import AuthProvider from './auth';
@@ -85,12 +86,13 @@ export default function App() {
               <NavigationContainer>
                 <Stack.Navigator
                   screenOptions={{ headerShown: false }}
-                  initialRouteName="LiveSalmonNNY"
+                  initialRouteName="SignIn"
                 >
                   <Stack.Screen name="SignIn" component={SignIn} />
                   <Stack.Screen name="SignUp" component={SignUp} />
                   <Stack.Screen name="Profile" component={UserProfile} />
                   <Stack.Screen name="EditUserInfo" component={EditUserInfo} />
+                  <Stack.Screen name="Preferences" component={Preferences} />
                   {/* Map Pages */}
                   <Stack.Screen name="ProjectMap" component={ProjectMap} />
                   <Stack.Screen name="UserMap" component={UserMap} />

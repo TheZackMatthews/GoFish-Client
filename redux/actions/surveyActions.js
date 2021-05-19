@@ -2,6 +2,8 @@
 import axios from 'axios';
 import { Platform, AsyncStorage } from 'react-native';
 import * as Location from 'expo-location';
+// eslint-disable-next-line import/no-unresolved
+import { API } from '@env';
 import {
   NEW_FIELD_VISIT,
   SUBMIT_LOCATION,
@@ -16,8 +18,6 @@ import {
 } from './actionTypes';
 import { defaultVolunteer, defaultPin } from '../defaultState';
 import { savePhotoToFB } from './cameraActions';
-
-const API = 'https://gofish-api.herokuapp.com/';
 
 // creek_name: string, team_lead: string, team_members: string[]
 export const initializeFieldVisit = (creekName, teamLead, teamMembers) => async (dispatch) => {

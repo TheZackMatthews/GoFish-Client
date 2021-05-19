@@ -28,8 +28,6 @@ export const logInUser = (email, password, setErrorM) => (dispatch) => {
           displayName: result.displayName,
           photoURL: result.photoURL,
           phoneNumber: result.phoneNumber,
-          creationTime: result.metadata.creationTime,
-          lastSignInTime: result.metadata.lastSignInTime,
         },
       }))
       .catch((error) => {

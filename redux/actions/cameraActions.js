@@ -2,11 +2,11 @@ import * as MediaLibrary from 'expo-media-library';
 import firebase from 'firebase/app';
 import { Platform } from 'react-native';
 import axios from 'axios';
+// eslint-disable-next-line import/no-unresolved
+import { API } from '@env';
 import { FAILED_UPLOAD, SAVE_PHOTO, SAVE_TO_ROLL } from './actionTypes';
 import { firebaseClient } from '../../auth/firebaseClient';
 import 'firebase/storage';
-
-const API = 'https://gofish-api.herokuapp.com/';
 
 export const savePhotoToCameraRoll = (photo) => async (dispatch) => {
   const asset = await MediaLibrary.createAssetAsync(photo.uri);
