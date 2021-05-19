@@ -13,7 +13,6 @@ import {
   REMOVE_VISIT,
   COMPLETE_PIN,
   FAILED_UPLOAD,
-  SAVE_TO_FB,
 } from './actionTypes';
 import { defaultVolunteer, defaultPin } from '../defaultState';
 import { savePhotoToFB } from './cameraActions';

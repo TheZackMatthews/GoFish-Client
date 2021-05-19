@@ -14,7 +14,6 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getUser } from '../redux/actions/userActions';
 import { createPin, saveVisit, removeVisit } from '../redux/actions/surveyActions';
-import { savePhotoToFB } from '../redux/actions/cameraActions';
 import Modal from '../components/Modal';
 import {
   FlowType,
@@ -29,7 +28,6 @@ const SpawnerProfile = ({ navigation }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const visit = useSelector((state) => state.visit);
-  const camera = useSelector((state) => state.camera);
   const [loading, setLoading] = useState(false);
   const [flowModal, setFlowModal] = useState(false);
   const [waterModal, setWaterModal] = useState(false);
@@ -50,20 +48,14 @@ const SpawnerProfile = ({ navigation }) => {
 
   const sendToRedux = async () => {
     const result = await dispatch(saveVisit(visit, setLoading));
-    // const photoResults = [];
-    // for (let i = 0; i < camera.length; i += 1) {
-    //   photoResults.push(dispatch(savePhotoToFB(camera[i], { group_id: 'test'})));
-    // }
-    // Promise.all(photoResults)
-      // .then(() => {
-        if (result.type === 'SAVE_VISIT') {
-          setLoading(false);
-          dispatch(removeVisit())
-            .then(() => navigation.navigate('Profile'));
-        } else {
-          console.log('error', result);
-        }
-      // });
+    if (result.type === 'SAVE_VISIT') {
+      setLoading(false);
+      dispatch(removeVisit())
+        .then(() => navigation.navigate('Profile'));
+    } else {
+      console.log('error', result);
+    }
+    // });
   };
 
   const saveHandler = () => {

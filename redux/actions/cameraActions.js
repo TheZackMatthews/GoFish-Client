@@ -24,8 +24,7 @@ export const savePhotoToFB = (photo, visit) => async (dispatch) => {
   firebaseClient();
   const { photo: { category, comment, uri } } = photo;
   const { surveyId } = photo;
-console.log(photo)
-  const user = firebase.auth().currentUser;
+  // const user = firebase.auth().currentUser;
   const storageRef = firebase.storage().ref();
   let uploadTask;
   const imagesRef = storageRef.child(`images/${visit.group_id}/${Date.now()}.jpg`);
@@ -41,6 +40,7 @@ console.log(photo)
   uploadTask.on('state_changed', () => {
     console.log('working...');
   }, (error) => {
+    console.log(error);
     dispatch({
       type: FAILED_UPLOAD,
       payload: visit,
