@@ -1,5 +1,6 @@
+import { DefaultTheme } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
-import { SIZES, FONTS } from '../constants/theme';
+import { SIZES, FONTS, COLORS } from '../constants/theme';
 
 export const appStyles = StyleSheet.create({
   container: {
@@ -40,3 +41,13 @@ export const refStyles = StyleSheet.create({
     width: '100%',
   },
 });
+
+export const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: COLORS.sMedBlue,
+    accent: COLORS.sDarkGreen,
+    light: COLORS.sPerwinkle,
+  },
+};

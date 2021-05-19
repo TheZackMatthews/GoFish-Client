@@ -7,7 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { expo } from './app.json';
@@ -64,13 +64,9 @@ import {
 } from './screens/index';
 import { useStore } from './redux/store';
 import AuthProvider from './auth';
-import { appStyles } from './styles/AppStyles';
+import { appStyles, theme } from './styles/AppStyles';
 
 let Main;
-
-const theme = {
-  ...DefaultTheme,
-};
 
 export default function App() {
   if (Platform.OS === 'android') {
@@ -89,7 +85,7 @@ export default function App() {
               <NavigationContainer>
                 <Stack.Navigator
                   screenOptions={{ headerShown: false }}
-                  initialRouteName="LiveSalmonNNN"
+                  initialRouteName="Profile"
                 >
                   <Stack.Screen name="SignIn" component={SignIn} />
                   <Stack.Screen name="SignUp" component={SignUp} />

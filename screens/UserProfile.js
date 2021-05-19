@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import {
   Title, Button, List, Avatar,
-  // useTheme,
+  useTheme,
 } from 'react-native-paper';
 import { logOutUser, getUser } from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
@@ -18,8 +18,8 @@ import { SIZES } from '../constants/theme';
 
 function UserProfile({ navigation }) {
   const [errorM, setErrorM] = useState('');
-  // const theme = useTheme();
-  // const { fonts: { regular: { fontSize } } } = theme;
+  const theme = useTheme();
+  console.log(theme);
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
@@ -66,14 +66,17 @@ function UserProfile({ navigation }) {
       id={item.id}
     />
   );
-  console.log(cache);
 
   return user ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <View style={styles.headContainer}>
           {!!errorM && <Text>{errorM}</Text>}
-          <Title>User Profile</Title>
+          <Title
+            style={{ fontSize: 25, color: theme.colors.primary, fontWeight: 'bold' }}
+          >
+            User Profile
+          </Title>
           {user.photoURL ? (
             <Avatar.Image source={{ uri: user.photoURL }} size={200} />
           ) : (
@@ -83,42 +86,61 @@ function UserProfile({ navigation }) {
         </View>
         <View>
           <List.Section>
-            <List.Subheader>Volunteer Information</List.Subheader>
+            <List.Subheader
+              style={{ fontSize: 20, color: theme.colors.accent, fontWeight: 'bold' }}
+            >
+              Volunteer Information
+            </List.Subheader>
             <List.Item
               title="Display Name"
               // titleStyle={{ fontSize }}
               description={user.displayName}
               // descriptionStyle={{ fontSize: fontSize - 2 }}
               style={{ width: SIZES.width * 0.8 }}
-              left={() => <List.Icon icon="face-outline" />}
+              left={() => (
+                <List.Icon
+                  color={theme.colors.primary}
+                  icon="face-outline"
+                />
+              )}
             />
             <List.Item
               title="Email"
               description={user.email}
-              left={() => <List.Icon color="#000" icon="email-check-outline" />}
+              left={() => <List.Icon color={theme.colors.primary} icon="email-check-outline" />}
             />
             <List.Item
               title="Contact Number"
               description={user.phoneNumber || 'Not yet saved'}
-              left={() => <List.Icon color="#000" icon="file-phone-outline" />}
+              left={() => <List.Icon color={theme.colors.primary} icon="file-phone-outline" />}
             />
             <List.Item
               title="Account created on"
               description={user.creationTime}
-              left={() => <List.Icon color="#000" icon="calendar-month" />}
+              left={() => <List.Icon color={theme.colors.primary} icon="calendar-month" />}
             />
             <List.Item
               title="Last logged in"
               description={user.lastSignInTime}
-              left={() => <List.Icon color="#000" icon="calendar-month" />}
+              left={() => <List.Icon color={theme.colors.primary} icon="calendar-month" />}
             />
           </List.Section>
         </View>
         <View style={styles.buttons}>
-          <Button mode="outlined" onPress={() => navigationFunc('EditUserInfo')}>
+          <Button
+            mode="contained"
+            onPress={() => navigationFunc('EditUserInfo')}
+            labelStyle={{ fontWeight: 'bold' }}
+            color={theme.colors.light}
+          >
             Edit Info
           </Button>
-          <Button mode="outlined" onPress={() => navigationFunc('Preferences')}>
+          <Button
+            onPress={() => navigationFunc('Preferences')}
+            mode="contained"
+            labelStyle={{ fontWeight: 'bold' }}
+            color={theme.colors.light}
+          >
             Preferences
           </Button>
         </View>
@@ -135,28 +157,47 @@ function UserProfile({ navigation }) {
             )}
         <View style={styles.bodyContainer}>
           <List.Section>
-            <List.Subheader>Projects</List.Subheader>
+            <List.Subheader
+              style={{ fontSize: 20, color: theme.colors.accent, fontWeight: 'bold' }}
+            >
+              Projects
+            </List.Subheader>
             <List.Item
               title="Chinook Salmon Monitoring"
               style={{ width: 350 }}
               onPress={() => navigationFunc('DayStart')}
-              left={() => <List.Icon color="#000" icon="fish" />}
+              left={() => <List.Icon color={theme.colors.primary} icon="fish" />}
             />
             <List.Item
               title="Vegetation Monitoring"
               onPress={() => navigationFunc('Profile')}
-              left={() => <List.Icon color="#000" icon="tree-outline" />}
+              left={() => <List.Icon color={theme.colors.primary} icon="tree-outline" />}
             />
           </List.Section>
         </View>
         <View style={styles.buttons}>
-          <Button mode="outlined" onPress={() => navigationFunc('Profile')}>
+          <Button
+            onPress={() => navigationFunc('Profile')}
+            mode="contained"
+            labelStyle={{ fontWeight: 'bold' }}
+            color={theme.colors.light}
+          >
             User Map
           </Button>
-          <Button mode="outlined" onPress={() => navigationFunc('Camera')}>
+          <Button
+            onPress={() => navigationFunc('Camera')}
+            mode="contained"
+            labelStyle={{ fontWeight: 'bold' }}
+            color={theme.colors.light}
+          >
             Camera
           </Button>
-          <Button mode="outlined" onPress={submitHandler}>
+          <Button
+            onPress={submitHandler}
+            mode="contained"
+            labelStyle={{ fontWeight: 'bold' }}
+            color={theme.colors.light}
+          >
             Sign Out
           </Button>
         </View>
