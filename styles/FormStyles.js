@@ -1,18 +1,25 @@
 import { StyleSheet } from 'react-native';
-import { COLORS, SIZES, FONTS } from "../constants/theme";
+import { COLORS, SIZES, FONTS } from '../constants/theme';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginVertical: 25,
   },
   headContainer: {
-    alignItems: "center",
-    marginTop: 100,
+    alignItems: 'center',
+    marginTop: 60,
   },
   firstHeader: {
     marginBottom: SIZES.padding,
     color: 'black',
     fontSize: SIZES.largeTitle,
+    marginTop: SIZES.padding * 4,
+  },
+  secondHeader: {
+    marginBottom: SIZES.padding,
+    color: 'black',
+    fontSize: SIZES.h3,
     marginTop: SIZES.padding * 4,
   },
   logo: {
@@ -21,55 +28,74 @@ export const styles = StyleSheet.create({
   },
   signUp: {
     marginTop: SIZES.padding * 5,
-    color: 'black',
+    color: COLORS.sDarkGreen,
+    fontWeight: 'bold',
     fontSize: SIZES.h1,
   },
   textInputStyle: {
     marginVertical: SIZES.padding,
-    
+
     borderBottomWidth: 1,
     height: 40,
-    
+
     ...FONTS.body3,
   },
   button: {
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     bottom: 10,
     height: 30,
     width: 30,
   },
-  view: { marginTop: SIZES.padding * 2 },
+  view: { marginTop: SIZES.padding },
   label: { ...FONTS.body3 },
   outsideView: {
-    marginTop: SIZES.padding,
+    marginVertical: SIZES.padding,
     marginHorizontal: SIZES.padding * 3,
   },
   signInLink: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
     marginTop: SIZES.padding,
     paddingHorizontal: SIZES.padding * 2,
   },
-  textP: { alignSelf: "flex-end", ...FONTS.h4 },
+  textP: { alignSelf: 'flex-end', ...FONTS.h4 },
   submitButton: {
     height: 60,
     backgroundColor: COLORS.black,
     borderRadius: SIZES.radius,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: SIZES.padding * 5,
   },
-  submitView: { 
+  submitView: {
     marginLeft: SIZES.padding * 3,
     marginRight: SIZES.padding * 3,
+    marginBottom: 10,
   },
   buttonText: { color: COLORS.white, ...FONTS.h3 },
   logo2: {
     width: 350,
     height: 170,
   },
-})
+  infoText: {
+    alignSelf: 'flex-start',
+    marginLeft: SIZES.padding * 3,
+    marginTop: 30,
+  },
+  infoTextCategory: {
+    color: COLORS.black,
+    ...FONTS.h4,
+  },
+  buttonMain: {
+    height: 60,
+    backgroundColor: COLORS.black,
+    borderRadius: SIZES.radius,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: SIZES.padding,
+  },
+});
 
-
+export default styles;

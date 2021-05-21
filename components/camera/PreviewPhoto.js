@@ -1,30 +1,33 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, ImageBackground } from 'react-native'
-import PreviewButtons from './PreviewButtons'
+import React from 'react';
+import { View, ImageBackground } from 'react-native';
+import PropTypes from 'prop-types';
+import PreviewButtons from './PreviewButtons';
+import styles from '../../styles/CameraStyles';
 
-const PreviewPhoto = ({ photo, savePhoto, retakePicture }) => {
-  console.log('photo preview', photo)
-  return (
-    <View style={styles.outerView}>
-      <ImageBackground 
-        source={{uri: photo && photo.uri}}
-        style={styles.image}
-      />
-    <PreviewButtons savePhoto={savePhoto} retakePicture={retakePicture}/>
-    </View>
-  )
-}
+const PreviewPhoto = ({ photo, savePhoto, retakePicture }) => (
+  <View style={styles.outerView}>
+    <ImageBackground
+      source={{ uri: photo && photo.uri }}
+      style={styles.image}
+    />
+    <PreviewButtons savePhoto={savePhoto} retakePicture={retakePicture} />
+  </View>
+);
 
-const styles = StyleSheet.create({
-  outerView: {
-    backgroundColor: 'transparent',
-    flex: 1,
-    width: '100%',
-    height: '100%',
+PreviewPhoto.propTypes = {
+  photo: PropTypes.shape({
+    uri: PropTypes.string,
+  }),
+  savePhoto: PropTypes.func,
+  retakePicture: PropTypes.func,
+};
+
+PreviewPhoto.defaultProps = {
+  photo: {
+    uri: '',
   },
-  image: {
-    flex: 1,
-  }
-})
+  savePhoto: () => null,
+  retakePicture: () => null,
+};
 
-export default PreviewPhoto
+export default PreviewPhoto;

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/.expo" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/.idea" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/.vscode" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/assets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/auth" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/components" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/constants" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/redux" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/screens" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/styles" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

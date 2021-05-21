@@ -1,121 +1,82 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Text,
   View,
   KeyboardAvoidingView,
   ScrollView,
-  renderForm,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { TextInput } from 'react-native-paper';
-import GoFishLogo from '../components/GoFishLogo'
-import { COLORS, SIZES, FONTS } from "../constants/theme";
+} from 'react-native';
+import { useDispatch } from 'react-redux';
+import { TextInput, Button } from 'react-native-paper';
+import PropTypes from 'prop-types';
+import { createUser, updateProfile } from '../redux/actions/userActions';
+import GoFishLogo from '../components/GoFishLogo';
+import styles from '../styles/FormStyles';
 
-import { styles } from '../styles/FormsStyles'
-import { firebaseClient } from '../auth/firebaseClient';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-
-function SignUp({navigation}) {
-    firebaseClient();
-  const [ signUp, setSignUp ] = useState("");
-  const [ errorM, setErrorM ] = useState('');
+function SignUp({ navigation }) {
+  const [signUp, setSignUp] = useState('');
+  const [errorM, setErrorM] = useState('');
   const showPassword = false;
+  const dispatch = useDispatch();
 
   const nameChange = (text) => {
     setErrorM('');
-      setSignUp({ ...signUp, name: text })
-  }
+    setSignUp({ ...signUp, name: text });
+  };
 
   const emailChange = (text) => {
-      setErrorM('');
-      setSignUp({ ...signUp, email: text })
-  }
+    setErrorM('');
+    setSignUp({ ...signUp, email: text });
+  };
 
   const passwordChange = (text) => {
     setErrorM('');
-      setSignUp({ ...signUp, password: text })
-  }
+    setSignUp({ ...signUp, password: text });
+  };
 
   const passwordConfirmChange = (text) => {
     setErrorM('');
-      setSignUp({ ...signUp, confirmPassword: text })
-  }
+    setSignUp({ ...signUp, confirmPassword: text });
+  };
 
   const submitHandler = async () => {
-    const { name, email, password, confirmPassword } = signUp;
+    const { password, confirmPassword } = signUp;
     setErrorM('');
     if (password !== confirmPassword) {
-        setErrorM('Passwords do not match.')
-        return;
+      setErrorM('Passwords do not match.');
+      return;
     }
-    try {
-        const result = await firebase.auth().createUserWithEmailAndPassword(email, password);
-        // send UID to database
-        navigation.navigate('Profile')
-    } catch (error) {
-        setErrorM(error.message)
+    const result = await dispatch(createUser(signUp, setErrorM));
+    await dispatch(updateProfile({ displayName: signUp.name }, setErrorM));
+    if (result && result.payload) {
+      navigation.navigate('Profile');
     }
-  }
+  };
 
   function renderForm() {
     return (
       <View style={styles.outsideView}>
         <View style={styles.view}>
-            {!!errorM && <Text>{errorM}</Text>}
-          <TextInput
-            onChangeText={nameChange}
-            label="Full name"
-          />
+          {!!errorM && <Text>{errorM}</Text>}
+          <TextInput onChangeText={nameChange} label="Full name" />
         </View>
         <View style={styles.view}>
-          <TextInput
-            onChangeText={emailChange}
-            label="Email"
-          />
+          <TextInput onChangeText={emailChange} label="Email" />
         </View>
 
         <View style={styles.view}>
           <TextInput
-          onChangeText={passwordChange}
+            onChangeText={passwordChange}
             secureTextEntry={!showPassword}
             label="Password"
           />
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() => setShowPassword(!showPassword)}
-          >
-            {/* <Image
-                        source={showPassword ? icons.disable_eye : icons.eye}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.white
-                        }}
-                    /> */}
-          </TouchableOpacity>
         </View>
 
         <View style={styles.view}>
           <TextInput
-          onChangeText={passwordConfirmChange}
+            onChangeText={passwordConfirmChange}
             secureTextEntry={!showPassword}
             label="Confirm password"
           />
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() => setShowPassword(!showPassword)}
-          >
-            {/* <Image
-                        source={showPassword ? icons.disable_eye : icons.eye}
-                        style={{
-                            height: 20,
-                            width: 20,
-                            tintColor: COLORS.white
-                        }}
-                    /> */}
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -124,30 +85,32 @@ function SignUp({navigation}) {
   function renderButton() {
     return (
       <View style={styles.submitView}>
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={submitHandler}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
+        <Button
+          mode="contained"
+          onPress={submitHandler}
+        >
+          Sign Up
+        </Button>
       </View>
     );
   }
 
   function renderSignInLink() {
     return (
-      <TouchableOpacity
-        style={styles.signInLink}
-        onPress={() => navigation.navigate('SignIn')}>
-        <Text style={styles.textP}>
+      <View style={styles.submitView}>
+        <Button
+          mode="outlined"
+          onPress={() => navigation.navigate('SignIn')}
+        >
           Already have an account? Log in.
-        </Text>
-      </TouchableOpacity>
+        </Button>
+      </View>
     );
   }
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
-        <GoFishLogo title="Sign Up"/>
+        <GoFishLogo title="Sign Up" />
         {renderForm()}
         {renderButton()}
         {renderSignInLink()}
@@ -157,5 +120,17 @@ function SignUp({navigation}) {
     </KeyboardAvoidingView>
   );
 }
+
+SignUp.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
+};
+
+SignUp.defaultProps = {
+  navigation: {
+    navigate: () => null,
+  },
+};
 
 export default SignUp;

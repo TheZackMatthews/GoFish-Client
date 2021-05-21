@@ -1,51 +1,36 @@
-import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import React from 'react';
+import { View } from 'react-native';
+import { Button } from 'react-native-paper';
+import PropTypes from 'prop-types';
+import styles from '../../styles/CameraStyles';
 
-const PreviewButtons = ({ savePhoto, retakePicture }) => {
-  return (
-    <View style={styles.btnContainer}>
-      <View style={styles.btnBorder}>
-        <TouchableOpacity 
-          style={styles.btn}
-          onPress={savePhoto}
-          >
-          <Text>Save</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.btn}
-          onPress={retakePicture}
-          >
-          <Text>Retake</Text>
-        </TouchableOpacity>
-      </View>
+const PreviewButtons = ({ savePhoto, retakePicture }) => (
+  <View style={styles.btnContainer}>
+    <View style={styles.twoBtnBorder}>
+      <Button
+        onPress={savePhoto}
+        mode="contained"
+      >
+        Save
+      </Button>
+      <Button
+        mode="contained"
+        onPress={retakePicture}
+      >
+        Retake
+      </Button>
     </View>
-  )
-}
+  </View>
+);
 
-const styles = StyleSheet.create({
-  btnContainer: {
-    position: 'absolute',
-    bottom: 0,
-    flexDirection: 'row',
-    flex: 1,
-    width: '100%',
-    padding: 20, 
-    justifyContent: 'space-between',
-  },
-  btnBorder: {
-    alignSelf: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  btn: {
-    width: 70,
-    height: 70,
-    bottom: 0,
-    borderRadius: 50,
-    backgroundColor: '#fff',
-  }
-});
+PreviewButtons.propTypes = {
+  savePhoto: PropTypes.func,
+  retakePicture: PropTypes.func,
+};
 
-export default PreviewButtons
+PreviewButtons.defaultProps = {
+  savePhoto: () => null,
+  retakePicture: () => null,
+};
+
+export default PreviewButtons;
