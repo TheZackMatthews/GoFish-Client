@@ -25,14 +25,14 @@ import { StateLocation, StateVisit, StatePhoto, StatePin } from '../../interface
 interface SurveyProps {
   creekName: string,
   teamLead: string,
-  teamMembers: string[],
+  sendMembers: string[],
 }
 
 interface DispatchProps extends Action {
   type: string,
   payload: any,
 }
-export const initializeFieldVisit = ({creekName, teamLead, teamMembers}: SurveyProps) => async (dispatch: Dispatch<DispatchProps>): Promise<DispatchProps> => {
+export const initializeFieldVisit = ({creekName, teamLead, sendMembers}: SurveyProps) => async (dispatch: Dispatch<DispatchProps>): Promise<DispatchProps> => {
   const { status } = await Location.requestForegroundPermissionsAsync();
   let location: StateLocation = defaultLocation;
 
@@ -40,9 +40,10 @@ export const initializeFieldVisit = ({creekName, teamLead, teamMembers}: SurveyP
     let tempLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
     location.longitude = tempLocation.coords.longitude;
     location.latitude = tempLocation.coords.latitude;
-  } 
+  }
+  console.log(creekName, sendMembers)
   try {
-    return axios.post(`${API}visit`, {creekName, teamLead, teamMembers})
+    return axios.post(`${API}visit`, {creekName, teamLead, teamMembers: sendMembers})
       .then((response) => dispatch({
         type: NEW_FIELD_VISIT,
         payload: {
@@ -50,7 +51,7 @@ export const initializeFieldVisit = ({creekName, teamLead, teamMembers}: SurveyP
           group_id: response.data.group_id,
           creek_name: creekName,
           team_lead: teamLead,
-          team_members: teamMembers,
+          team_members: sendMembers,
           started_at: response.data.startedAt,
           start_location: {
             latitude: location.latitude,
@@ -62,14 +63,14 @@ export const initializeFieldVisit = ({creekName, teamLead, teamMembers}: SurveyP
         console.log(error);
         return {
           type: NEW_FIELD_VISIT,
-          payload: error.message,
+          payload: { error: error.message },
         };
       });
   } catch (error) {
     console.log(error);
     return {
       type: NEW_FIELD_VISIT,
-      payload: error.message,
+      payload: { error: error.message },
     };
   };
 };
@@ -164,7 +165,7 @@ export const createPin = (location?: StateLocation) => async (dispatch: Dispatch
       let tempLocation: any = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
       startLocation.latitude = tempLocation.coords.latitude;
       startLocation.longitude = tempLocation.coords.longitude;
-    } 
+    }
     pin.location = startLocation;
   } catch (error) {
     console.log(error);

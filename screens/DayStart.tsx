@@ -6,6 +6,7 @@ import {
   Checkbox,
   Title,
   Paragraph,
+  Button,
   ActivityIndicator,
   useTheme,
 } from 'react-native-paper';
@@ -41,6 +42,7 @@ const DayStart = ({ navigation }: Props) => {
   const [teamLead, setTeamLead] = useState<string>(user.displayName || '');
 
   useEffect(() => {
+    setLoading(false);
     dispatch(getUser());
     dispatch(removeVisit())
   }, []);
@@ -80,7 +82,15 @@ const DayStart = ({ navigation }: Props) => {
   }
 
   const initializeVisit = async () => {
-    const result: any = await dispatch(initializeFieldVisit({creekName, teamLead, teamMembers}))
+    let sendMembers: string[] = teamMembers;
+    if (user.displayName !== teamLead) {
+      sendMembers = sendMembers.filter((member: string) => member !== teamLead)
+      sendMembers.push(user.displayName || 'guest');
+    }
+    console.log(sendMembers)
+
+    const result: any = await dispatch(initializeFieldVisit({creekName, teamLead, sendMembers}))
+    console.log(result)
     if (result && !result.payload.error) {
       await setTeamMembers(['']);
       await setCreekName('');
@@ -150,7 +160,15 @@ const DayStart = ({ navigation }: Props) => {
     }
   };
 
-  return user && !loading ? (
+  if (!user.uid) {
+    return (<View>
+      <Button onPress={() => navigation.navigate('SignIn')}>
+        Sign In
+      </Button>
+    </View>)
+  }
+
+  return !loading ? (
     <SafeAreaView>
     <ScrollView
       style={{ margin: 20, marginTop: 100 }}

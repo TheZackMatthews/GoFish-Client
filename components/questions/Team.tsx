@@ -66,7 +66,7 @@ const Team = ({
               <Checkbox
                 key={String.fromCharCode((index + 1) * -1)}
                 status={teamLead === member ? 'checked' : 'unchecked'}
-                onPress={() => { setTeamLead((teamLead === member) ? '' : member); }}
+                onPress={() => {setTeamLead(teamLead === member ? '' : member)}}
               />
             </View>
           )}
