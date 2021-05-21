@@ -87,7 +87,6 @@ const DayStart = ({ navigation }: Props) => {
       sendMembers = sendMembers.filter((member: string) => member !== teamLead)
       sendMembers.push(user.displayName || 'guest');
     }
-    console.log(sendMembers)
 
     const result: any = await dispatch(initializeFieldVisit({creekName, teamLead, sendMembers}))
     console.log(result)

@@ -23,6 +23,7 @@ import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/Theme';
 import { DefaultRootState } from '../interfaces/state';
 import renderItem from '../components/questions/Item';
+import dayjs from 'dayjs';
 
 interface Props {
   navigation: {
@@ -39,11 +40,10 @@ const SpawnerProfile = ({ navigation }: Props) => {
   const [waterModal, setWaterModal] = useState<boolean>(false);
   const [visibilityModal, setVisibilityModal] = useState<boolean>(false);
   const [viewingModal, setViewingModal] = useState<boolean>(false);
-  const [teamArray, setTeamArray] = useState<string>('');
   const iconColor = '#001a1a';
 
   useEffect(() => {
-    if (!user) {
+    if (!user.uid) {
       dispatch(getUser());
       setLoading(false);
     }
@@ -100,7 +100,7 @@ const SpawnerProfile = ({ navigation }: Props) => {
     return undefined;
   };
 
-  return user && !loading ? (
+  return !loading ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <Modal
@@ -153,7 +153,7 @@ const SpawnerProfile = ({ navigation }: Props) => {
             />
             <List.Item
               title="Start Time"
-              description={visit.started_at || 'Not saved'}
+              description={dayjs(visit.started_at).format('MMMM D, YYYY [at] HH:mm a') || 'Not saved'}
               left={() => <List.Icon color={iconColor} icon="clock-start" />}
             />
             <List.Item
