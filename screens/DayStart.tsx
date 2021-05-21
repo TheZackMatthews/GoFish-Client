@@ -48,14 +48,14 @@ const DayStart = ({ navigation }: Props) => {
   useEffect(() => {
     setTeamLead(user.displayName || '');
   }, [user]);
- 
+
 
   const renderForm = () => {
     return (
       <View style={{ marginTop: 10 }}>
         <View>
           <View>
-            <AutoComplete 
+            <AutoComplete
               label="Which creek are you surveying today?"
               creekName={creekName}
               setCreekName={setCreekName}
@@ -163,7 +163,7 @@ const DayStart = ({ navigation }: Props) => {
         </Title>
       </View>
       {renderForm()}
-      <View style={style.buttons}>
+      <View style={{justifyContent: 'space-between'}}>
         <BackNext navigationHandler={navigationHandler} />
       </View>
     </ScrollView>

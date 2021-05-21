@@ -7,13 +7,20 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleFont } from '../redux/actions/themeActions';
 import { prefStyles } from '../styles/AppStyles';
+import { DefaultRootState } from '../interfaces/state';
 
-const Preferences = ({ navigation }) => {
+interface Props {
+  navigation: {
+    navigate: (page: string) => null,
+  }
+}
+
+const Preferences = ({ navigation }: Props) => {
   const dispatch = useDispatch();
-  const theme = useSelector((state) => state.theme);
+  const theme = useSelector((state: DefaultRootState) => state.theme);
+  const [switchOn, setSwitchOn] = useState<boolean>(false);
 
-  const [switchOn, setSwitchOn] = useState(false);
-  const onToggleSwitch = () => {
+  const onToggleSwitch = (): void => {
     setSwitchOn(!switchOn);
     dispatch(toggleFont());
   };
@@ -41,18 +48,6 @@ const Preferences = ({ navigation }) => {
       </View>
     </ScrollView>
   );
-};
-
-Preferences.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-  }),
-};
-
-Preferences.defaultProps = {
-  navigation: {
-    navigate: () => null,
-  },
 };
 
 export default Preferences;

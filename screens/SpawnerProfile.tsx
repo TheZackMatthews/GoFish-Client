@@ -39,8 +39,9 @@ const SpawnerProfile = ({ navigation }: Props) => {
   const [waterModal, setWaterModal] = useState<boolean>(false);
   const [visibilityModal, setVisibilityModal] = useState<boolean>(false);
   const [viewingModal, setViewingModal] = useState<boolean>(false);
+  const [teamArray, setTeamArray] = useState<string>('');
   const iconColor = '#001a1a';
-console.log(visit)
+
   useEffect(() => {
     if (!user) {
       dispatch(getUser());
@@ -49,7 +50,7 @@ console.log(visit)
   }, []);
 
   useEffect(() => {
-    if (!visit || !visit.creek_name) {
+    if (!visit.creek_name || !visit.creek_name.length) {
       navigation.navigate('DayStart');
     }
   }, [visit])
@@ -162,7 +163,12 @@ console.log(visit)
             />
             <List.Item
               title="Team Members"
-              description={visit.team_members.map((member) => `${member}, `)}
+              description={visit.team_members.map((member, i) => {
+                if (visit.team_members.length === 1) return member;
+                if (visit.team_members.length - i === 1) return ` and ${member}`
+                if (visit.team_members.length - i === 2) return ` ${member}`
+                if (visit.team_members.length >= 3) return ` ${member},`
+              })}
               left={() => <List.Icon color={iconColor} icon="account-group" />}
             />
             <List.Item

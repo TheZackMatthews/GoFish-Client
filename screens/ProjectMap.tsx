@@ -32,23 +32,36 @@ const getLocationPermission = async () => {
   return true;
 };
 
-const debounce = (cb, delay) => {
-  let timer;
-  return function (...args) {
+// not used
+const debounce = (cb: (...args: any[]) => void, delay: number) => {
+  let timer: boolean;
+  return function (...args: any[]) {
     if (timer) return;
     cb(...args);
     timer = true;
     setTimeout(() => {
-      timer = null;
+      timer = false;
     }, delay);
   };
 };
 
 // when you do any action on the map, view returns to map region
-export default function ProjectMap({ navigation }) {
+interface Props {
+  navigation: {
+    navigate: (page: string) => null;
+  }
+}
+
+interface IMapRegion {
+  latitude: number,
+  longitude: number,
+  latitudeDelta?: number | undefined,
+  longitudeDelta?: number | undefined,
+}
+export default function ProjectMap({ navigation }: Props) {
   const dispatch = useDispatch();
-  const [mapRegion, setMapRegion] = useState(null);
-  const [hasLocationPermissions, setHasLocationPermissions] = useState(null);
+  const [mapRegion, setMapRegion] = useState<IMapRegion | null>(null);
+  const [hasLocationPermissions, setHasLocationPermissions] = useState<boolean>(false);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [modal, setModal] = useState({ visible: false, pinDropped: false });
@@ -73,18 +86,18 @@ export default function ProjectMap({ navigation }) {
     if (markers.length > 1) throw new Error('Too many map markers!');
     const loc = markers[0] ? markers[0].coordinate : currentLocation.coords;
     const coords = {
-      lat: loc.latitude,
-      lng: loc.longitude,
+      latitude: loc.latitude,
+      longitude: loc.longitude,
     };
     const sendLocation = {
       latitude: loc.latitude,
       longitude: loc.longitude,
     }
-    const result = await dispatch(submitLocation(coords));
+    const result: any = await dispatch(submitLocation(coords));
     await dispatch(createPin(sendLocation));
     if (result && result.payload) {
       setMapState(); // resets map state
-      navigation.navigate('FishOrRedd');
+      navigation.navigate('TestTree');
     } else {
       throw new Error('Location could not be saved!');
     }
@@ -164,13 +177,13 @@ export default function ProjectMap({ navigation }) {
 
   //  const debChange = debounce(onChange, 500);
 
-  const onRegionChange = (region) => {
+  const onRegionChange = (region: IMapRegion) => {
     // if (!buttons.centerMap) debChange(region);
     setMapRegion(region);
   };
 
-  const centerMap = (region) => {
-    setMapRegion((prevRegion) => ({
+  const centerMap = (region: IMapRegion) => {
+    setMapRegion((prevRegion:IMapRegion | null) => ({
       ...prevRegion,
       latitude: currentLocation.coords.latitude,
       longitude: currentLocation.coords.longitude,
@@ -287,15 +300,3 @@ const styles = StyleSheet.create({
     margin: 8,
   },
 });
-
-ProjectMap.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-  }),
-};
-
-ProjectMap.defaultProps = {
-  navigation: {
-    navigate: () => null,
-  },
-};

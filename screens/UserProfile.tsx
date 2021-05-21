@@ -41,7 +41,7 @@ const UserProfile = ({ navigation }: Props) => {
   useEffect(() => {
     dispatch(getUser());
   }, []);
-
+console.log(user)
   const submitHandler = async (): Promise<any> => {
     setErrorM('');
     const result = await dispatch(logOutUser());
@@ -85,7 +85,7 @@ const UserProfile = ({ navigation }: Props) => {
     />
   );
 
-  return user ? (
+  return user.uid ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <View style={styles.headContainer}>
