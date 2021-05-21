@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Title, Button, List, ActivityIndicator,
 } from 'react-native-paper';
@@ -101,6 +102,7 @@ const SpawnerProfile = ({ navigation }: Props) => {
   };
 
   return !loading ? (
+      <SafeAreaView style={{ flex: 1 }}>
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <Modal
@@ -148,7 +150,7 @@ const SpawnerProfile = ({ navigation }: Props) => {
             />
             <List.Item
               title="Start Location"
-              description={`Latitude: ${visit.start_location.latitude}\nLongitude: ${visit.start_location.longitude}`}
+              description={`Latitude: ${visit.start_location.latitude.toFixed(4)}\nLongitude: ${visit.start_location.longitude.toFixed(4)}`}
               left={() => <List.Icon color={iconColor} icon="ray-start-arrow" />}
             />
             <List.Item
@@ -236,6 +238,7 @@ const SpawnerProfile = ({ navigation }: Props) => {
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
+      </SafeAreaView>
   ) : (
     <View style={{ height: SIZES.height, justifyContent: 'center' }}>
       <ActivityIndicator size="large" />
