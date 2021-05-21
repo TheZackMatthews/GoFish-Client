@@ -51,7 +51,7 @@ import DeadPink from './deadSalmonTree/DeadPink';
 import DeadSockeye from './deadSalmonTree/DeadSockeye';
 import Unknown from './deadSalmonTree/Unknown';
 
-export {
+const screens = {
   Camera,
   SignIn,
   SignUp,
@@ -104,3 +104,5 @@ export {
   DeadSockeye,
   Unknown,
 };
+
+export default screens;
