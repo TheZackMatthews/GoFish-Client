@@ -50,6 +50,7 @@ import DeadCoho from './deadSalmonTree/DeadCoho';
 import DeadPink from './deadSalmonTree/DeadPink';
 import DeadSockeye from './deadSalmonTree/DeadSockeye';
 import Unknown from './deadSalmonTree/Unknown';
+import TestTree from './TestTree';
 
 const screens = {
   Camera,
@@ -103,6 +104,7 @@ const screens = {
   DeadPink,
   DeadSockeye,
   Unknown,
+  TestTree,
 };
 
 export default screens;
