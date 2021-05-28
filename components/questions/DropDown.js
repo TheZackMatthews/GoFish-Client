@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Button } from 'react-native-paper';
 import { View, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useSelector, useDispatch } from 'react-redux';
 import { updatePin } from '../../redux/actions/surveyActions';
 
-const DropDown = ({ question }) => {
+const DropDown = ({ question, setAnswer }) => {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState(question.answers);
   const [value, setValue] = useState(null);
@@ -14,6 +14,7 @@ const DropDown = ({ question }) => {
   const pin = useSelector((state) => state.pin);
 
   const changeHandler = (val) => {
+    setAnswer(val);
     dispatch(updatePin({
       ...pin,
       [question.data]: val,
@@ -61,6 +62,7 @@ DropDown.propTypes = {
       },
     )),
   }),
+  setAnswer: PropTypes.func,
 };
 
 DropDown.defaultProps = {
@@ -75,6 +77,7 @@ DropDown.defaultProps = {
       },
     ],
   },
+  setAnswer: () => null,
 };
 
 export default DropDown;

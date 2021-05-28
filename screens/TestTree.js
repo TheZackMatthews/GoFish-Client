@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  Title, Button, Card, TextInput,
+  Title, Button, Card, useTheme,
 } from 'react-native-paper';
 import { Text, View, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,24 +8,47 @@ import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { updatePin } from '../redux/actions/surveyActions';
 import DropDown from '../components/questions/DropDown';
+import NumberInput from '../components/questions/NumberInput';
+import LongInput from '../components/questions/LongInput';
 import questionnaire from '../constants/FishFlow';
 
 const TestTree = ({ navigation }) => {
-  const [question, setQuestion] = useState(null);
-  const [selected, setSelected] = useState(null);
+  const [question, setQuestion] = useState(questionnaire.start);
+  const theme = useTheme();
   const pin = useSelector((state) => state.pin);
   const dispatch = useDispatch();
-  const [saveData, setSaveData] = useState({});
 
-  useEffect(() => {
-    setQuestion(questionnaire.start);
-  }, []);
+  // answers - set to false if present
+  const [buttonAns, setButtonAns] = useState(true);
+  const [dropdownAns, setDropdownAns] = useState(true);
+  const [numberAns, setNumberAns] = useState(true);
+  const [stringAns, setStringAns] = useState(true);
+  const [longAns, setLongAns] = useState(true);
+
+  console.log(pin);
+
+  React.useEffect(() => {
+    question.questions.forEach((one) => {
+      if (one.type === 'buttons') setButtonAns(false);
+      if (one.type === 'dropdown') setDropdownAns(false);
+      if (one.type === 'inputNumber') setNumberAns(0);
+      if (one.type === 'inputString') setStringAns('');
+      if (one.type === 'inputLong') setLongAns('');
+    });
+  }, [question]);
+
+  console.log(buttonAns, dropdownAns, numberAns, stringAns, longAns);
 
   const navigationHandler = async () => {
-    if (selected) {
-      await setSelected(null);
-      if (selected.next) setQuestion(selected.next);
-      else setQuestion(question.next);
+    if (buttonAns && dropdownAns && numberAns && stringAns && longAns) {
+      await setButtonAns(true);
+      await setDropdownAns(true);
+      await setNumberAns(true);
+      await setStringAns(true);
+      await setLongAns(true);
+      if (buttonAns.next) setQuestion(buttonAns.next);
+      else if (dropdownAns.next) setQuestion(dropdownAns.next);
+      else if (question.next) setQuestion(question.next);
     } else {
       Alert.alert('Please select an option!');
     }
@@ -33,11 +56,17 @@ const TestTree = ({ navigation }) => {
 
   const backHandler = () => {
     if (question.prev) setQuestion(question.prev);
-    else navigation.navigate('Profile');
+    else {
+      try {
+        navigation.goBack();
+      } catch (error) {
+        navigation.navigate('Profile');
+      }
+    }
   };
 
   const clickHandler = (answerObject) => {
-    setSelected(answerObject);
+    setButtonAns(answerObject);
     if (answerObject.data) {
       dispatch(updatePin({
         ...pin,
@@ -47,11 +76,11 @@ const TestTree = ({ navigation }) => {
   };
 
   const styleRender = (answerObject) => {
-    if (selected && answerObject.label === selected.label) {
+    if (buttonAns && answerObject.label === buttonAns.label) {
       return {
         marginHorizontal: 5,
         marginVertical: 10,
-        backgroundColor: 'yellow',
+        backgroundColor: theme.colors.lightBlue,
       };
     }
     return {
@@ -62,7 +91,7 @@ const TestTree = ({ navigation }) => {
 
   const renderButtons = (oneQuestion) => oneQuestion.answers.map((one) => (
     <Button
-      key={Math.floor(Math.random() * 2000)}
+      key={one.uid}
       raised
       mode="contained"
       style={styleRender(one)}
@@ -72,27 +101,12 @@ const TestTree = ({ navigation }) => {
     </Button>
   ));
 
-  const renderDropDown = (oneQuestion) => (
-    <DropDown
-      question={oneQuestion}
-    />
-  );
-
-  const renderNumber = (oneQuestion) => (
-    <TextInput
-      keyboardType="numeric"
-      value={+saveData[oneQuestion.data] || +0}
-      onChangeText={(number) => { setSaveData({ ...saveData, [oneQuestion.data]: number }); }}
-    />
-  );
-
-  console.log(saveData);
   const renderString = (oneQuestion) => {
     console.log(oneQuestion.answers);
   };
 
   const renderLong = (oneQuestion) => {
-    console.log(oneQuestion.answers);
+    return <LongInput />
   };
 
   const renderAnswers = (oneQuestion) => {
@@ -100,9 +114,21 @@ const TestTree = ({ navigation }) => {
       case 'buttons':
         return renderButtons(oneQuestion);
       case 'dropdown':
-        return renderDropDown(oneQuestion);
+        return (
+          <DropDown
+            question={oneQuestion}
+            setAnswer={setDropdownAns}
+            answer={dropdownAns}
+          />
+        );
       case 'inputNumber':
-        return renderNumber(oneQuestion);
+        return (
+          <NumberInput
+            question={oneQuestion}
+            setAnswer={setNumberAns}
+            answer={numberAns}
+          />
+        );
       case 'inputString':
         return renderString(oneQuestion);
       case 'inputLong':
@@ -119,7 +145,7 @@ const TestTree = ({ navigation }) => {
           <View>
             {question.questions.map((one) => (
               <Card
-                key={Math.floor(Math.random() * 200)}
+                key={one.uid}
                 style={{ margin: 30 }}
               >
                 <Card.Content>
@@ -148,12 +174,14 @@ const TestTree = ({ navigation }) => {
 TestTree.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
+    goBack: PropTypes.func,
   }),
 };
 
 TestTree.defaultProps = {
   navigation: {
     navigate: () => null,
+    goBack: () => this.navigate('Profile'),
   },
 };
 
