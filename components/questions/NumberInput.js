@@ -16,16 +16,15 @@ const NumberInput = ({ question, answer, setAnswer }) => {
       [question.data]: answer,
     }));
   };
-
-  return (
+  return (answer !== 1 && (
     <View>
       <TextInput
-        required
         keyboardType="numeric"
-        value={answer || '0'}
+        value={answer}
         onChangeText={(number) => changeHandler(number)}
       />
     </View>
+  )
   );
 };
 
@@ -41,7 +40,10 @@ NumberInput.propTypes = {
       },
     )),
   }),
-  answer: PropTypes.number || PropTypes.bool,
+  answer: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   setAnswer: PropTypes.func,
 };
 

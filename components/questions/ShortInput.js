@@ -3,18 +3,16 @@ import { View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
-const LongInput = ({ answer, setAnswer }) => (
+const ShortInput = ({ answer, setAnswer }) => (
   <View>
     <TextInput
-      multiline
-      textAlignVertical="top"
       value={answer}
       onChangeText={(text) => setAnswer(text)}
     />
   </View>
 );
 
-LongInput.propTypes = {
+ShortInput.propTypes = {
   question: PropTypes.shape({
     label: PropTypes.string,
     type: PropTypes.string,
@@ -30,7 +28,7 @@ LongInput.propTypes = {
   setAnswer: PropTypes.func,
 };
 
-LongInput.defaultProps = {
+ShortInput.defaultProps = {
   question: {
     label: '',
     type: '',
@@ -46,4 +44,4 @@ LongInput.defaultProps = {
   setAnswer: () => null,
 };
 
-export default LongInput;
+export default ShortInput;

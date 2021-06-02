@@ -5,6 +5,7 @@ const questionTypes = {
   inputString: 'inputString',
   inputLong: 'inputLong',
   photo: 'photo',
+  location: 'location',
 };
 
 const fishArray = [

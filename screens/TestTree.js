@@ -10,6 +10,7 @@ import { updatePin } from '../redux/actions/surveyActions';
 import DropDown from '../components/questions/DropDown';
 import NumberInput from '../components/questions/NumberInput';
 import LongInput from '../components/questions/LongInput';
+import ShortInput from '../components/questions/ShortInput';
 import questionnaire from '../constants/FishFlow';
 
 const TestTree = ({ navigation }) => {
@@ -21,19 +22,21 @@ const TestTree = ({ navigation }) => {
   // answers - set to false if present
   const [buttonAns, setButtonAns] = useState(true);
   const [dropdownAns, setDropdownAns] = useState(true);
-  const [numberAns, setNumberAns] = useState(true);
-  const [stringAns, setStringAns] = useState(true);
-  const [longAns, setLongAns] = useState(true);
+  const [numberAns, setNumberAns] = useState(1);
+  const [stringAns, setStringAns] = useState(' ');
+  const [longAns, setLongAns] = useState(' ');
+  const [photoAns, setPhotoAns] = useState(true);
 
-  console.log(pin);
+  // console.log(pin);
 
   React.useEffect(() => {
     question.questions.forEach((one) => {
       if (one.type === 'buttons') setButtonAns(false);
       if (one.type === 'dropdown') setDropdownAns(false);
-      if (one.type === 'inputNumber') setNumberAns(0);
+      if (one.type === 'inputNumber') setNumberAns('');
       if (one.type === 'inputString') setStringAns('');
       if (one.type === 'inputLong') setLongAns('');
+      if (one.type === 'photo') setPhotoAns({});
     });
   }, [question]);
 
@@ -43,9 +46,10 @@ const TestTree = ({ navigation }) => {
     if (buttonAns && dropdownAns && numberAns && stringAns && longAns) {
       await setButtonAns(true);
       await setDropdownAns(true);
-      await setNumberAns(true);
-      await setStringAns(true);
-      await setLongAns(true);
+      await setNumberAns(1);
+      await setStringAns(' ');
+      await setLongAns(' ');
+      await setPhotoAns()
       if (buttonAns.next) setQuestion(buttonAns.next);
       else if (dropdownAns.next) setQuestion(dropdownAns.next);
       else if (question.next) setQuestion(question.next);
@@ -101,14 +105,6 @@ const TestTree = ({ navigation }) => {
     </Button>
   ));
 
-  const renderString = (oneQuestion) => {
-    console.log(oneQuestion.answers);
-  };
-
-  const renderLong = (oneQuestion) => {
-    return <LongInput />
-  };
-
   const renderAnswers = (oneQuestion) => {
     switch (oneQuestion.type) {
       case 'buttons':
@@ -130,9 +126,21 @@ const TestTree = ({ navigation }) => {
           />
         );
       case 'inputString':
-        return renderString(oneQuestion);
+        return (
+          <ShortInput
+            question={oneQuestion}
+            setAnswer={setStringAns}
+            answer={stringAns}
+          />
+        );
       case 'inputLong':
-        return renderLong(oneQuestion);
+        return (
+          <LongInput
+            question={oneQuestion}
+            answer={longAns}
+            setAnswer={setLongAns}
+          />
+        );
       default:
         return (<Text>No answer found!</Text>);
     }
