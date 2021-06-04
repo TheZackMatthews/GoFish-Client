@@ -132,7 +132,9 @@ function DayStart({ navigation }) {
                 SearchDataFromJSON(text);
                 setQuery(text);
               }}
-              inputContainerStyle={(creekName !== '') ? style.SearchBoxCompleted : style.SearchBoxUncomplete}
+              // inputContainerStyle={
+                // (creekName !== '') ?
+                // style.SearchBoxCompleted : style.SearchBoxUncomplete}
               listContainerStyle={style.SearchBox}
               // listStyle={style.SearchBox}
               flatListProps={{

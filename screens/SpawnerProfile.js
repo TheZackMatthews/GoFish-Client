@@ -35,6 +35,8 @@ const SpawnerProfile = ({ navigation }) => {
   const [viewingModal, setViewingModal] = useState(false);
   const iconColor = '#001a1a';
 
+  console.log(visit)
+
   useEffect(() => {
     if (!user) {
       dispatch(getUser());
@@ -151,7 +153,7 @@ const SpawnerProfile = ({ navigation }) => {
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <Modal
-          update="water_flow"
+          update="flow_type"
           label="Water flow"
           text="What is the water flow type today?"
           modalVisible={flowModal}
@@ -243,7 +245,6 @@ const SpawnerProfile = ({ navigation }) => {
             && (
             <>
               <Title>Reports made on this visit</Title>
-              {/* {renderPins()} */}
               <FlatList
                 data={renderData()}
                 renderItem={renderItem}

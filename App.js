@@ -35,7 +35,7 @@ export default function App() {
               <NavigationContainer>
                 <Stack.Navigator
                   screenOptions={{ headerShown: false }}
-                  initialRouteName="TestTree"
+                  initialRouteName="SpawnerProfile"
                 >
                   <Stack.Screen name="SignIn" component={screens.SignIn} />
                   <Stack.Screen name="SignUp" component={screens.SignUp} />
