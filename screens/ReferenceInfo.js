@@ -1,27 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Text, View, Image, ScrollView,
+  Text, View, Image, ScrollView, Dimensions, TouchableOpacity,
 } from 'react-native';
 import { Button, DataTable } from 'react-native-paper';
 // import { referenceImg } from '../images'; //TODO Delete this and the file.
 
 import forkLength from '../assets/references/forkLength.png'; // TODO
 import adiposeFin from '../assets/references/HatcheryWild.jpeg';
+import reddHighlight from '../assets/references/reddHighlight.png';
+import reddNoHighlight from '../assets/references/reddNoHighlight.png';
 import { refStyles as styles } from '../styles/AppStyles';
 
 export default function ReferenceInfo({ navigation }) {
-  // console.log(styles);
+  const { screenWidth } = Dimensions.get('window'); // full width
+
+  function renderReddImage() {
+    const [reddPicture, setReddPicture] = useState(reddNoHighlight);
+    const [previousReddPicture, setPreviousReddPicture] = useState(reddHighlight);
+    const toggleReddImage = () => {
+      const temp = reddPicture;
+      setReddPicture(previousReddPicture);
+      setPreviousReddPicture(temp);
+    };
+    return (
+      <TouchableOpacity
+        onPress={() => (toggleReddImage())}
+      >
+        <Image
+          resizeMode="contain"
+          style={{ width: screenWidth }}
+          source={reddPicture}
+        />
+      </TouchableOpacity>
+    );
+  }
+
   return (
     <ScrollView>
 
       <View style={styles.container}>
-        {/* <Button
+        <Button
           style={{ marginTop: 40 }}
           mode="contained"
           onPress={() => navigation.goBack()}
         >
           Back
-        </Button> */}
+        </Button>
         <Text style={styles.header}> Table of Contents </Text>
         <Text style={styles.header}> Quick Reference </Text>
         <View>
@@ -69,23 +93,19 @@ export default function ReferenceInfo({ navigation }) {
           <Image
             resizeMode="contain"
             // style={styles.img}
-            style={{ alignSelf: 'stretch' }}
+            style={{ width: screenWidth }}
             source={forkLength}
           />
         </View>
-        <View>
+        <View style={{ flexDirection: 'column' }}>
           <Text style={styles.header}> Identifying a Redd </Text>
-          <Image
-            resizeMode="contain"
-            style={{ alignSelf: 'stretch' }}
-            source={forkLength}
-          />
+          {renderReddImage()}
         </View>
         <View>
           <Text style={styles.header}> Identifying an Adipose Fin </Text>
           <Image
             resizeMode="contain"
-            style={{ alignSelf: 'stretch' }}
+            style={{ width: screenWidth }}
             source={adiposeFin}
           />
         </View>
