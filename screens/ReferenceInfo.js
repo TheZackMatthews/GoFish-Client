@@ -1,10 +1,13 @@
 import React from 'react';
 import {
-  Text, View, ScrollView,
+  Text, View, Image, ScrollView,
 } from 'react-native';
-import { Button, DataTable, Image } from 'react-native-paper';
+import { Button, DataTable } from 'react-native-paper';
+// import { referenceImg } from '../images'; //TODO Delete this and the file.
+
 // import { useScrollTo } from 'react-use-window-scroll';
-import { forkLength } from '../images'; // TODO delete referenceImg
+import forkLength from '../assets/references/forkLength.png'; // TODO
+import adiposeFin from '../assets/references/HatcheryWild.jpeg';
 import { refStyles as styles } from '../styles/AppStyles';
 
 function ReferenceInfo({ navigation }) {
@@ -69,12 +72,23 @@ function ReferenceInfo({ navigation }) {
           source={forkLength}
         />
         <Text style={styles.header}> Identifying a Redd </Text>
+        <Image
+          resizeMode="contain"
+          style={styles.img}
+          source={forkLength}
+        />
         <Text style={styles.header}> Identifying an Adipose Fin </Text>
+        <Image
+          resizeMode="contain"
+          style={styles.img}
+          source={adiposeFin}
+        />
         <Text style={styles.header}> How to Identify Fish Sex </Text>
         <Text style={styles.header}> How to Tell if a Fish Has Spawned </Text>
 
       </View>
     </ScrollView>
+
   );
 }
 
