@@ -5,6 +5,7 @@ import {
 import { Button, DataTable } from 'react-native-paper';
 // import { referenceImg } from '../images'; //TODO Delete this and the file.
 
+import PropTypes from 'prop-types';
 import forkLength from '../assets/references/forkLength.png'; // TODO
 import adiposeFin from '../assets/references/HatcheryWild.jpeg';
 import reddHighlight from '../assets/references/reddHighlight.png';
@@ -12,7 +13,8 @@ import reddNoHighlight from '../assets/references/reddNoHighlight.png';
 import { refStyles as styles } from '../styles/AppStyles';
 
 export default function ReferenceInfo({ navigation }) {
-  const { screenWidth } = Dimensions.get('window'); // full width
+  const screenWidth = Dimensions.get('window').width; // full width
+  const screenHeight = Dimensions.get('window').height;
 
   function renderReddImage() {
     const [reddPicture, setReddPicture] = useState(reddNoHighlight);
@@ -24,11 +26,12 @@ export default function ReferenceInfo({ navigation }) {
     };
     return (
       <TouchableOpacity
+        style={{ backgroundColor: 'teal' }}
         onPress={() => (toggleReddImage())}
       >
         <Image
           resizeMode="contain"
-          style={{ width: screenWidth }}
+          style={{ width: '100%' }}
           source={reddPicture}
         />
       </TouchableOpacity>
@@ -47,6 +50,12 @@ export default function ReferenceInfo({ navigation }) {
           Back
         </Button>
         <Text style={styles.header}> Table of Contents </Text>
+        <TouchableOpacity
+          style={{ backgroundColor: 'teal' }}
+          // onPress={() => (ScrollView.scrollTo({0,400}))}
+        >
+          <Text>test</Text>
+        </TouchableOpacity>
         <Text style={styles.header}> Quick Reference </Text>
         <View>
           <DataTable>
@@ -117,3 +126,15 @@ export default function ReferenceInfo({ navigation }) {
 
   );
 }
+
+ReferenceInfo.propTypes = {
+  navigation: PropTypes.shape({
+    goBack: PropTypes.func,
+  }),
+};
+
+ReferenceInfo.defaultProps = {
+  navigation: {
+    goBack: () => null,
+  },
+};

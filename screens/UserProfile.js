@@ -19,7 +19,6 @@ import { SIZES } from '../constants/theme';
 function UserProfile({ navigation }) {
   const [errorM, setErrorM] = useState('');
   const theme = useTheme();
-  console.log(theme);
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
