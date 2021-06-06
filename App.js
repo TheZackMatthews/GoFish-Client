@@ -73,7 +73,6 @@ export default function App() {
     LogBox.ignoreLogs(['VirtualizedLists']);
   }
   const { store, persistor } = useStore({});
-  console.log('App is working');
   const Stack = createStackNavigator();
 
   return (

@@ -53,6 +53,7 @@ const SpawnerProfile = ({ navigation }) => {
       dispatch(removeVisit())
         .then(() => navigation.navigate('Profile'));
     } else {
+      // eslint-disable-next-line no-console
       console.log('error', result);
     }
     // });

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Text, View, Image, ScrollView, Dimensions, TouchableOpacity,
+  Text, View, Image, ScrollView, Dimensions, TouchableOpacity, scrollToEnd,
 } from 'react-native';
 import { Button, DataTable } from 'react-native-paper';
 // import { referenceImg } from '../images'; //TODO Delete this and the file.
@@ -26,12 +26,14 @@ export default function ReferenceInfo({ navigation }) {
     };
     return (
       <TouchableOpacity
-        style={{ backgroundColor: 'teal' }}
+        style={{
+          backgroundColor: 'teal', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+        }}
         onPress={() => (toggleReddImage())}
       >
         <Image
           resizeMode="contain"
-          style={{ width: '100%' }}
+          style={{ width: screenWidth - 3, height: Math.floor(screenWidth * 0.76) }}
           source={reddPicture}
         />
       </TouchableOpacity>
@@ -40,7 +42,6 @@ export default function ReferenceInfo({ navigation }) {
 
   return (
     <ScrollView>
-
       <View style={styles.container}>
         <Button
           style={{ marginTop: 40 }}
@@ -49,13 +50,13 @@ export default function ReferenceInfo({ navigation }) {
         >
           Back
         </Button>
-        <Text style={styles.header}> Table of Contents </Text>
+        {/* <Text style={styles.header}> Table of Contents </Text>
         <TouchableOpacity
           style={{ backgroundColor: 'teal' }}
-          // onPress={() => (ScrollView.scrollTo({0,400}))}
+          onPress={() => (ScrollView.scrollToEnd())}
         >
           <Text>test</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text style={styles.header}> Quick Reference </Text>
         <View>
           <DataTable>
@@ -97,12 +98,11 @@ export default function ReferenceInfo({ navigation }) {
           </DataTable>
         </View>
 
-        <View>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text style={styles.header}> Measuring Fork Length </Text>
           <Image
             resizeMode="contain"
-            // style={styles.img}
-            style={{ width: screenWidth }}
+            style={{ width: Math.floor(screenWidth * 0.8) }}
             source={forkLength}
           />
         </View>
@@ -114,13 +114,14 @@ export default function ReferenceInfo({ navigation }) {
           <Text style={styles.header}> Identifying an Adipose Fin </Text>
           <Image
             resizeMode="contain"
-            style={{ width: screenWidth }}
+            style={{
+              width: screenWidth, height: Math.floor(screenWidth / 2),
+            }}
             source={adiposeFin}
           />
         </View>
         <Text style={styles.header}> How to Identify Fish Sex </Text>
         <Text style={styles.header}> How to Tell if a Fish Has Spawned </Text>
-
       </View>
     </ScrollView>
 
