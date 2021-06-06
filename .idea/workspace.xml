@@ -9,9 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8502b92-c20f-44ea-a75c-264152f6a989" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/redux/actions/surveyActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/redux/actions/surveyActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +27,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../WalkAR/WalkAR" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -80,9 +79,10 @@
     </state>
     <state x="1138" y="320" key="AndroidProcessChooserDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620878694449" />
     <state x="2039" y="464" key="AndroidProcessChooserDialog/0.30.3440.1410@0.30.3440.1410" timestamp="1620674052254" />
-    <state x="1049" y="297" key="FileChooserDialogImpl" timestamp="1620878737142">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-871" y="297" key="FileChooserDialogImpl" timestamp="1621658189313">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
+    <state x="-871" y="297" key="FileChooserDialogImpl/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1621658189313" />
     <state x="1049" y="297" key="FileChooserDialogImpl/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620878737142" />
     <state x="1880" y="433" key="FileChooserDialogImpl/0.30.3440.1410@0.30.3440.1410" timestamp="1620679407455" />
     <state width="1354" height="226" key="GridCell.Tab.0.bottom" timestamp="1620687611437">

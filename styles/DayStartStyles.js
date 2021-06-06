@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
   },
-  SearchBox: {
-    paddingHorizontal: 0,
-    left: -10,
-    width: 333,
-  },
+  // SearchBox: {
+  //   paddingHorizontal: 0,
+  //   left: -10,
+  //   width: 333,
+  // },
   SearchBoxCompleted: {
     backgroundColor: '#f6f6f6',
     borderColor: 'green',

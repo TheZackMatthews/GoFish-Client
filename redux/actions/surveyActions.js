@@ -80,6 +80,7 @@ export const updateFieldVisit = (fieldVisit) => (dispatch) => dispatch({
 });
 
 export const saveVisit = (fieldVisit) => async (dispatch) => {
+  console.log(fieldVisit);
   try {
     const sendVisit = {
       group_id: fieldVisit.group_id,
@@ -87,6 +88,8 @@ export const saveVisit = (fieldVisit) => async (dispatch) => {
       waterCondition: fieldVisit.water_condition,
       viewCondition: fieldVisit.view_condition,
       dayEndComments: fieldVisit.day_end_comments,
+      visibility: fieldVisit.visibility,
+      flowType: fieldVisit.flow_type,
     };
     await axios.put(`${API}saveVolunteers`, sendVisit);
 
