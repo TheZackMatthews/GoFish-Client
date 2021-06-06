@@ -32,6 +32,9 @@ export const refStyles = StyleSheet.create({
   header: {
     ...FONTS.h1,
     marginTop: SIZES.padding * 5, // I couldnt change space in btwn
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   constainer: {
     flex: 1,

@@ -31,9 +31,11 @@ export default function ReferenceInfo({ navigation }) {
         }}
         onPress={() => (toggleReddImage())}
       >
+        {/* The width and height here are intentionally not 100% to allow for a border.
+        The height also needed to be downscaled as it left empry space in the View */}
         <Image
           resizeMode="contain"
-          style={{ width: screenWidth - 3, height: Math.floor(screenWidth * 0.76) }}
+          style={{ width: screenWidth - 3, height: Math.floor(screenWidth * 0.76 - 2) }}
           source={reddPicture}
         />
       </TouchableOpacity>
@@ -43,13 +45,6 @@ export default function ReferenceInfo({ navigation }) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Button
-          style={{ marginTop: 40 }}
-          mode="contained"
-          onPress={() => navigation.goBack()}
-        >
-          Back
-        </Button>
         {/* <Text style={styles.header}> Table of Contents </Text>
         <TouchableOpacity
           style={{ backgroundColor: 'teal' }}
@@ -98,16 +93,23 @@ export default function ReferenceInfo({ navigation }) {
           </DataTable>
         </View>
 
+        <Text style={styles.header}> Measuring Fork Length </Text>
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={styles.header}> Measuring Fork Length </Text>
+          <Text> Fork length is defined as the distance from the tip of the nose to the fork in the tail. </Text>
           <Image
             resizeMode="contain"
             style={{ width: Math.floor(screenWidth * 0.8) }}
             source={forkLength}
           />
         </View>
-        <View style={{ flexDirection: 'column' }}>
+        <View>
           <Text style={styles.header}> Identifying a Redd </Text>
+          <Text>
+            Salmon redds are generally between 1-2 square meters in size and may be recognized by the appearance of clean looking gravel which is loose and soft underfoot,
+            as opposed to firmer and darker gravel nearby. Steelhead and trout will often use the same areas as the salmon to spawn. When newly formed, redds will appear to be a
+            depression with a mound of gravel on the downstream side. Eggs will be buried in the mound of gravel and for several meters downstream.
+          </Text>
+          <Text style={{ marginTop: 10 }}> Tap the below image to reveal which areas are redd </Text>
           {renderReddImage()}
         </View>
         <View>
@@ -123,6 +125,13 @@ export default function ReferenceInfo({ navigation }) {
         <Text style={styles.header}> How to Identify Fish Sex </Text>
         <Text style={styles.header}> How to Tell if a Fish Has Spawned </Text>
       </View>
+      <Button
+        style={{ marginTop: 40 }}
+        mode="contained"
+        onPress={() => navigation.goBack()}
+      >
+        Back
+      </Button>
     </ScrollView>
 
   );
