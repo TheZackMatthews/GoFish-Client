@@ -35,8 +35,6 @@ const SpawnerProfile = ({ navigation }) => {
   const [viewingModal, setViewingModal] = useState(false);
   const iconColor = '#001a1a';
 
-  console.log(visit)
-
   useEffect(() => {
     if (!user) {
       dispatch(getUser());
@@ -219,7 +217,7 @@ const SpawnerProfile = ({ navigation }) => {
             <List.Item
               onPress={() => setFlowModal(true)}
               title="Flow Type"
-              description={visit.water_flow || 'Click to add'}
+              description={visit.flow_type || 'Click to add'}
               left={() => <List.Icon color={iconColor} icon="water-outline" />}
             />
             <List.Item

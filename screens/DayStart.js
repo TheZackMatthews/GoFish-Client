@@ -205,13 +205,15 @@ function DayStart({ navigation }) {
   };
 
   const initializeVisit = async () => {
-    await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
-    await setQuery('');
-    await setFilterData([]);
-    await setTeamMembers(['']);
-    await setCreekName('');
-    await setIsAgreedSafety(false);
-    navigation.navigate('SpawnerProfile');
+    const result = await dispatch(initializeFieldVisit(creekName, teamLead, teamMembers));
+    if (result.payload) {
+      await setQuery('');
+      await setFilterData([]);
+      await setTeamMembers(['']);
+      await setCreekName('');
+      await setIsAgreedSafety(false);
+      navigation.navigate('SpawnerProfile');
+    } else console.log(result);
   };
 
   const dispatchVolunteers = () => {

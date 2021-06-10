@@ -76,8 +76,12 @@ export default function ProjectMap({ navigation }) {
       lat: loc.latitude,
       lng: loc.longitude,
     };
+    const sendLocation = {
+      latitude: loc.latitude,
+      longitude: loc.longitude,
+    }
     const result = await dispatch(submitLocation(coords));
-    await dispatch(createPin({coords: loc}));
+    await dispatch(createPin(sendLocation));
     if (result && result.payload) {
       setMapState(); // resets map state
       navigation.navigate('FishOrRedd');

@@ -10,14 +10,14 @@ import {
   SAVE_TO_ROLL,
   FAILED_UPLOAD,
 } from '../actions/actionTypes';
-import { defaultVolunteer } from '../defaultState';
+import { defaultVisit } from '../defaultState';
 
 // visit reducer
-export const visitReducer = (state = defaultVolunteer, { type, payload }) => {
+export const visitReducer = (state = defaultVisit, { type, payload }) => {
   switch (type) {
     case NEW_FIELD_VISIT:
       return {
-        ...defaultVolunteer,
+        ...defaultVisit,
         group_id: payload.group_id,
         creek_name: payload.creek_name,
         team_lead: payload.team_lead,
