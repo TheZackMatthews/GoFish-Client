@@ -51,7 +51,11 @@ export const defaultVisit = {
   images: [],
 };
 
-export const defaultCamera = [''];
+export const defaultPhoto = {
+  uri: '',
+  comment: '',
+  category: '',
+};
 
 export const defaultTheme = 'regular';
 
@@ -59,7 +63,7 @@ export const initialState = {
   user: defaultUser,
   pin: defaultPin,
   visit: defaultVisit,
-  camera: defaultCamera,
+  camera: null,
   theme: defaultTheme,
-  cache: [],
+  cache: undefined,
 };

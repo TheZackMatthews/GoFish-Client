@@ -9,8 +9,9 @@ import {
 import { TextInput, Button } from 'react-native-paper';
 import GoFishLogo from '../components/GoFishLogo';
 import styles from '../styles/FormStyles';
-import { logInUser } from '../redux/actions/userActions';
+import { logInUser, sendPasswordReset } from '../redux/actions/userActions';
 import { AppDispatch } from '../redux/store';
+
 
 interface Props {
   navigation: {
@@ -24,7 +25,7 @@ const SignIn = ({ navigation }: Props) => {
   const [password, setPassword] = useState<string>('');
   const [errorM, setErrorM] = useState<string>('');
 
-  const submitHandler = async () => {
+  const submitHandler = async (): Promise<void> => {
     setEmail('');
     setPassword('');
     const result = await dispatch(logInUser({email, password}));
@@ -33,6 +34,15 @@ const SignIn = ({ navigation }: Props) => {
     } else navigation.navigate('Profile');
   };
 
+  const newPasswordHandler = async () => {
+    const result = await dispatch(sendPasswordReset(email))
+    console.log(result)
+    if (result.payload.message) {
+      setErrorM(result.payload.message);
+    } else if (result.payload.error) {
+      setErrorM(result.payload.error);
+    }
+  }
 
   return (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
@@ -70,6 +80,14 @@ const SignIn = ({ navigation }: Props) => {
           onPress={() => navigation.navigate('SignUp')}
         >
           Create Account
+        </Button>
+      </View>
+      <View style={styles.submitView}>
+        <Button
+          mode="outlined"
+          onPress={newPasswordHandler}
+        >
+          Reset password
         </Button>
       </View>
       </ScrollView>

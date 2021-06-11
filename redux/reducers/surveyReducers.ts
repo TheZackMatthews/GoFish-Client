@@ -10,10 +10,16 @@ import {
   SAVE_TO_ROLL,
   FAILED_UPLOAD,
 } from '../actions/actionTypes';
-import { defaultVisit } from '../defaultState';
+import { defaultVisit, defaultPin } from '../defaultState';
+import { StateVisit, StatePin } from '../../interfaces/state';
+
+interface Action {
+  type: string,
+  payload: any,
+}
 
 // visit reducer
-export const visitReducer = (state = defaultVisit, { type, payload }) => {
+export const visitReducer = (state: StateVisit = defaultVisit, { type, payload }: Action) => {
   switch (type) {
     case NEW_FIELD_VISIT:
       return {
@@ -45,7 +51,7 @@ export const visitReducer = (state = defaultVisit, { type, payload }) => {
 };
 
 // pin reducer
-export const pinReducer = (state = '', { type, payload }) => {
+export const pinReducer = (state: StatePin = defaultPin, { type, payload }: Action) => {
   switch (type) {
     case CREATE_PIN:
       return payload;
@@ -55,10 +61,17 @@ export const pinReducer = (state = '', { type, payload }) => {
         ...payload,
       };
     case SAVE_TO_ROLL:
-      return {
-        ...state,
-        images: state.images.concat(payload),
-      };
+      if (state.images && state.images.length) {
+        return {
+          ...state,
+          images: state.images.concat(payload),
+        };
+      } else {
+        return {
+          ...state,
+          images: [payload],
+        }
+      }
     case REMOVE_PIN:
       return '';
     default:
@@ -67,10 +80,17 @@ export const pinReducer = (state = '', { type, payload }) => {
 };
 
 // cache for failed uploads
-export const cacheReducer = (state = [], { type, payload }) => {
+export const cacheReducer = (state = null, { type, payload }: Action) => {
   switch (type) {
     case FAILED_UPLOAD:
-      return state.concat(payload);
+      if (state !== null) {
+        return [
+          ...state!!,
+          payload,
+        ];
+      } else {
+        return state;
+      }
     default:
       return state;
   }

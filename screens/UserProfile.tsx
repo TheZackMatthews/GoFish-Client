@@ -15,7 +15,7 @@ import { logOutUser, getUser } from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/theme';
 import { AppDispatch } from '../redux/store';
-import { StateUser, DefaultRootState, StateVisit } from '../interfaces/state';
+import { StateUser, DefaultRootState, StateVisit, StateCache } from '../interfaces/state';
 
 interface Props {
   navigation: {
@@ -36,7 +36,7 @@ const UserProfile = ({ navigation }: Props) => {
   const theme: ITheme = useTheme();
   const dispatch: AppDispatch = useDispatch();
   const user: StateUser = useSelector((state: DefaultRootState) => state.user);
-  const cache: any[] = useSelector((state: DefaultRootState) => state.cache);
+  const cache: StateCache = useSelector((state: DefaultRootState) => state.cache);
 
   useEffect(() => {
     dispatch(getUser());
@@ -44,7 +44,7 @@ const UserProfile = ({ navigation }: Props) => {
 
   const submitHandler = async (): Promise<any> => {
     setErrorM('');
-    const result = await dispatch(logOutUser(setErrorM));
+    const result = await dispatch(logOutUser());
     if (result && result.payload) {
       navigation.navigate('SignIn');
     }
@@ -54,9 +54,13 @@ const UserProfile = ({ navigation }: Props) => {
     navigation.navigate(destination);
   };
 
-  const renderData = () => cache.map((visit: StateVisit) => ({
-    id: visit.group_id,
-  }));
+  const renderData = () => {
+    if (cache) {
+      cache.map((visit: StateVisit) => ({
+        id: visit.group_id,
+      }))
+    } else return []
+  };
 
   interface Iid {
     id: string,

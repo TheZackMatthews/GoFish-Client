@@ -1,6 +1,11 @@
 import { TOGGLE_FONT } from '../actions/actionTypes';
 
-const themeReducer = (state = 'regular', { type }) => {
+interface Action {
+  type: string,
+  payload: any,
+}
+
+const themeReducer = (state: string = 'regular', { type, payload }: Action) => {
   switch (type) {
     case TOGGLE_FONT:
       if (state === 'regular') return 'large';

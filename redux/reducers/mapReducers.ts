@@ -1,8 +1,14 @@
 import { NEW_FIELD_VISIT, UPDATE_ENTRY, SAVE_SURVEY } from '../actions/actionTypes';
-
+import { StateLocation } from '../../interfaces/state'
+import { defaultLocation } from '../defaultState';
 // survey reducer
 
-const surveyReducer = (state = '', { type, payload }) => {
+interface MapAction {
+  type: string,
+  payload: any,
+}
+
+const mapReducer = (state: StateLocation = defaultLocation, { type, payload }: MapAction) => {
   switch (type) {
     case NEW_FIELD_VISIT:
       return payload;
@@ -24,4 +30,4 @@ const surveyReducer = (state = '', { type, payload }) => {
   }
 };
 
-export default surveyReducer;
+export default mapReducer;

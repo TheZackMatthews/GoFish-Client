@@ -11,13 +11,14 @@ import {
   Title,
   Button,
   TextInput,
-  ProgressBar,
 } from 'react-native-paper';
 import {
   getUser,
   updateProfile,
   profilePicture,
   updateEmail,
+  updatePassword,
+  updatePhone,
 } from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
 import UploadImage from '../components/UploadImage';
@@ -38,7 +39,7 @@ interface Password {
 
 const EditUserInfo = ({ navigation }: Props) => {
   const [errorM, setErrorM] = useState<string>('');
-  const [progress, setProgress] = useState<number>(1);
+  const [progress, setProgress] = useState<number>(0);
   const dispatch: AppDispatch = useDispatch();
   const user: StateUser = useSelector((state: DefaultRootState) => state.user);
   const [editUser, setEditUser] = useState<StateUser>(defaultUser);
@@ -49,7 +50,7 @@ const EditUserInfo = ({ navigation }: Props) => {
   }, []);
 
   useEffect(() => {
-    setEditUser(user || defaultUser);
+    if (user) setEditUser(user);
   }, [user]);
 
   useEffect(() => {
@@ -83,6 +84,25 @@ const EditUserInfo = ({ navigation }: Props) => {
       const nameResult = await dispatch(updateProfile(editUser.displayName));
       if (nameResult.payload.error) {
         setErrorM(nameResult.payload.error);
+        error = true;
+      }
+    }
+    if (password.newPassword) {
+      if (password.newPassword === password.confirmNewPassword) {
+        const passwordResult = await dispatch(updatePassword(password.newPassword))
+        if (passwordResult.payload.error) {
+          setErrorM(passwordResult.payload.error);
+          error = true;
+        }
+      } else {
+        setErrorM('Passwords do not match!')
+        error = true;
+      }
+    }
+    if (editUser.phoneNumber && editUser.phoneNumber !== user.phoneNumber) {
+      const editPhone = await dispatch(updatePhone(editUser.phoneNumber));
+      if (editPhone.payload.error) {
+        setErrorM(editPhone.payload.error);
         error = true;
       }
     }

@@ -14,7 +14,6 @@ export interface StateLocation {
 }
 
 export interface StatePhoto {
-  surveyId?: string,
   category: string,
   comment: string,
   uri: string,
@@ -42,7 +41,7 @@ export interface StateVisit {
       longitude: number,
     },
     pins: StatePin[],
-    images: object[] | null,
+    images: StatePhoto[] | undefined,
 }
 
 export interface StatePin {
@@ -58,11 +57,13 @@ export interface StatePin {
     comments: string,
 }
 
+export type StateCache = any;
+
 export interface DefaultRootState {
   user: StateUser,
   visit: StateVisit,
-  camera: any[],
+  camera: StatePhoto | null,
   pin: StatePin,
   theme: string,
-  cache: any[]
+  cache: StateCache,
 }

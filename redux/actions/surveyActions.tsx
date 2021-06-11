@@ -136,7 +136,7 @@ export const saveVisit = (fieldVisit: StateVisit) => async (dispatch: Dispatch<D
     console.log(error);
     return dispatch({
       type: FAILED_UPLOAD,
-      payload: fieldVisit,
+      payload: [fieldVisit],
     });
   }
 };

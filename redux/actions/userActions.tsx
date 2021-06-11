@@ -9,11 +9,14 @@ import {
   PASSWORD_RESET,
   PROFILE_PICTURE,
   UPDATE_PASSWORD,
+  GET_ADDITIONAL,
+  EDIT_PHONE,
 } from './actionTypes';
 import { Action, Dispatch, Unsubscribe } from 'redux';
-import { defaultUser } from '../defaultState';
 import { firebaseClient } from '../../auth/firebaseClient';
 import 'firebase/auth';
+import { API } from '../../.env.json';
+import axios from 'axios';
 
 interface UserProps {
   email: string,
@@ -122,26 +125,34 @@ export const createUser = (signUp: SignUpProps) => (dispatch: Dispatch<DispatchP
 export const getUser = () => (dispatch: Dispatch<DispatchProps>): Unsubscribe => {
   firebaseClient();
   return firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      return dispatch({
-        type: GET_USER,
-        payload: {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          phoneNumber: user.phoneNumber,
-          creationTime: user.metadata.creationTime,
-          lastSignInTime: user.metadata.lastSignInTime,
-        },
-      });
-    }
-    return dispatch({
+    if (user) { 
+      axios.get(`${API}user/${user.uid}`)
+        .then((res) => {
+          console.log(res)
+          return dispatch({
+            type: GET_USER,
+            payload: {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+              phoneNumber: res.data.phone_number,
+              totalVisits: res.data.total_visits,
+              creationTime: user.metadata.creationTime,
+              lastSignInTime: user.metadata.lastSignInTime,
+            }
+          })
+        })
+        .catch((error) => dispatch({
+          type: GET_USER,
+          payload: { error: error.message }
+        }))
+    } else return dispatch({
       type: GET_USER,
       payload: '',
     });
-  });
-};
+  })
+}
 
 interface EditProps {
   displayName?: string,
@@ -168,6 +179,36 @@ export const updateProfile = (displayName: string) => async (dispatch: Dispatch<
     payload: { error: 'User not found' }
   })
 };
+
+export const updatePhone = (phoneNumber: string) => async (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    return axios.put(`${API}user`, {
+      uid: user.uid,
+      update: {
+        phone_number: phoneNumber,
+      }
+    })
+      .then((res) => {
+        console.log(res.data)
+        return dispatch({
+          type: EDIT_PHONE,
+          payload: {
+            phoneNumber: res.data.phoneNumber,
+          },
+        })
+      })
+      .catch((error) => dispatch({
+        type: EDIT_PHONE,
+        payload: { error: error.message }
+      }))
+  } else {
+    return Promise.resolve(dispatch({
+      type: EDIT_PHONE,
+      payload: { error: 'User not found' }
+    }))
+  }
+}
 
 export const updateEmail = (email: string) => async (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
   firebaseClient();
@@ -241,27 +282,37 @@ export const profilePicture = ({picture, platform, setProgress}: ProfilePicProps
   })
 };
 
-// password functions not implemented
-export const updatePassword = (password, setErrorM) => (dispatch) => {
+export const updatePassword = (password: string) => (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
   firebaseClient();
   const user = firebase.auth().currentUser;
-  user.updatePassword(password)
-    .then(() => console.log('passwordupdated'))
-    .catch((error) => setErrorM(error.message));
-
-  return dispatch({
-    type: UPDATE_PASSWORD,
-    payload: true,
-  });
+  if (user) {
+    return user.updatePassword(password)
+      .then(() => dispatch({
+        type: UPDATE_PASSWORD,
+        payload: true,
+      }))
+      .catch((error) => dispatch({
+        type: UPDATE_PASSWORD,
+        payload: { error: error.message }
+      }));
+} else {
+  return Promise.resolve(dispatch({
+      type: UPDATE_PASSWORD,
+      payload: { error: 'User not found' }
+    }))
+  }
 };
 
-export const sendPasswordReset = (email, setErrorM) => (dispatch) => {
+export const sendPasswordReset = (email: string) => (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
   firebaseClient();
-  firebase.auth().sendPasswordResetEmail(email)
-    .then(() => console.log('email sent'))
-    .catch((error) => setErrorM(error.message));
-  return dispatch({
-    type: PASSWORD_RESET,
-    payload: true,
-  });
+  console.log(email)
+  return firebase.auth().sendPasswordResetEmail(email)
+    .then(() => dispatch({
+      type: PASSWORD_RESET,
+      payload: { message: 'Email has been sent' },
+    }))
+    .catch((error) => dispatch({
+      type: PASSWORD_RESET,
+      payload: { error: error.message },
+    }));
 };

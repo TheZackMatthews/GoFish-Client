@@ -9,7 +9,9 @@ export const UPDATE_PASSWORD: string = 'UPDATE_PASSWORD';
 export const GET_USER: string = 'GET_USER';
 export const EDIT_PROFILE: string = 'EDIT_PROFILE';
 export const EDIT_EMAIL: string = 'EDIT_EMAIL';
+export const EDIT_PHONE: string = 'EDIT_PHONE';
 export const PROFILE_PICTURE: string = 'PROFILE_PICTURE';
+export const GET_ADDITIONAL: string = 'GET_ADDITIONAL';
 
 // survey action types
 export const NEW_FIELD_VISIT: string = 'NEW_FIELD_VISIT';
@@ -41,3 +43,5 @@ export const TOGGLE_FONT = 'TOGGLE_FONT';
 
 // questionnaire types
 export const QUEST_USER = 'QUEST_USER';
+
+export const ERROR = 'ERROR';
