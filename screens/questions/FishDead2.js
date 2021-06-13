@@ -3,14 +3,12 @@ import {
   View, ScrollView, Alert,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { Title, List, Card, TextInput } from 'react-native-paper';
+import { Title, Card, TextInput } from 'react-native-paper';
 import BackNext from '../../components/questions/BackNext';
 import TwoAnswer from '../../components/questions/TwoAnswer';
 import styles from '../../styles/QuestionStyles';
 
 const FishDead2 = ({ navigation }) => {
-  const fish = (useSelector((state) => state.pin.fish_species));
   const [fork, setFork] = useState(null);
   const [fin, setFin] = useState(null);
   const [gender, setGender] = useState(null);
@@ -45,7 +43,6 @@ const FishDead2 = ({ navigation }) => {
           </Card>
         </View>
         <TwoAnswer
-          // image={[references.adiposeFin]}
           question="Does it have an adipose fin?"
           answer1="Yes"
           answer2="No"
@@ -63,7 +60,6 @@ const FishDead2 = ({ navigation }) => {
           answer2="Female"
           choose={setGender}
         />
-
         <BackNext navigationHandler={(direction) => navigationHandler(direction)} />
 
       </View>

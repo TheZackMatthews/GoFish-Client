@@ -38,3 +38,6 @@ export const FAILED_UPLOAD = 'FAILED_UPLOAD';
 
 // theme action types
 export const TOGGLE_FONT = 'TOGGLE_FONT';
+
+// questionnaire types
+export const QUEST_USER = 'QUEST_USER';

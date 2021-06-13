@@ -6,6 +6,8 @@ import {
   ScrollView,
   Text,
   View,
+  Platform,
+  BackHandler,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -34,6 +36,17 @@ const SpawnerProfile = ({ navigation }) => {
   const [visibilityModal, setVisibilityModal] = useState(false);
   const [viewingModal, setViewingModal] = useState(false);
   const iconColor = '#001a1a';
+
+  const handleBackButton = () => true;
+
+  // The following function disables android's back button
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+  }, []);
+
+  useEffect(() => BackHandler.removeEventListener('hardwareBackPress', handleBackButton), []);
+
+  console.log(visit);
 
   useEffect(() => {
     if (!user) {
@@ -151,7 +164,7 @@ const SpawnerProfile = ({ navigation }) => {
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <Modal
-          update="water_flow"
+          update="flow_type"
           label="Water flow"
           text="What is the water flow type today?"
           modalVisible={flowModal}
@@ -243,7 +256,6 @@ const SpawnerProfile = ({ navigation }) => {
             && (
             <>
               <Title>Reports made on this visit</Title>
-              {/* {renderPins()} */}
               <FlatList
                 data={renderData()}
                 renderItem={renderItem}
