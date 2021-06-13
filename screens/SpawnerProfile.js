@@ -6,6 +6,8 @@ import {
   ScrollView,
   Text,
   View,
+  Platform,
+  BackHandler,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -35,7 +37,16 @@ const SpawnerProfile = ({ navigation }) => {
   const [viewingModal, setViewingModal] = useState(false);
   const iconColor = '#001a1a';
 
-  console.log(visit)
+  const handleBackButton = () => true;
+
+  // The following function disables android's back button
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+  }, []);
+
+  useEffect(() => BackHandler.removeEventListener('hardwareBackPress', handleBackButton), []);
+
+  console.log(visit);
 
   useEffect(() => {
     if (!user) {
