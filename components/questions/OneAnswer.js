@@ -14,6 +14,7 @@ const OneAnswer = ({
     { label: 'Pink', value: 'pink' },
     { label: 'Chum', value: 'chum' },
     { label: 'Trout', value: 'trout' },
+    { label: 'Unknown', value: 'unknown' },
   ];
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);

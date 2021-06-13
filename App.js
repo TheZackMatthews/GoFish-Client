@@ -35,7 +35,7 @@ export default function App() {
               <NavigationContainer>
                 <Stack.Navigator
                   screenOptions={{ headerShown: false }}
-                  initialRouteName="SpawnerProfile"
+                  initialRouteName="FishAlive1"
                 >
                   <Stack.Screen name="SignIn" component={screens.SignIn} />
                   <Stack.Screen name="SignUp" component={screens.SignUp} />
