@@ -47,11 +47,11 @@ const EditUserInfo = ({ navigation }: Props) => {
 
   useEffect(() => {
     if (!user.uid) dispatch(getUser());
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (user) setEditUser(user);
-  }, [user]);
+  }, [user.uid]);
 
   useEffect(() => {
     if (progress === 100) {

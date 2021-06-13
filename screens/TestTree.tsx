@@ -12,14 +12,23 @@ import NumberInput from '../components/questions/NumberInput';
 import LongInput from '../components/questions/LongInput';
 import ShortInput from '../components/questions/ShortInput';
 import questionnaire from '../constants/FishFlow';
+import { DefaultRootState } from '../interfaces/state';
 
-const TestTree = ({ navigation }) => {
+interface Props {
+  navigation: {
+    navigate: (page: string) => null;
+  }
+}
+
+const TestTree = ({ navigation }: Props) => {
   const [question, setQuestion] = useState(questionnaire.start);
   const theme = useTheme();
-  const pin = useSelector((state) => state.pin);
+  const pin = useSelector((state: DefaultRootState) => state.pin);
   const dispatch = useDispatch();
 
   // answers - set to false if present
+  // validation should be done on the individual pages so that 
+  // multiple items of the same kind can be used.
   const [buttonAns, setButtonAns] = useState(true);
   const [dropdownAns, setDropdownAns] = useState(true);
   const [numberAns, setNumberAns] = useState(1);

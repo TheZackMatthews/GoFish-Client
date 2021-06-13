@@ -3,7 +3,7 @@ import { Button } from 'react-native-paper';
 import {
   Alert, Modal, StyleSheet, Text, Pressable, View,
 } from 'react-native';
-import { COLORS } from '../../constants/theme';
+import { COLORS } from '../../constants/Theme';
 
 const LocationModal = (props) => {
   const [modalVisible, setModalVisible] = useState(false);

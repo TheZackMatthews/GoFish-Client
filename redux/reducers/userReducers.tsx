@@ -1,5 +1,12 @@
 import {
-  LOG_IN, LOG_OUT, NEW_USER, GET_USER, EDIT_PROFILE, PROFILE_PICTURE, UPDATE_PASSWORD, GET_ADDITIONAL, 
+  LOG_IN,
+  LOG_OUT,
+  NEW_USER,
+  GET_USER,
+  EDIT_PROFILE,
+  PROFILE_PICTURE,
+  UPDATE_PASSWORD,
+  EDIT_PHONE,
 } from '../actions/actionTypes';
 import { defaultUser } from '../defaultState';
 import { StateUser } from '../../interfaces/state';
@@ -20,11 +27,11 @@ const userReducer = (state: StateUser = defaultUser, { type, payload }: Action) 
       return payload;
     case GET_USER:
       return payload;
-    case GET_ADDITIONAL:
+    case EDIT_PHONE:
       return {
         ...state,
-        phoneNumber: payload.phone_number,
-        totalVisits: payload.total_visits,
+        phoneNumber: payload.phoneNumber,
+        
       }
     case EDIT_PROFILE:
       return {

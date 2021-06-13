@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { Card, Title, List } from 'react-native-paper';
-import { SIZES } from '../../constants/theme';
+import { SIZES } from '../../constants/Theme';
 
 const ThreeAnswer = ({
   question, answer1, answer2, answer3, choose, image,

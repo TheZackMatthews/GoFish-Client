@@ -13,7 +13,7 @@ import {
 } from 'react-native-paper';
 import { logOutUser, getUser } from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
-import { SIZES } from '../constants/theme';
+import { SIZES } from '../constants/Theme';
 import { AppDispatch } from '../redux/store';
 import { StateUser, DefaultRootState, StateVisit, StateCache } from '../interfaces/state';
 

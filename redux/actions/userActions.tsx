@@ -9,7 +9,6 @@ import {
   PASSWORD_RESET,
   PROFILE_PICTURE,
   UPDATE_PASSWORD,
-  GET_ADDITIONAL,
   EDIT_PHONE,
 } from './actionTypes';
 import { Action, Dispatch, Unsubscribe } from 'redux';
@@ -94,31 +93,50 @@ interface SignUpProps {
 // create user action
 // add link to database
 export const createUser = (signUp: SignUpProps) => (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
-  const { email, password } = signUp;
+  const { email, password, name } = signUp;
+  firebaseClient();
   return firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then((result) => {
-      if (result.user) {
+      if (result && result.user) {
+        return axios.post(`${API}user`, {
+          uid: result.user.uid,
+          email,
+          name,
+        })
+          .then((res) => {
+            return dispatch({
+              type: NEW_USER,
+              payload: {
+                uid: result.user!!.uid,
+                email: result.user!!.email,
+                displayName: result.user!!.displayName,
+                photoURL: result.user!!.photoURL,
+                creationTime: result.user!!.metadata.creationTime,
+                lastSignInTime: result.user!!.metadata.lastSignInTime,
+              }
+            })
+          })
+          .catch((error) => dispatch({
+            type: NEW_USER,
+            payload: { uid: '', error: error.message }
+          }))
+      } else {
         return dispatch({
           type: NEW_USER,
           payload: {
-            uid: result.user.uid,
-            email: result.user.email,
-            displayName: result.user.displayName,
-            photoURL: result.user.photoURL,
-            creationTime: result.user.metadata.creationTime,
-            lastSignInTime: result.user.metadata.lastSignInTime,
+            uid: '',
           }
         })
-      } else throw new Error;
+      }
     })
-    .catch((error) => {
-      return dispatch({
-        type: NEW_USER,
-        payload: { error: error.message }
-      })
-    });
+    .catch((error) => dispatch({
+      type: NEW_USER,
+      payload: { error: error.message }
+    }))
+      
+    
 };
 
 // get user (if authenticated but user is not in redux)
@@ -127,9 +145,7 @@ export const getUser = () => (dispatch: Dispatch<DispatchProps>): Unsubscribe =>
   return firebase.auth().onAuthStateChanged((user) => {
     if (user) { 
       axios.get(`${API}user/${user.uid}`)
-        .then((res) => {
-          console.log(res)
-          return dispatch({
+        .then((res) => dispatch({
             type: GET_USER,
             payload: {
               uid: user.uid,
@@ -142,7 +158,7 @@ export const getUser = () => (dispatch: Dispatch<DispatchProps>): Unsubscribe =>
               lastSignInTime: user.metadata.lastSignInTime,
             }
           })
-        })
+        )
         .catch((error) => dispatch({
           type: GET_USER,
           payload: { error: error.message }
@@ -194,7 +210,7 @@ export const updatePhone = (phoneNumber: string) => async (dispatch: Dispatch<Di
         return dispatch({
           type: EDIT_PHONE,
           payload: {
-            phoneNumber: res.data.phoneNumber,
+            phoneNumber: res.data.phone_number
           },
         })
       })

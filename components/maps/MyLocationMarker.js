@@ -8,7 +8,7 @@ import {
 import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import isEqual from 'lodash/isEqual';
-import { COLORS } from '../../constants/theme';
+import { COLORS } from '../../constants/Theme';
 
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,

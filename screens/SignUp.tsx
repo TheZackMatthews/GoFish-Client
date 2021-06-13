@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { TextInput, Button } from 'react-native-paper';
-import PropTypes from 'prop-types';
 import { createUser, updateProfile } from '../redux/actions/userActions';
 import GoFishLogo from '../components/GoFishLogo';
 import styles from '../styles/FormStyles';
@@ -120,22 +119,8 @@ const SignUp = ({ navigation }: Props) => {
         </Button>
       </View>
       </ScrollView>
-
-      {/* {renderAreaCodesModal()} */}
     </KeyboardAvoidingView>
   );
 }
-
-SignUp.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-  }),
-};
-
-SignUp.defaultProps = {
-  navigation: {
-    navigate: () => null,
-  },
-};
 
 export default SignUp;

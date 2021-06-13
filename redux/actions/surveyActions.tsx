@@ -23,16 +23,16 @@ import { StateLocation, StateVisit, StatePhoto, StatePin } from '../../interface
 
 // creek_name: string, team_lead: string, team_members: string[]
 interface SurveyProps {
-  creek_name: string,
-  team_lead: string,
-  team_members: string[],
+  creekName: string,
+  teamLead: string,
+  teamMembers: string[],
 }
 
 interface DispatchProps extends Action {
   type: string,
   payload: any,
 }
-export const initializeFieldVisit = ({creek_name, team_lead, team_members}: SurveyProps) => async (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
+export const initializeFieldVisit = ({creekName, teamLead, teamMembers}: SurveyProps) => async (dispatch: Dispatch<DispatchProps>): Promise<DispatchProps> => {
   const { status } = await Location.requestForegroundPermissionsAsync();
   let location: StateLocation = defaultLocation;
 
@@ -41,30 +41,37 @@ export const initializeFieldVisit = ({creek_name, team_lead, team_members}: Surv
     location.longitude = tempLocation.coords.longitude;
     location.latitude = tempLocation.coords.latitude;
   } 
-
-  return axios.post(`${API}visit`, {creek_name, team_lead, team_members})
-    .then((response) => dispatch({
-      type: NEW_FIELD_VISIT,
-      payload: {
-        ...defaultVisit,
-        group_id: response.data.group_id,
-        creek_name,
-        team_lead,
-        team_members,
-        started_at: response.data.startedAt,
-        start_location: {
-          latitude: location.latitude,
-          longitude: location.longitude,
-        },
-      },
-    }))
-    .catch((error) => {
-      console.log(error);
-      return {
+  try {
+    return axios.post(`${API}visit`, {creekName, teamLead, teamMembers})
+      .then((response) => dispatch({
         type: NEW_FIELD_VISIT,
-        payload: error.message,
-      };
-    });
+        payload: {
+          ...defaultVisit,
+          group_id: response.data.group_id,
+          creek_name: creekName,
+          team_lead: teamLead,
+          team_members: teamMembers,
+          started_at: response.data.startedAt,
+          start_location: {
+            latitude: location.latitude,
+            longitude: location.longitude,
+          },
+        },
+      }))
+      .catch((error) => {
+        console.log(error);
+        return {
+          type: NEW_FIELD_VISIT,
+          payload: error.message,
+        };
+      });
+  } catch (error) {
+    console.log(error);
+    return {
+      type: NEW_FIELD_VISIT,
+      payload: error.message,
+    };
+  };
 };
 
 export const submitLocation = (coordinates: StateLocation) => (dispatch: Dispatch<DispatchProps>): Action => dispatch({
@@ -143,26 +150,15 @@ export const saveVisit = (fieldVisit: StateVisit) => async (dispatch: Dispatch<D
 
 // on logout
 export const removeVisit = () => async (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
-  let LocalStorage;
-  if (Platform.OS === 'android') {
-    LocalStorage = AsyncStorage;
-  } else {
-    LocalStorage = window.localStorage;
-  }
-  try {
-    await LocalStorage.removeItem('fieldVisit');
-    return dispatch({
-      type: REMOVE_VISIT,
-      payload: defaultVisit,
-    });
-  } catch (error) {
-    return error;
-  }
+  return dispatch({
+    type: REMOVE_VISIT,
+    payload: defaultVisit,
+  });
 };
 
-export const createPin = (location: StateLocation) => async (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
+export const createPin = (location?: StateLocation) => async (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
   const pin = defaultPin;
-  let startLocation = location;
+  let startLocation = location || defaultLocation;
   try {
     if (!location) {
       let tempLocation: any = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });

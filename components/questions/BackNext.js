@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from '../../styles/QuestionStyles';
-import { SIZES } from '../../constants/theme';
+import { SIZES } from '../../constants/Theme';
 
 const BackNext = ({ navigationHandler }) => (
   <View style={styles.btnContainer}>

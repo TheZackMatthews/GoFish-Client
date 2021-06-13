@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { submitLocation, createPin } from '../redux/actions/surveyActions';
 import MyLocationMapMarker from '../components/maps/MyLocationMarker';
 import LocationModal from '../components/maps/LocationModal';
-import { COLORS } from '../constants/theme';
+import { COLORS } from '../constants/Theme';
 
 // const CustomMarker = () => (
 // <View

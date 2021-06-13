@@ -7,11 +7,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   Title, Button, List, ActivityIndicator,
 } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getUser } from '../redux/actions/userActions';
 import { createPin, saveVisit, removeVisit } from '../redux/actions/surveyActions';
 import Modal from '../components/Modal';
@@ -22,19 +20,27 @@ import {
   ViewingConditions,
 } from '../constants/WaterAir';
 import styles from '../styles/UserStyles';
-import { SIZES } from '../constants/theme';
+import { SIZES } from '../constants/Theme';
+import { DefaultRootState } from '../interfaces/state';
+import renderItem from '../components/questions/Item';
 
-const SpawnerProfile = ({ navigation }) => {
+interface Props {
+  navigation: {
+    navigate: (page: string) => null;
+  }
+}
+
+const SpawnerProfile = ({ navigation }: Props) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const visit = useSelector((state) => state.visit);
-  const [loading, setLoading] = useState(false);
-  const [flowModal, setFlowModal] = useState(false);
-  const [waterModal, setWaterModal] = useState(false);
-  const [visibilityModal, setVisibilityModal] = useState(false);
-  const [viewingModal, setViewingModal] = useState(false);
+  const user = useSelector((state: DefaultRootState) => state.user);
+  const visit = useSelector((state: DefaultRootState) => state.visit);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [flowModal, setFlowModal] = useState<boolean>(false);
+  const [waterModal, setWaterModal] = useState<boolean>(false);
+  const [visibilityModal, setVisibilityModal] = useState<boolean>(false);
+  const [viewingModal, setViewingModal] = useState<boolean>(false);
   const iconColor = '#001a1a';
-
+console.log(visit)
   useEffect(() => {
     if (!user) {
       dispatch(getUser());
@@ -42,20 +48,25 @@ const SpawnerProfile = ({ navigation }) => {
     }
   }, []);
 
-  const navHandler = (type) => {
+  useEffect(() => {
+    if (!visit || !visit.creek_name) {
+      navigation.navigate('DayStart');
+    }
+  }, [visit])
+
+  const navHandler = (type: string) => {
     navigation.navigate(type);
   };
 
   const sendToRedux = async () => {
-    const result = await dispatch(saveVisit(visit, setLoading));
+    const result: any = await dispatch(saveVisit(visit));
     if (result.type === 'SAVE_VISIT') {
       setLoading(false);
-      dispatch(removeVisit())
-        .then(() => navigation.navigate('Profile'));
+      await dispatch(removeVisit())
+      navigation.navigate('Profile');
     } else {
       console.log('error', result);
     }
-    // });
   };
 
   const saveHandler = () => {
@@ -63,7 +74,7 @@ const SpawnerProfile = ({ navigation }) => {
     sendToRedux();
   };
 
-  const navToNewPin = async (destination) => {
+  const navToNewPin = async (destination: string) => {
     await dispatch(createPin());
     navigation.navigate(destination);
   };
@@ -72,7 +83,7 @@ const SpawnerProfile = ({ navigation }) => {
     if (visit.pins && visit.pins.length > 0) {
       return visit.pins.map((pin) => {
         let image = false;
-        if (pin.images.length > 0) image = true;
+        if (pin.images && pin.images.length > 0) image = true;
         return ({
           id: JSON.stringify(Math.floor(Math.random() * 100)),
           title: pin.fish_status,
@@ -88,65 +99,6 @@ const SpawnerProfile = ({ navigation }) => {
     return undefined;
   };
 
-  const Item = ({
-    title, fishSpecies, fishCount, image, comments, lat, long,
-  }) => (
-    <View style={{ marginHorizontal: 15 }}>
-      <Text style={{ fontWeight: '500' }}>
-        <Icon name="fish" />
-        {` Fish status: ${title}`}
-      </Text>
-      <Text>{`Fish species: ${fishSpecies}`}</Text>
-      <Text>{`Fish count: ${fishCount}`}</Text>
-      <Text>{image ? 'Image present' : 'No image present'}</Text>
-      <Text>{`Location: ${lat} x ${long}`}</Text>
-      <Text>{`Comments: ${comments}`}</Text>
-    </View>
-  );
-
-  Item.propTypes = {
-    title: PropTypes.string,
-    fishSpecies: PropTypes.string,
-    fishCount: PropTypes.number,
-    image: PropTypes.bool,
-    comments: PropTypes.string,
-    lat: PropTypes.number,
-    long: PropTypes.number,
-  };
-
-  Item.defaultProps = {
-    title: '',
-    fishSpecies: '',
-    fishCount: 0,
-    image: false,
-    comments: '',
-    lat: 0,
-    long: 0,
-  };
-
-  const renderItem = ({ item }) => (
-    <Item
-      title={item.title}
-      fishSpecies={item.fishSpecies}
-      fishCount={item.fishCount}
-      image={item.image}
-      comments={item.comments}
-      lat={item.lat}
-      long={item.long}
-    />
-  );
-
-  if (!visit) {
-    return (
-      <View style={{ margin: 100 }}>
-        <Button
-          onPress={() => navigation.navigate('DayStart')}
-        >
-          Go Back
-        </Button>
-      </View>
-    );
-  }
   return user && !loading ? (
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
@@ -187,7 +139,6 @@ const SpawnerProfile = ({ navigation }) => {
         </View>
         <View style={styles.bodyContainer}>
           <List.Section>
-            <List.Subheader>Field Visit</List.Subheader>
             <List.Item
               title="Creek Name"
               description={visit.creek_name || 'Not saved'}
@@ -256,7 +207,7 @@ const SpawnerProfile = ({ navigation }) => {
           <Button
             style={{ width: SIZES.width * 0.4 }}
             mode="contained"
-            onPress={() => navToNewPin('FishOrRedd')}
+            onPress={() => navToNewPin('TestTree')}
           >
             Start
           </Button>
@@ -281,24 +232,9 @@ const SpawnerProfile = ({ navigation }) => {
     </KeyboardAvoidingView>
   ) : (
     <View style={{ height: SIZES.height, justifyContent: 'center' }}>
-      <ActivityIndicator
-        size="large"
-        loading={loading}
-      />
+      <ActivityIndicator size="large" />
     </View>
   );
-};
-
-SpawnerProfile.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-  }),
-};
-
-SpawnerProfile.defaultProps = {
-  navigation: {
-    navigate: () => null,
-  },
 };
 
 export default SpawnerProfile;
