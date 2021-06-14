@@ -56,11 +56,11 @@ const SpawnerProfile = ({ navigation }: Props) => {
     }
   }, [visit])
 
-  const navHandler = (type: string) => {
+  const navHandler = (type: string): void => {
     navigation.navigate(type);
   };
 
-  const sendToRedux = async () => {
+  const sendToRedux = async (): Promise<void> => {
     const result: any = await dispatch(saveVisit(visit));
     if (result.type === 'SAVE_VISIT') {
       setLoading(false);
@@ -71,12 +71,12 @@ const SpawnerProfile = ({ navigation }: Props) => {
     }
   };
 
-  const saveHandler = () => {
+  const saveHandler = (): void => {
     setLoading(true);
     sendToRedux();
   };
 
-  const navToNewPin = async (destination: string) => {
+  const navToNewPin = async (destination: string): Promise<void> => {
     await dispatch(createPin());
     navigation.navigate(destination);
   };
@@ -100,6 +100,14 @@ const SpawnerProfile = ({ navigation }: Props) => {
     }
     return undefined;
   };
+
+  if (!user.uid) {
+    return (<View>
+      <Button onPress={() => navigation.navigate('SignIn')}>
+        Sign In
+      </Button>
+    </View>)
+  }
 
   return !loading ? (
       <SafeAreaView style={{ flex: 1 }}>

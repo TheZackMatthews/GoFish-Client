@@ -5,7 +5,15 @@ import {
 } from 'react-native';
 import { COLORS } from '../../constants/Theme';
 
-const LocationModal = (props) => {
+interface Props {
+  commands: {
+    visible: boolean,
+    pinDropped: boolean,
+  },
+  dropPin: any,
+  submitLocation: any,
+}
+const LocationModal = (props: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const {
     commands: { visible, pinDropped },

@@ -1,11 +1,10 @@
 // https://github.com/react-native-maps/react-native-maps/blob/master/example/examples/MyLocationMapMarker.js
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   StyleSheet, Text, View, PermissionsAndroid, Platform,
 } from 'react-native';
-import { Marker } from 'react-native-maps';
+import { Marker, MarkerProps } from 'react-native-maps';
 import * as Location from 'expo-location';
 import isEqual from 'lodash/isEqual';
 import { COLORS } from '../../constants/Theme';
@@ -17,73 +16,64 @@ const GEOLOCATION_OPTIONS = {
 };
 const ANCHOR = { x: 0.5, y: 0.5 };
 
-const colorOfmyLocationMapMarker = COLORS.purple;
+const colorOfmyLocationMapMarker: string = COLORS.purple;
 
-const propTypes = {
-  ...Marker.propTypes,
-  // override this prop to make it optional
-  coordinate: PropTypes.shape({
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
-  }),
-  children: PropTypes.node,
-  geolocationOptions: PropTypes.shape({
-    enableHighAccuracy: PropTypes.bool,
-    timeout: PropTypes.number,
-    maximumAge: PropTypes.number,
-  }),
-  heading: PropTypes.number,
-  enableHack: PropTypes.bool,
-};
+interface Props extends MarkerProps {
+  coordinate: {
+    latitude: number,
+    longitude: number,
+  },
+  mounted: boolean,
+  heading: number,
+  children: React.FC,
+  geolocationOptions: {
+    enableHighAccuracy: boolean,
+    timeout: number,
+    maximumAge: number,
+  },
+  enableHack: boolean,
+  dataToParent: any,
+}
 
-const defaultProps = {
-  enableHack: false,
-  geolocationOptions: GEOLOCATION_OPTIONS,
-};
+const MyLocationMapMarker = ({
+  mounted,
+  coordinate,
+  children,
+  dataToParent,
+  geolocationOptions = GEOLOCATION_OPTIONS,
+  heading,
+  enableHack = false,
+}: Props) => {
+  const [myPosition, setMyPosition] = React.useState<any>(null)
+  let watchID: any;
 
-export default class MyLocationMapMarker extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.mounted = false;
-    this.state = {
-      myPosition: null,
-    };
-  }
-
-  componentDidMount() {
-    this.mounted = true;
-    // If you supply a coordinate prop, we won't try to track location automatically
-    if (this.props.coordinate) return;
-    this.watchLocation();
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-    if (this.watchID) {
-      this.watchID.remove();
-    }
-  }
-
-  async watchLocation() {
-    this.watchID = await Location.watchPositionAsync(
+  const watchLocation = async () => {
+    watchID = await Location.watchPositionAsync(
       { accuracy: Location.Accuracy.High },
       (position) => {
-        const myLastPosition = this.state.myPosition;
-        const myPosition = position.coords;
-        if (!isEqual(myPosition, myLastPosition)) {
-          this.props.dataToParent(position);
-          this.setState({ myPosition });
+        const myLastPosition = myPosition;
+        let tempPosition = position.coords;
+        if (!isEqual(tempPosition, myLastPosition)) {
+          dataToParent(position);
+          setMyPosition({ myPosition });
         }
       },
-      null,
-      this.props.geolocationOptions,
     );
-  }
+    }
 
-  render() {
-    let { heading, coordinate } = this.props;
+  React.useEffect(() => {
+    mounted = true;
+    if (coordinate) return;
+    watchLocation();
+    return () => {
+      mounted = false;
+      if (watchID) {
+        watchID.remove();
+      }
+    }
+  }, [])
+
     if (!coordinate) {
-      const { myPosition } = this.state;
       if (!myPosition) {
         return null;
       }
@@ -94,7 +84,7 @@ export default class MyLocationMapMarker extends React.PureComponent {
     const rotate = typeof heading === 'number' && heading >= 0 ? `${heading}deg` : null;
 
     return (
-      <Marker anchor={ANCHOR} style={styles.mapMarker} {...this.props} coordinate={coordinate}>
+      <Marker anchor={ANCHOR} style={styles.mapMarker} coordinate={coordinate}>
         <View style={styles.container}>
           <View style={styles.markerHalo} />
           {rotate && (
@@ -103,13 +93,12 @@ export default class MyLocationMapMarker extends React.PureComponent {
             </View>
           )}
           <View style={styles.marker}>
-            <Text style={styles.markerText}>{this.props.enableHack && rotate}</Text>
+            <Text style={styles.markerText}>{enableHack && rotate}</Text>
           </View>
         </View>
-        {this.props.children}
+        {children}
       </Marker>
     );
-  }
 }
 
 const SIZE = 20;
@@ -177,6 +166,3 @@ const styles = StyleSheet.create({
   },
   markerText: { width: 0, height: 0 },
 });
-
-MyLocationMapMarker.propTypes = propTypes;
-MyLocationMapMarker.defaultProps = defaultProps;

@@ -2,23 +2,32 @@ import React, { useState } from 'react';
 import { Button } from 'react-native-paper';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
 import { useSelector, useDispatch } from 'react-redux';
 import { updatePin } from '../../redux/actions/surveyActions';
+import { IQuestion, IAnswer } from '../../interfaces/flow';
+import { DefaultRootState } from '../../interfaces/state';
 
-const DropDown = ({ question, setAnswer }) => {
-  const [open, setOpen] = useState(false);
-  const [items, setItems] = useState(question.answers);
-  const [value, setValue] = useState(null);
+interface Props {
+  question: IQuestion,
+  setAnswer: React.Dispatch<React.SetStateAction<ValueType | null | ValueType[]>>,
+}
+
+const DropDown = ({ question, setAnswer }: Props) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [items, setItems] = useState<IAnswer[] | undefined>(question.answers);
+  const [value, setValue] = useState<ValueType | null | ValueType[]>(null);
   const dispatch = useDispatch();
-  const pin = useSelector((state) => state.pin);
+  const pin = useSelector((state: DefaultRootState) => state.pin);
 
-  const changeHandler = (val) => {
+  const changeHandler = (val: ValueType | null | ValueType[]) => {
     setAnswer(val);
-    dispatch(updatePin({
-      ...pin,
-      [question.data]: val,
-    }));
+    if (question.data) {
+      dispatch(updatePin({
+        ...pin,
+        [question.data]: val,
+      }));
+    }
   };
 
   return (
@@ -31,9 +40,9 @@ const DropDown = ({ question, setAnswer }) => {
           value={value}
           items={items}
           setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          onChangeValue={(val) => changeHandler(val)}
+          setValue={() => setValue}
+          setItems={() => setItems}
+          onChangeValue={(val: ValueType | null | ValueType[]) => changeHandler(val)}
           style={{
             borderWidth: 0,
             backgroundColor: '#f4f4f4',

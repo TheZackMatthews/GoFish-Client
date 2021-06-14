@@ -22,6 +22,7 @@ declare global {
   namespace ReactNativePaper {
     interface ThemeColors {
       light: string;
+      medGreen: string,
     }
   }
 }

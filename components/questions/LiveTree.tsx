@@ -1,12 +1,18 @@
 import React from 'react';
-import { Image } from 'react-native';
-import PropTypes from 'prop-types';
+import { Image, ImageProps } from 'react-native';
 import { Surface, Title, Subheading } from 'react-native-paper';
 import styles from '../../styles/QuestionStyles';
 
+interface Props {
+  fish: string,
+  description: string,
+  normal: ImageProps,
+  spawn: ImageProps,
+}
+
 const LiveTree = ({
   fish, description, normal, spawn,
-}) => (
+}: Props) => (
   <Surface style={styles.surface}>
     <Title style={{ alignSelf: 'center' }}>{fish}</Title>
     <Image
@@ -25,19 +31,5 @@ const LiveTree = ({
     <Subheading style={{ alignSelf: 'center' }}>{description}</Subheading>
   </Surface>
 );
-
-LiveTree.propTypes = {
-  fish: PropTypes.string,
-  description: PropTypes.string,
-  normal: PropTypes.string || PropTypes.number,
-  spawn: PropTypes.string || PropTypes.number,
-};
-
-LiveTree.defaultProps = {
-  fish: '',
-  description: '',
-  normal: '',
-  spawn: '',
-};
 
 export default LiveTree;

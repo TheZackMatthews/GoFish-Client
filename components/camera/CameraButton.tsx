@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import PropTypes from 'prop-types';
 import styles from '../../styles/CameraStyles';
 
-const CameraButton = ({ takePicture }) => (
+interface Props {
+  takePicture: () => void,
+}
+
+const CameraButton = ({ takePicture }: Props) => (
   <View style={styles.btnContainer}>
     <View style={styles.btnBorder}>
       <TouchableOpacity
@@ -18,13 +21,5 @@ const CameraButton = ({ takePicture }) => (
     </View>
   </View>
 );
-
-CameraButton.propTypes = {
-  takePicture: PropTypes.func,
-};
-
-CameraButton.defaultProps = {
-  takePicture: () => null,
-};
 
 export default CameraButton;

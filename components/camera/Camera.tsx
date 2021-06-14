@@ -11,21 +11,34 @@ import PreviewPhoto from './PreviewPhoto';
 import { getUser } from '../../redux/actions/userActions';
 import { savePhotoToCameraRoll } from '../../redux/actions/cameraActions';
 import styles from '../../styles/CameraStyles';
+import { DefaultRootState } from '../../interfaces/state';
 
-const CameraComponent = ({ navigation }) => {
-  const [hasPermission, setHasPermission] = useState(null);
+interface Props {
+  navigation: {
+    navigate: (page: string) => void,
+    goBack: () => void,
+  }
+}
+
+interface IImageObject {
+  uri: string,
+  comment: string | null,
+  category: string | null,
+}
+
+const CameraComponent = ({ navigation }: Props) => {
+  const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [rollPermission, setRollPermission] = useState(null);
-  const [imageObject, setImageObject] = useState({ uri: '', comment: '', category: '' });
+  const [rollPermission, setRollPermission] = useState<boolean>(false);
+  const [imageObject, setImageObject] = useState<IImageObject>({ uri: '', comment: '', category: '' });
   const [modalVisible, setModalVisible] = useState(false);
-
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: DefaultRootState) => state.user);
   if (!user) dispatch(getUser());
 
-  let camera;
+  let camera: any;
 
   useEffect(() => {
     (async () => {
@@ -61,8 +74,8 @@ const CameraComponent = ({ navigation }) => {
     setModalVisible(true);
   };
 
-  const savePhoto = async (photo) => {
-    if (rollPermission === null || rollPermission === false) {
+  const savePhoto = async (photo: IImageObject) => {
+    if (rollPermission === false) {
       Alert.alert(
         'Access denied',
         'Cannot save without camera roll permissions.',
@@ -77,26 +90,22 @@ const CameraComponent = ({ navigation }) => {
     }
   };
 
-  if (hasPermission === null) {
-    return <View />;
-  }
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
 
   return (
     <View style={styles.container}>
-      {previewVisible && capturedImage ? (
+      {previewVisible && capturedImage !== null ? (
         <>
           <CameraModal
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             imageObject={imageObject}
-            setImageObject={setImageObject}
             savePhoto={savePhoto}
           />
           <PreviewPhoto
-            photo={capturedImage}
+            photo={capturedImage!!}
             savePhoto={addComment}
             retakePicture={retakePicture}
           />
@@ -142,18 +151,6 @@ const CameraComponent = ({ navigation }) => {
       )}
     </View>
   );
-};
-
-CameraComponent.propTypes = {
-  navigation: PropTypes.shape({
-    goBack: PropTypes.func,
-  }),
-};
-
-CameraComponent.defaultProps = {
-  navigation: {
-    goBack: () => null,
-  },
 };
 
 export default CameraComponent;

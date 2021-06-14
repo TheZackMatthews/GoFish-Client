@@ -9,13 +9,28 @@ import {
 import Modal from 'react-native-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFieldVisit } from '../redux/actions/surveyActions';
+import { DefaultRootState } from '../interfaces/state';
 
-function ModalConditions({
+interface IItem {
+  id: number,
+  detail: string,
+}
+
+interface Props {
+  text: string,
+  modalVisible: boolean,
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
+  data: IItem[],
+  label: string,
+  update: any,
+}
+
+const ModalConditions = ({
   text, modalVisible, setModalVisible, data, label, update,
-}) {
-  const [value, setValue] = useState('');
+}: Props) => {
+  const [value, setValue] = useState<string>('');
   const dispatch = useDispatch();
-  const visit = useSelector((state) => state.visit);
+  const visit = useSelector((state: DefaultRootState) => state.visit);
 
   const toggleModal = async () => {
     const updateVisit = {
@@ -27,7 +42,7 @@ function ModalConditions({
     setModalVisible(!modalVisible);
   };
 
-  const renderCells = () => data.map((item) => (
+  const renderCells = () => data.map((item: IItem) => (
     <DataTable.Row key={item.id}>
       <DataTable.Cell>{item.detail}</DataTable.Cell>
       <DataTable.Cell numeric>{item.id}</DataTable.Cell>

@@ -2,7 +2,7 @@ import {
   // eslint-disable-next-line camelcase
   FB_apiKey, FB_authDomain, FB_projectId, FB_storageBucket, FB_messagingSenderId, FB_appId,
 // eslint-disable-next-line import/no-unresolved
-} from '@env';
+} from '../.env.json';
 
 const FB_CONFIG = {
   apiKey: FB_apiKey,

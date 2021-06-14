@@ -8,10 +8,17 @@ import {
   useTheme,
 } from 'react-native-paper';
 
+interface Props {
+  question: string,
+  answer1: string,
+  answer2: string,
+  choose: React.Dispatch<React.SetStateAction<string>>,
+}
+
 const TwoAnswer = ({
   question, answer1, answer2, choose,
-}) => {
-  const [selected, setSelected] = useState(null);
+}: Props) => {
+  const [selected, setSelected] = useState<string | null>(null);
   const theme = useTheme();
 
   const answer1Style = () => {
@@ -32,7 +39,7 @@ const TwoAnswer = ({
     return null;
   };
 
-  const pressHandler = (answer) => {
+  const pressHandler = (answer: string) => {
     choose(answer);
     setSelected(answer);
   };
@@ -43,7 +50,6 @@ const TwoAnswer = ({
         <Card.Content>
           <Title>{question}</Title>
           <View>
-            {/* {image[0].length > 0 && renderImages()} */}
             <List.Item
               style={answer1Style()}
               title={answer1}
@@ -59,22 +65,6 @@ const TwoAnswer = ({
       </Card>
     </View>
   );
-};
-
-TwoAnswer.propTypes = {
-  question: PropTypes.string,
-  answer1: PropTypes.string || PropTypes.number,
-  answer2: PropTypes.string || PropTypes.number,
-  choose: PropTypes.func,
-  // image: PropTypes.arrayOf(PropTypes.string),
-};
-
-TwoAnswer.defaultProps = {
-  question: '',
-  answer1: '',
-  answer2: '',
-  choose: () => null,
-  // image: [''],
 };
 
 export default TwoAnswer;

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
-import PropTypes from 'prop-types';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Region, MapTypes, LatLng, MapEvent } from 'react-native-maps';
 import {
-  StyleSheet, Text, Button, View, Dimensions, TouchableOpacity, Image,
+  StyleSheet, Text, Button, View, Dimensions, TouchableOpacity, Image, NativeSyntheticEvent
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { submitLocation, createPin } from '../redux/actions/surveyActions';
 import MyLocationMapMarker from '../components/maps/MyLocationMarker';
 import LocationModal from '../components/maps/LocationModal';
 import { COLORS } from '../constants/Theme';
+import { LocationObject } from 'expo-location';
 
 // const CustomMarker = () => (
 // <View
@@ -52,20 +52,31 @@ interface Props {
   }
 }
 
-interface IMapRegion {
-  latitude: number,
-  longitude: number,
-  latitudeDelta?: number | undefined,
-  longitudeDelta?: number | undefined,
+interface IMarker {
+  coordinate: {
+    latitude: number,
+    longitude: number,
+  },
+  key: number,
+}
+
+interface IModal {
+  visible: boolean,
+  pinDropped: boolean,
+}
+
+interface IButton {
+  addPin: boolean,
+  mapType: MapTypes,
 }
 export default function ProjectMap({ navigation }: Props) {
   const dispatch = useDispatch();
-  const [mapRegion, setMapRegion] = useState<IMapRegion | null>(null);
+  const [mapRegion, setMapRegion] = useState<Region | undefined>(undefined);
   const [hasLocationPermissions, setHasLocationPermissions] = useState<boolean>(false);
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [markers, setMarkers] = useState([]);
-  const [modal, setModal] = useState({ visible: false, pinDropped: false });
-  const [buttons, setButtons] = useState({
+  const [currentLocation, setCurrentLocation] = useState<LocationObject | null>(null);
+  const [markers, setMarkers] = useState<IMarker[] | null>(null);
+  const [modal, setModal] = useState<IModal>({ visible: false, pinDropped: false });
+  const [buttons, setButtons] = useState<IButton>({
     addPin: false,
     mapType: 'terrain',
   });
@@ -73,7 +84,7 @@ export default function ProjectMap({ navigation }: Props) {
   // toggles drop pin functionality and modal
   const setMapState = (dropPin = false) => {
     // accepts only one marker
-    setMarkers([]);
+    setMarkers(null);
     setModal((prev) => ({ ...prev, visible: false, pinDropped: dropPin }));
     setButtons((prevButtons) => ({
       ...prevButtons,
@@ -82,66 +93,67 @@ export default function ProjectMap({ navigation }: Props) {
   };
 
   const submitLocationHandler = async () => {
-    // just a failsafe
-    if (markers.length > 1) throw new Error('Too many map markers!');
-    const loc = markers[0] ? markers[0].coordinate : currentLocation.coords;
-    const coords = {
-      latitude: loc.latitude,
-      longitude: loc.longitude,
-    };
-    const sendLocation = {
-      latitude: loc.latitude,
-      longitude: loc.longitude,
-    }
-    const result: any = await dispatch(submitLocation(coords));
-    await dispatch(createPin(sendLocation));
-    if (result && result.payload) {
-      setMapState(); // resets map state
-      navigation.navigate('TestTree');
-    } else {
-      throw new Error('Location could not be saved!');
+    try {
+      if (markers && markers.length > 1) throw new Error('Too many map markers!');
+      if (!currentLocation) throw new Error ('Current location not found.')
+      const loc: LatLng = markers && markers[0] ? markers[0].coordinate : currentLocation.coords;
+      const sendLocation = {
+        latitude: loc.latitude,
+        longitude: loc.longitude,
+      }
+      const result: any = await dispatch(submitLocation(sendLocation));
+      await dispatch(createPin(sendLocation));
+      if (result && result.payload) {
+        setMapState(); // resets map state
+        navigation.navigate('TestTree');
+      } else {
+        throw new Error('Location could not be saved!');
+      }
+    } catch (error) {
+      console.log(error.message)
     }
   };
 
   const toggleBaseMap = () => {
     setButtons((prev) => {
-      const map = prev.mapType === 'satellite' ? 'terrain' : 'satellite';
+      const map: MapTypes = prev.mapType === 'satellite' ? 'terrain' : 'satellite';
       return { ...prev, mapType: map };
     });
   };
-
   // gets permissions and initial location
   // eslint-disable-next-line no-unused-expressions
   useEffect(() => {
     const getLocPerm = async () => {
       const locPermission = await getLocationPermission();
-      if (!locPermission) {
-        setCurrentLocation('Permission to access location was denied');
-      } else {
-        setHasLocationPermissions(true);
-        const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
-        setCurrentLocation(loc);
-        setMapRegion({
-          latitude: loc.coords.latitude,
-          longitude: loc.coords.longitude,
-          latitudeDelta: 0.04,
-          longitudeDelta: 0.05,
-        });
+      try {
+        if (!locPermission) {
+          throw new Error('Location permissions not granted.')
+        } else {
+          setHasLocationPermissions(true);
+          const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+          setCurrentLocation(loc);
+          setMapRegion({
+            latitude: loc.coords.latitude,
+            longitude: loc.coords.longitude,
+            latitudeDelta: 0.04,
+            longitudeDelta: 0.05,
+          });
+        }
+      } catch (error) {
+        console.log(error.message)
       }
     };
-    if (hasLocationPermissions === null) getLocPerm();
+    if (!hasLocationPermissions) getLocPerm();
   }), [];
 
   //   follows user location
   useEffect(() => {
     if (currentLocation && mapRegion) {
-      console.log('setting loc');
       const latDiff = Math.abs(mapRegion.latitude - currentLocation.coords.latitude);
       const lngDiff = Math.abs(mapRegion.longitude - currentLocation.coords.longitude);
-      console.log(latDiff, lngDiff);
       if (latDiff > 0.002 || lngDiff > 0.001) {
         setTimeout(
-          () => setMapRegion((prevRegion) => ({
+          () => setMapRegion((prevRegion: Region | undefined) => ({
             ...prevRegion,
             latitude: currentLocation.coords.latitude,
             longitude: currentLocation.coords.longitude,
@@ -156,44 +168,44 @@ export default function ProjectMap({ navigation }: Props) {
 
   // if marker added, open modal
   useEffect(() => {
-    if (markers.length) setModal((prev) => ({ ...prev, visible: true, pinDropped: true }));
+    if (markers && markers.length) setModal((prev) => ({ ...prev, visible: true, pinDropped: true }));
   }, [markers]);
 
   // if 'add pin' has been clicked, add pin on map press
-  const onMapPress = (e) => {
-    if (buttons.addPin && !markers.length) {
+  const onMapPress = (e: MapEvent) => {
+    if (markers && buttons.addPin && !markers.length) {
       setMarkers(
         markers.concat({
           coordinate: e.nativeEvent.coordinate,
           key: markers[markers.length - 1] ? markers[markers.length - 1].key + 1 : 1,
-        }),
+        })
       );
+    } else if (buttons.addPin) {
+      setMarkers([{
+        coordinate: e.nativeEvent.coordinate,
+        key: 1,
+      }])
     }
   };
 
-  //  const onChange = (args) => {
-  // setMapRegion(null);
-  // };
-
-  //  const debChange = debounce(onChange, 500);
-
-  const onRegionChange = (region: IMapRegion) => {
-    // if (!buttons.centerMap) debChange(region);
+  const onRegionChange = (region: Region) => {
     setMapRegion(region);
   };
 
-  const centerMap = (region: IMapRegion) => {
-    setMapRegion((prevRegion:IMapRegion | null) => ({
-      ...prevRegion,
-      latitude: currentLocation.coords.latitude,
-      longitude: currentLocation.coords.longitude,
-      // latitudeDelta: 0.05,
-      // longitudeDelta: 0.04,
-    }));
+  const centerMap = () => {
+    if (currentLocation && currentLocation.coords) {
+      setMapRegion((prevRegion: Region | undefined) => ({
+        ...prevRegion,
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.04,
+      }));
+    }
   };
 
   // gets location from MyLocationMapMarker
-  const locationFromChild = (data) => {
+  const locationFromChild = (data: LocationObject) => {
     setCurrentLocation(data);
   };
 
@@ -213,7 +225,7 @@ export default function ProjectMap({ navigation }: Props) {
       >
         <MyLocationMapMarker dataToParent={locationFromChild} />
 
-        {markers.map((marker) => (
+        {markers && markers.map((marker) => (
           <Marker key={marker.key} coordinate={marker.coordinate} />
         ))}
       </MapView>

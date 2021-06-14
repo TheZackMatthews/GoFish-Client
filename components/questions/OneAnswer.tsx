@@ -3,10 +3,17 @@ import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { TextInput } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { IQuestion } from '../../interfaces/flow';
+
+interface Props {
+  question: string,
+  form: any,
+  setForm: React.Dispatch<React.SetStateAction<any>>
+}
 
 const OneAnswer = ({
   question, form, setForm,
-}) => {
+}: Props) => {
   const list = [
     { label: 'Chinook', value: 'chinook' },
     { label: 'Coho', value: 'coho' },
@@ -15,9 +22,9 @@ const OneAnswer = ({
     { label: 'Chum', value: 'chum' },
     { label: 'Trout', value: 'trout' },
   ];
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState(list);
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<any>(null);
+  const [items, setItems] = useState<any>(list);
 
   useEffect(() => {
     setForm({ ...form, species: value });
@@ -32,8 +39,8 @@ const OneAnswer = ({
         value={value}
         items={items}
         setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
+        setValue={() => setValue}
+        setItems={() => setItems}
         style={{
           borderWidth: 0,
           backgroundColor: '#f4f4f4',

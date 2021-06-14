@@ -3,7 +3,11 @@ import { View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { Avatar, Colors, useTheme } from 'react-native-paper';
 
-const AccessCamera = ({ navigationHandler }) => {
+interface Props {
+  navigationHandler: (direction: string) => void,
+}
+
+const AccessCamera = ({ navigationHandler }: Props) => {
   const theme = useTheme();
 
   return (
@@ -14,7 +18,7 @@ const AccessCamera = ({ navigationHandler }) => {
     }}
     >
       <TouchableOpacity
-        onPress={navigationHandler}
+        onPress={() => navigationHandler}
       >
         <Avatar.Icon
           style={{ backgroundColor: theme.colors.medGreen }}
@@ -25,14 +29,6 @@ const AccessCamera = ({ navigationHandler }) => {
       </TouchableOpacity>
     </View>
   );
-};
-
-AccessCamera.propTypes = {
-  navigationHandler: PropTypes.func,
-};
-
-AccessCamera.defaultProps = {
-  navigationHandler: () => null,
 };
 
 export default AccessCamera;

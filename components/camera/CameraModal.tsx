@@ -1,22 +1,34 @@
 import React, { useState } from 'react';
 import { Button, View } from 'react-native';
-import PropTypes from 'prop-types';
 import { Title, TextInput } from 'react-native-paper';
 import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-function ModalCamera({
+interface IImageObject {
+  uri: string,
+  comment: string | null,
+  category: string | null,
+}
+
+interface Props {
+  modalVisible: boolean,
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
+  imageObject: IImageObject,
+  savePhoto: (image: IImageObject) => Promise<void>,
+}
+
+const ModalCamera = ({
   modalVisible, setModalVisible, imageObject, savePhoto,
-}) {
-  const [comment, setComment] = useState('');
+}: Props) => {
+  const [comment, setComment] = useState<string>('');
   const list = [
     { label: 'I need help identifying this fish.', value: 'help identifying' },
     { label: 'This is an outreach photo.', value: 'outreach' },
     { label: 'Other reason.', value: 'other' },
   ];
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState(list);
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<string | null>(null);
+  const [items, setItems] = useState<{label: string, value: string}[]>(list);
 
   const toggleModal = async () => {
     await savePhoto({
@@ -48,8 +60,8 @@ function ModalCamera({
             value={value}
             items={items}
             setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
+            setValue={() => setValue}
+            setItems={() => setItems}
             style={{
               borderWidth: 0,
               backgroundColor: '#f4f4f4',
@@ -70,27 +82,5 @@ function ModalCamera({
 
   );
 }
-
-ModalCamera.propTypes = {
-  modalVisible: PropTypes.bool,
-  setModalVisible: PropTypes.func,
-  imageObject: PropTypes.shape({
-    uri: PropTypes.string,
-    comment: PropTypes.string,
-    category: PropTypes.string,
-  }),
-  savePhoto: PropTypes.func,
-};
-
-ModalCamera.defaultProps = {
-  modalVisible: false,
-  setModalVisible: () => null,
-  imageObject: {
-    uri: '',
-    comment: '',
-    category: '',
-  },
-  savePhoto: () => null,
-};
 
 export default ModalCamera;
