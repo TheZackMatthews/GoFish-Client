@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { updatePin } from '../redux/actions/surveyActions';
 import DropDown from '../components/questions/DropDown';
+import ButtonQuestion from '../components/questions/ButtonQuestion';
 import NumberInput from '../components/questions/NumberInput';
 import LongInput from '../components/questions/LongInput';
 import ShortInput from '../components/questions/ShortInput';
@@ -25,61 +26,33 @@ const TestTree = ({ navigation }: Props) => {
   const theme = useTheme();
   const pin = useSelector((state: DefaultRootState) => state.pin);
   const dispatch = useDispatch();
-
-  // answers - set to false if present
-  // validation should be done on the individual pages so that 
-  // multiple items of the same kind can be used.
-  const [buttonAns, setButtonAns] = useState(true);
-  const [dropdownAns, setDropdownAns] = useState(true);
-  const [numberAns, setNumberAns] = useState(1);
-  const [stringAns, setStringAns] = useState(' ');
-  const [longAns, setLongAns] = useState(' ');
-  const [photoAns, setPhotoAns] = useState(true);
-
-  // console.log(pin);
+  let validation: boolean[] = [true];
 
   React.useEffect(() => {
     question.questions.forEach((one) => {
-      if (one.type === 'buttons') setButtonAns(false);
-      if (one.type === 'dropdown') setDropdownAns(false);
-      if (one.type === 'inputNumber') setNumberAns('');
-      if (one.type === 'inputString') setStringAns('');
-      if (one.type === 'inputLong') setLongAns('');
-      if (one.type === 'photo') setPhotoAns({});
+      validation.push(false);
+      console.log(validation)
     });
   }, [question]);
 
-  console.log(buttonAns, dropdownAns, numberAns, stringAns, longAns);
-
+  console.log(validation)
   const navigationHandler = async () => {
-    if (buttonAns && dropdownAns && numberAns && stringAns && longAns) {
-      await setButtonAns(true);
-      await setDropdownAns(true);
-      await setNumberAns(1);
-      await setStringAns(' ');
-      await setLongAns(' ');
-      await setPhotoAns()
-      if (buttonAns.next) setQuestion(buttonAns.next);
-      else if (dropdownAns.next) setQuestion(dropdownAns.next);
-      else if (question.next) setQuestion(question.next);
-    } else {
-      Alert.alert('Please select an option!');
-    }
+
   };
 
   const backHandler = () => {
-    if (question.prev) setQuestion(question.prev);
-    else {
-      try {
-        navigation.goBack();
-      } catch (error) {
-        navigation.navigate('Profile');
-      }
-    }
+    // if (question.prev) setQuestion(question.prev);
+    // else {
+    //   try {
+    //     navigation.goBack();
+    //   } catch (error) {
+    //     navigation.navigate('Profile');
+    //   }
+    // }
   };
 
   const clickHandler = (answerObject) => {
-    setButtonAns(answerObject);
+    // setButtonAns(answerObject);
     if (answerObject.data) {
       dispatch(updatePin({
         ...pin,
@@ -88,66 +61,36 @@ const TestTree = ({ navigation }: Props) => {
     }
   };
 
-  const styleRender = (answerObject) => {
-    if (buttonAns && answerObject.label === buttonAns.label) {
-      return {
-        marginHorizontal: 5,
-        marginVertical: 10,
-        backgroundColor: theme.colors.lightBlue,
-      };
-    }
-    return {
-      marginHorizontal: 5,
-      marginVertical: 10,
-    };
-  };
-
-  const renderButtons = (oneQuestion) => oneQuestion.answers.map((one) => (
-    <Button
-      key={one.uid}
-      raised
-      mode="contained"
-      style={styleRender(one)}
-      onPress={() => clickHandler(one)}
-    >
-      {one.label}
-    </Button>
-  ));
-
   const renderAnswers = (oneQuestion) => {
     switch (oneQuestion.type) {
       case 'buttons':
-        return renderButtons(oneQuestion);
+        return (
+          <ButtonQuestion
+            question={oneQuestion}
+          />
+        );
       case 'dropdown':
         return (
           <DropDown
             question={oneQuestion}
-            setAnswer={setDropdownAns}
-            answer={dropdownAns}
           />
         );
       case 'inputNumber':
         return (
           <NumberInput
             question={oneQuestion}
-            setAnswer={setNumberAns}
-            answer={numberAns}
           />
         );
       case 'inputString':
         return (
           <ShortInput
             question={oneQuestion}
-            setAnswer={setStringAns}
-            answer={stringAns}
           />
         );
       case 'inputLong':
         return (
           <LongInput
             question={oneQuestion}
-            answer={longAns}
-            setAnswer={setLongAns}
           />
         );
       default:

@@ -1,10 +1,9 @@
 // https://github.com/react-native-maps/react-native-maps/blob/master/example/examples/MyLocationMapMarker.js
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import {
   StyleSheet, Text, View, PermissionsAndroid, Platform,
 } from 'react-native';
-import { Marker, MarkerProps } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import isEqual from 'lodash/isEqual';
 import { COLORS } from '../../constants/Theme';
@@ -18,20 +17,20 @@ const ANCHOR = { x: 0.5, y: 0.5 };
 
 const colorOfmyLocationMapMarker: string = COLORS.purple;
 
-interface Props extends MarkerProps {
-  coordinate: {
+interface Props {
+  coordinate?: {
     latitude: number,
     longitude: number,
   },
-  mounted: boolean,
-  heading: number,
-  children: React.FC,
-  geolocationOptions: {
+  mounted?: boolean,
+  heading?: number,
+  children?: React.FC,
+  geolocationOptions?: {
     enableHighAccuracy: boolean,
     timeout: number,
     maximumAge: number,
   },
-  enableHack: boolean,
+  enableHack?: boolean,
   dataToParent: any,
 }
 
@@ -55,13 +54,13 @@ const MyLocationMapMarker = ({
         let tempPosition = position.coords;
         if (!isEqual(tempPosition, myLastPosition)) {
           dataToParent(position);
-          setMyPosition({ myPosition });
+          setMyPosition(tempPosition);
         }
       },
     );
     }
 
-  React.useEffect(() => {
+  useEffect(() => {
     mounted = true;
     if (coordinate) return;
     watchLocation();
@@ -75,7 +74,7 @@ const MyLocationMapMarker = ({
 
     if (!coordinate) {
       if (!myPosition) {
-        return null;
+        return <View />;
       }
       coordinate = myPosition;
       heading = myPosition.heading;
@@ -83,7 +82,7 @@ const MyLocationMapMarker = ({
 
     const rotate = typeof heading === 'number' && heading >= 0 ? `${heading}deg` : null;
 
-    return (
+    return coordinate ? (
       <Marker anchor={ANCHOR} style={styles.mapMarker} coordinate={coordinate}>
         <View style={styles.container}>
           <View style={styles.markerHalo} />
@@ -98,6 +97,8 @@ const MyLocationMapMarker = ({
         </View>
         {children}
       </Marker>
+    ) : (
+      <View />
     );
 }
 
@@ -166,3 +167,5 @@ const styles = StyleSheet.create({
   },
   markerText: { width: 0, height: 0 },
 });
+
+export default MyLocationMapMarker;

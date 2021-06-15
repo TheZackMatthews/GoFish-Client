@@ -223,7 +223,8 @@ export default function ProjectMap({ navigation }: Props) {
         onPress={(e) => onMapPress(e)}
         onRegionChangeComplete={onRegionChange}
       >
-        <MyLocationMapMarker dataToParent={locationFromChild} />
+        <MyLocationMapMarker
+          dataToParent={locationFromChild} />
 
         {markers && markers.map((marker) => (
           <Marker key={marker.key} coordinate={marker.coordinate} />

@@ -50,11 +50,11 @@ const SpawnerProfile = ({ navigation }: Props) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (!visit.creek_name || !visit.creek_name.length) {
-      navigation.navigate('DayStart');
-    }
-  }, [visit])
+  // useEffect(() => {
+  //   if (!visit.creek_name || !visit.creek_name.length) {
+  //     navigation.navigate('DayStart');
+  //   }
+  // }, [visit])
 
   const navHandler = (type: string): void => {
     navigation.navigate(type);

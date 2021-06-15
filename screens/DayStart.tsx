@@ -15,7 +15,7 @@ import style from '../styles/DayStartStyles';
 import { getUser } from '../redux/actions/userActions';
 import { initializeFieldVisit, removeVisit } from '../redux/actions/surveyActions';
 import { SIZES } from '../constants/Theme';
-import BackNext from '../components/questions/BackNext.js';
+import BackNext from '../components/questions/BackNext';
 import { DefaultRootState } from '../interfaces/state';
 import Team from '../components/questions/Team';
 import Liability from '../components/questions/Liability';

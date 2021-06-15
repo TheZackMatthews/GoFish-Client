@@ -23,6 +23,7 @@ declare global {
     interface ThemeColors {
       light: string;
       medGreen: string,
+      lightBlue: string,
     }
   }
 }

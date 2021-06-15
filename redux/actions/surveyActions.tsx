@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Platform, AsyncStorage } from 'react-native';
 import * as Location from 'expo-location';
 // eslint-disable-next-line import/no-unresolved
+// const { API } = require('../../.env.json')
 import { API } from '../../.env.json';
 import {
   NEW_FIELD_VISIT,

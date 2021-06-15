@@ -14,7 +14,8 @@ import {
 import { Action, Dispatch, Unsubscribe } from 'redux';
 import { firebaseClient } from '../../auth/firebaseClient';
 import 'firebase/auth';
-import { API } from '../../.env.json';
+const { API } = require('../../.env.json')
+// import { API } from '../../.env.json';
 import axios from 'axios';
 
 interface UserProps {
@@ -135,15 +136,15 @@ export const createUser = (signUp: SignUpProps) => (dispatch: Dispatch<DispatchP
       type: NEW_USER,
       payload: { error: error.message }
     }))
-      
-    
+
+
 };
 
 // get user (if authenticated but user is not in redux)
 export const getUser = () => (dispatch: Dispatch<DispatchProps>): Unsubscribe => {
   firebaseClient();
   return firebase.auth().onAuthStateChanged((user) => {
-    if (user) { 
+    if (user) {
       axios.get(`${API}user/${user.uid}`)
         .then((res) => dispatch({
             type: GET_USER,
