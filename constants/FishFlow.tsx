@@ -455,7 +455,7 @@ const covidSafety: IQuestion = {
 }
 
 const questionnaire: IQuestionnaire = {
-  start: fishAlive1,
+  start: notes,
   questionPages: {
     fishOrRedd,
     fish1,

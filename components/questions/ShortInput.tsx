@@ -1,19 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { TextInput } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { IQuestion } from '../../interfaces/flow';
+import { DefaultRootState } from '../../interfaces/state';
+import { updatePin } from '../../redux/actions/surveyActions';
 
 interface Props {
-  answer: string,
-  setAnswer: React.Dispatch<React.SetStateAction<string>>
+  question: IQuestion,
+  validate: (i: number) => void,
+  i: number,
 }
 
-const ShortInput = ({ answer, setAnswer }: Props) => (
+const ShortInput = ({ question, validate, i }: Props) => {
+  const dispatch = useDispatch();
+  const pin = useSelector((state: DefaultRootState) => state.pin);
+  const [input, setInput] = useState<string>('');
+
+  const changeHandler = (text: string): void => {
+    setInput(text)
+    validate(i);
+    if (question.data) {
+      dispatch(updatePin({
+        ...pin,
+        [question.data]: text,
+      }))
+    }
+  }
+  return (
   <View>
     <TextInput
-      value={answer}
-      onChangeText={(text) => setAnswer(text)}
+      value={input}
+      onChangeText={(text) => changeHandler(text)}
     />
   </View>
-);
+)};
 
 export default ShortInput;
