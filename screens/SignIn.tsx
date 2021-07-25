@@ -36,7 +36,6 @@ const SignIn = ({ navigation }: Props) => {
 
   const newPasswordHandler = async () => {
     const result = await dispatch(sendPasswordReset(email))
-    console.log(result)
     if (result.payload.message) {
       setErrorM(result.payload.message);
     } else if (result.payload.error) {

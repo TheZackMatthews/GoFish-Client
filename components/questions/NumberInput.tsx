@@ -12,7 +12,7 @@ interface Props {
   setAnswer: React.Dispatch<React.SetStateAction<string>>,
 }
 
-const NumberInput = ({ question, answer, setAnswer }: Props) => {
+const NumberInput = ({ question, answer, setAnswer }: Props): JSX.Element => {
   const dispatch = useDispatch();
   const pin = useSelector((state: DefaultRootState) => state.pin);
 

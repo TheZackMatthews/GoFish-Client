@@ -21,6 +21,7 @@ const fishArray = [
 ];
 
 const notes: IQuestionPage = {
+  validation: [true, true],
   questions: [
     {
       uid: '8a2b3c',
@@ -39,6 +40,7 @@ const notes: IQuestionPage = {
 };
 
 const fishDead2: IQuestionPage = {
+  validation: [false, false, false, false],
   questions: [
     {
       uid: '7a2b3c',
@@ -80,6 +82,11 @@ const fishDead2: IQuestionPage = {
           value: 'false',
           label: 'No',
         },
+        {
+          uid: '101d2b3c',
+          value: 'unknown',
+          label: 'Unable to tell',
+        },
       ],
     },
     {
@@ -111,6 +118,7 @@ const fishDead2: IQuestionPage = {
 };
 
 const fishDead1: IQuestionPage = {
+  validation: [false, false],
   questions: [
     {
       uid: '6a2b3c',
@@ -131,6 +139,7 @@ const fishDead1: IQuestionPage = {
 };
 
 const fishAlive1: IQuestionPage = {
+  validation: [false, false],
   questions: [
     {
       uid: '5a2b3c',
@@ -151,6 +160,7 @@ const fishAlive1: IQuestionPage = {
 };
 
 const fish1: IQuestionPage = {
+  validation: [false],
   questions: [
     {
       uid: '4a2b3c',
@@ -178,6 +188,7 @@ const fish1: IQuestionPage = {
 };
 
 const redd2: IQuestionPage = {
+  validation: [false, false],
   questions: [
     {
       uid: '3a2b3c',
@@ -198,6 +209,7 @@ const redd2: IQuestionPage = {
 };
 
 const redd1: IQuestionPage = {
+  validation: [false],
   questions: [
     {
       uid: '2a2b3c',
@@ -212,15 +224,15 @@ const redd1: IQuestionPage = {
         {
           uid: '2c2b3c',
           label: 'No',
-          next: 'notes',
+          next: notes,
         },
       ],
     },
   ],
-  prev: 'fishOrRedd',
 };
 
 const fishOrRedd: IQuestionPage = {
+  validation: [false],
   questions: [
     {
       uid: '1a2b3c',
@@ -229,16 +241,17 @@ const fishOrRedd: IQuestionPage = {
       answers: [
         {
           uid: '1b2b3c',
-          data: 'fish_status',
           label: 'Fish',
-          next: 'fish1',
+          next: fish1,
+          data: 'fish_status',
+          value: undefined,
         },
         {
           uid: '1c2b3c',
           data: 'fish_status',
           value: 'redd',
           label: 'Redd',
-          next: 'redd1',
+          next: redd1,
         },
       ],
     },
@@ -448,7 +461,7 @@ const covidSafety: IQuestion = {
 
 const questionnaire: IQuestionnaire = {
   start: fishOrRedd,
-  questionPages: [
+  questionPages: {
     fishOrRedd,
     fish1,
     fishDead1,
@@ -457,7 +470,7 @@ const questionnaire: IQuestionnaire = {
     redd2,
     fishAlive1,
     notes,
-  ],
+  },
   questions: [
     flowQuestion,
     waterConditionQuestion,
@@ -472,4 +485,6 @@ const questionnaire: IQuestionnaire = {
   ]
 };
 
+
+redd1['prev'] = questionnaire.questionPages.fishOrRedd
 export default questionnaire;

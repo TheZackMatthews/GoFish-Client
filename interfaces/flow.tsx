@@ -3,7 +3,7 @@ export interface IAnswer {
   label: string,
   value?: string | number,
   data?: string,
-  next?: string,
+  next?: any,
 }
 
 export interface IQuestion {
@@ -18,14 +18,17 @@ export interface IQuestion {
 
 export interface IQuestionPage {
   questions: IQuestion[],
-  prev?: string,
-  next?: string,
+  validation: boolean[],
+  prev?: any,
+  next?: any,
 }
 
 export interface IQuestionnaire {
   start: IQuestionPage,
   questions?: IQuestion[],
-  questionPages: IQuestionPage[],
+  questionPages: {
+    [key: string]: IQuestionPage,
+  }
   preQuestions?: IQuestion[],
 }
 

@@ -41,7 +41,7 @@ const UserProfile = ({ navigation }: Props) => {
   useEffect(() => {
     dispatch(getUser());
   }, []);
-console.log(user)
+
   const submitHandler = async (): Promise<any> => {
     setErrorM('');
     const result = await dispatch(logOutUser());

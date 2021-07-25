@@ -207,7 +207,6 @@ export const updatePhone = (phoneNumber: string) => async (dispatch: Dispatch<Di
       }
     })
       .then((res) => {
-        console.log(res.data)
         return dispatch({
           type: EDIT_PHONE,
           payload: {
@@ -271,7 +270,6 @@ export const profilePicture = ({picture, platform, setProgress}: ProfilePicProps
       uploadTask = imagesRef.put(blob);
     }
     uploadTask.on('state_changed', (snapshot) => {
-      console.log('here')
       const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       setProgress(percentage);
     }, (error) => dispatch({
@@ -322,7 +320,6 @@ export const updatePassword = (password: string) => (dispatch: Dispatch<Dispatch
 
 export const sendPasswordReset = (email: string) => (dispatch: Dispatch<DispatchProps>): Promise<Action> => {
   firebaseClient();
-  console.log(email)
   return firebase.auth().sendPasswordResetEmail(email)
     .then(() => dispatch({
       type: PASSWORD_RESET,

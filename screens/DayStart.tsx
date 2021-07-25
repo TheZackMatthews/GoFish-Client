@@ -89,7 +89,6 @@ const DayStart = ({ navigation }: Props) => {
     }
 
     const result: any = await dispatch(initializeFieldVisit({creekName, teamLead, sendMembers}))
-    console.log(result)
     if (result && !result.payload.error) {
       await setTeamMembers(['']);
       await setCreekName('');

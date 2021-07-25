@@ -42,7 +42,7 @@ export const initializeFieldVisit = ({creekName, teamLead, sendMembers}: SurveyP
     location.longitude = tempLocation.coords.longitude;
     location.latitude = tempLocation.coords.latitude;
   }
-  console.log(creekName, sendMembers)
+
   try {
     return axios.post(`${API}visit`, {creekName, teamLead, teamMembers: sendMembers})
       .then((response) => dispatch({
