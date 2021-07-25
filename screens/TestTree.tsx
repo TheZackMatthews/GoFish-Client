@@ -14,6 +14,8 @@ import ShortInput from '../components/questions/ShortInput';
 import questionnaire from '../constants/FishFlow';
 import { DefaultRootState } from '../interfaces/state';
 import { IAnswer } from '../interfaces/flow';
+import AccessCamera from '../components/camera/AccessCamera';
+import CameraButton from '../components/camera/CameraButton';
 
 interface Props {
   navigation: {
@@ -25,7 +27,7 @@ interface Props {
 const TestTree = ({ navigation }: Props) => {
   const [question, setQuestion] = useState(questionnaire.start);
   const [answer, setAnswer] = useState<IAnswer | undefined>(undefined);
-  console.log(question.validation)
+
   const validate = (i: number) => {
     const newValidate = question.validation;
     newValidate[i] = true;
@@ -98,14 +100,24 @@ const TestTree = ({ navigation }: Props) => {
         return (
           <ShortInput
             question={oneQuestion}
+            validate={validate}
+            i={i}
           />
         );
       case 'inputLong':
         return (
           <LongInput
             question={oneQuestion}
+            validate={validate}
+            i={i}
           />
         );
+      case 'photo':
+        return (
+          <AccessCamera
+            navigation={navigation}
+          />
+        )
       default:
         return (<Text>No answer found!</Text>);
     }
@@ -129,10 +141,10 @@ const TestTree = ({ navigation }: Props) => {
             ))}
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 30 }}>
-            <Button raised mode="outlined" onPress={backHandler}>
+            <Button mode="outlined" onPress={backHandler}>
               Back
             </Button>
-            <Button raised mode="outlined" onPress={navigationHandler}>
+            <Button mode="outlined" onPress={navigationHandler}>
               Next
             </Button>
           </View>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, Alert } from 'react-native';
 import { Button } from 'react-native-paper';
-import PropTypes from 'prop-types';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useDispatch, useSelector } from 'react-redux';

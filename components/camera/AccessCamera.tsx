@@ -1,24 +1,47 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
-import { Avatar, Colors, useTheme } from 'react-native-paper';
+import { Avatar, Colors, useTheme, List } from 'react-native-paper';
+import { useSelector } from 'react-redux';
+import { DefaultRootState } from '../../interfaces/state';
 
 interface Props {
-  navigationHandler: (direction: string) => void,
+  navigation: {
+    navigate: (page: string) => void,
+  }
 }
 
-const AccessCamera = ({ navigationHandler }: Props) => {
+const AccessCamera = ({ navigation }: Props) => {
+  const images = useSelector((state: DefaultRootState) => state.pin.images);
   const theme = useTheme();
+  console.log(images);
+  
+  const renderImageList = () => {
+    if (images && images.length) {
+      return images.map((pic, i) => {
+        const title = `Picture ${i + 1} (${pic.category ? pic.category : "No category"})`
+        return (
+          <List.Item
+            key={pic.uri}
+            title={title}
+            description={pic.comment}
+        />)
+      })
+    }
+  }
 
   return (
     <View style={{
       justifyContent: 'center',
-      flexDirection: 'row',
+      flexDirection: 'column',
       marginVertical: 15,
     }}
     >
+      {renderImageList()}
       <TouchableOpacity
-        onPress={() => navigationHandler}
+        style={{
+          alignSelf: 'center',
+        }}
+        onPress={() => navigation.navigate('Camera')}
       >
         <Avatar.Icon
           style={{ backgroundColor: theme.colors.medGreen }}

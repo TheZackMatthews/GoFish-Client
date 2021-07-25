@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, View } from 'react-native';
 import { Title, TextInput } from 'react-native-paper';
 import Modal from 'react-native-modal';
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
 
 interface IImageObject {
   uri: string,
@@ -27,14 +27,14 @@ const ModalCamera = ({
     { label: 'Other reason.', value: 'other' },
   ];
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<ValueType | ValueType[] | null>(null);
   const [items, setItems] = useState<{label: string, value: string}[]>(list);
-
+  console.log(value)
   const toggleModal = async () => {
     await savePhoto({
       ...imageObject,
       comment,
-      category: value,
+      category: value as string,
     });
     setModalVisible(!modalVisible);
   };
@@ -60,7 +60,7 @@ const ModalCamera = ({
             value={value}
             items={items}
             setOpen={setOpen}
-            setValue={() => setValue}
+            setValue={(value) => setValue(value)}
             setItems={() => setItems}
             style={{
               borderWidth: 0,
