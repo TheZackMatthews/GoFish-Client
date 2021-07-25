@@ -13,7 +13,6 @@ interface Props {
 const AccessCamera = ({ navigation }: Props) => {
   const images = useSelector((state: DefaultRootState) => state.pin.images);
   const theme = useTheme();
-  console.log(images);
   
   const renderImageList = () => {
     if (images && images.length) {

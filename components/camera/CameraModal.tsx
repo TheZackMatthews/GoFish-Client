@@ -29,7 +29,7 @@ const ModalCamera = ({
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<ValueType | ValueType[] | null>(null);
   const [items, setItems] = useState<{label: string, value: string}[]>(list);
-  console.log(value)
+  
   const toggleModal = async () => {
     await savePhoto({
       ...imageObject,

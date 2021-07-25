@@ -50,11 +50,11 @@ const SpawnerProfile = ({ navigation }: Props) => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (!visit.creek_name || !visit.creek_name.length) {
-  //     navigation.navigate('DayStart');
-  //   }
-  // }, [visit])
+  useEffect(() => {
+    if (!visit.creek_name || !visit.creek_name.length) {
+      navigation.navigate('DayStart');
+    }
+  }, [])
 
   const navHandler = (type: string): void => {
     navigation.navigate(type);
@@ -102,18 +102,24 @@ const SpawnerProfile = ({ navigation }: Props) => {
   };
 
   if (!user.uid) {
-    return (<View>
-      <Button onPress={() => navigation.navigate('SignIn')}>
-        Sign In
-      </Button>
-    </View>)
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <KeyboardAvoidingView behavior="height" style={styles.container}>
+          <ScrollView>
+            <Button onPress={() => navigation.navigate('SignIn')}>
+              Sign In
+            </Button>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    )
   }
 
   return !loading ? (
-      <SafeAreaView style={{ flex: 1 }}>
-    <KeyboardAvoidingView behavior="height" style={styles.container}>
-      <ScrollView>
-        <Modal
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior="height" style={styles.container}>
+        <ScrollView>
+          <Modal
           update="flow_type"
           label="Water flow"
           text="What is the water flow type today?"

@@ -420,7 +420,6 @@ const creekAnswers: IAnswer[] = [
       label: 'Carpenter and Englishe',
       value: 'brickyard_creek',
     },
-
   ]
 
 const creek: IQuestion = {
@@ -455,7 +454,7 @@ const covidSafety: IQuestion = {
 }
 
 const questionnaire: IQuestionnaire = {
-  start: notes,
+  start: fishOrRedd,
   questionPages: {
     fishOrRedd,
     fish1,
@@ -477,7 +476,7 @@ const questionnaire: IQuestionnaire = {
     team,
     teamLead,
     covidSafety,
-  ]
+  ],
 };
 
 

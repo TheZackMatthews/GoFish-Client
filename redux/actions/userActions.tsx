@@ -141,8 +141,22 @@ export const createUser = (signUp: SignUpProps) => (dispatch: Dispatch<DispatchP
 };
 
 // get user (if authenticated but user is not in redux)
-export const getUser = () => (dispatch: Dispatch<DispatchProps>): Unsubscribe => {
+export const getUser = () => async (dispatch: Dispatch<DispatchProps>): Promise<Unsubscribe> => {
   firebaseClient();
+  const { currentUser } = await firebase.auth();
+  
+  if (currentUser) {
+    dispatch({
+      type: GET_USER,
+      payload: {
+        uid: currentUser.uid,
+        displayName: currentUser.displayName,
+        email: currentUser.email,
+        photoURL: currentUser.photoURL,
+        phoneNumber: currentUser.phoneNumber,
+      }
+    })
+  }
   return firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       axios.get(`${API}user/${user.uid}`)

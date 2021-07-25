@@ -52,7 +52,6 @@ export const visitReducer = (state: StateVisit = defaultVisit, { type, payload }
 
 // pin reducer
 export const pinReducer = (state: StatePin = defaultPin, { type, payload }: Action) => {
-  console.log(payload)
   switch (type) {
     case CREATE_PIN:
       return payload;

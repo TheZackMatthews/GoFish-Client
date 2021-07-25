@@ -16,6 +16,7 @@ import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/Theme';
 import { AppDispatch } from '../redux/store';
 import { StateUser, DefaultRootState, StateVisit, StateCache } from '../interfaces/state';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   navigation: {
@@ -86,6 +87,7 @@ const UserProfile = ({ navigation }: Props) => {
   );
 
   return user.uid ? (
+    <SafeAreaView>
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <View style={styles.headContainer}>
@@ -208,7 +210,9 @@ const UserProfile = ({ navigation }: Props) => {
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   ) : (
+    <SafeAreaView>
     <View style={{ margin: 100 }}>
       <Button
         mode="outlined"
@@ -217,6 +221,7 @@ const UserProfile = ({ navigation }: Props) => {
         Sign In.
       </Button>
     </View>
+    </SafeAreaView>
   );
 }
 

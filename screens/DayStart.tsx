@@ -103,50 +103,33 @@ const DayStart = ({ navigation }: Props) => {
   const dispatchVisit = () => {
     const members = teamMembers.filter((e) => e.replace(/(\r\n|\n|\r)/gm, ''));
     const creek = creekName.replace(/(\r\n|\n|\r)/gm, '');
-
-    // This helps for debugging in the browser
-    if (Platform.OS === 'web') {
-      if (isAgreedSafety && teamLead && members.length && creek !== '') {
-        setLoading(true);
-        initializeVisit();
-      } else if (!isAgreedSafety) alert('Please review the covid safety agreement');
-      else if (!teamLead) alert('Please specify the team leader');
-      else if (!members.length) alert('It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors');
-      else if (creek === '') alert('Please specify a creek name');
+    if (!isAgreedSafety) {
+      Alert.alert(
+        'Can\'t continue',
+        'Please review the covid safety agreement',
+        [{ text: 'OK' }],
+      );
+    } else if (!teamLead) {
+      Alert.alert(
+        'Can\'t continue',
+        'Please specify the team leader',
+        [{ text: 'OK' }],
+      );
+    } else if (!members.length) {
+      Alert.alert(
+        'Can\'t continue',
+        'It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors',
+        [{ text: 'OK' }],
+      );
+    } else if (!creek || creek === '') {
+      Alert.alert(
+        'Can\'t continue',
+        'Please specify a creek name',
+        [{ text: 'OK' }],
+      );
     } else {
-    // Alert user if they haven't checked the covid safety agreement
-      // eslint-disable-next-line no-lonely-if
-      if (!isAgreedSafety) {
-        Alert.alert(
-          'Can\'t continue',
-          'Please review the covid safety agreement',
-          [{ text: 'OK' }],
-        );
-      } else if (!teamLead) {
-      // Alert the user if they haven't specified a team lead
-        Alert.alert(
-          'Can\'t continue',
-          'Please specify the team leader',
-          [{ text: 'OK' }],
-        );
-      } else if (!members.length) {
-      // Alert the user if they don't have any team members
-        Alert.alert(
-          'Can\'t continue',
-          'It is against SFEG policy to survey alone, please enter the name or initials of your fellow surveyors',
-          [{ text: 'OK' }],
-        );
-      } else if (!creek || creek === '') {
-      // Alert the user if they haven't specified a creek name
-        Alert.alert(
-          'Can\'t continue',
-          'Please specify a creek name',
-          [{ text: 'OK' }],
-        );
-      } else {
-        setLoading(true);
-        initializeVisit();
-      }
+      setLoading(true);
+      initializeVisit();
     }
   };
 

@@ -4,7 +4,6 @@ import {
 } from 'react-native-paper';
 import { Text, View, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DropDown from '../components/questions/DropDown';
 import ButtonQuestion from '../components/questions/ButtonQuestion';
@@ -12,10 +11,10 @@ import NumberInput from '../components/questions/NumberInput';
 import LongInput from '../components/questions/LongInput';
 import ShortInput from '../components/questions/ShortInput';
 import questionnaire from '../constants/FishFlow';
-import { DefaultRootState } from '../interfaces/state';
 import { IAnswer } from '../interfaces/flow';
 import AccessCamera from '../components/camera/AccessCamera';
-import CameraButton from '../components/camera/CameraButton';
+import { completePin, removePin } from '../redux/actions/surveyActions';
+import { DefaultRootState } from '../interfaces/state';
 
 interface Props {
   navigation: {
@@ -25,8 +24,10 @@ interface Props {
 }
 
 const TestTree = ({ navigation }: Props) => {
+  const dispatch = useDispatch();
   const [question, setQuestion] = useState(questionnaire.start);
   const [answer, setAnswer] = useState<IAnswer | undefined>(undefined);
+  const pin = useSelector((state: DefaultRootState) => state.pin);
 
   const validate = (i: number) => {
     const newValidate = question.validation;
@@ -41,6 +42,7 @@ const TestTree = ({ navigation }: Props) => {
     if (question.validation.includes(false)) {
       Alert.alert('Alert!', 'Please select an option for each question.')
     } else {
+      setAnswer(undefined);
       if (question.next) {
         if (!question.next.prev) {
           let newNext = question.next;
@@ -53,6 +55,11 @@ const TestTree = ({ navigation }: Props) => {
           newNext.prev = question;
           setQuestion(newNext);
         } else setQuestion(answer.next)
+        console.log(answer.next)
+      } else if (question.next === null) {
+        await dispatch(completePin(pin))
+        await dispatch(removePin());
+        navigation.navigate('SpawnerProfile');
       }
     }
   };
