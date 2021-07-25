@@ -10,10 +10,12 @@ import { DefaultRootState } from '../../interfaces/state';
 
 interface Props {
   question: IQuestion,
-  setAnswer: React.Dispatch<React.SetStateAction<ValueType | null | ValueType[]>>,
+  setAnswer: React.Dispatch<React.SetStateAction<IAnswer | undefined>>,
+  validate: (i: number) => void,
+  i: number,
 }
 
-const DropDown = ({ question, setAnswer }: Props) => {
+const DropDown = ({ question, setAnswer, validate, i }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [items, setItems] = useState<IAnswer[] | undefined>(question.answers);
   const [value, setValue] = useState<ValueType | null | ValueType[]>(null);
@@ -21,12 +23,19 @@ const DropDown = ({ question, setAnswer }: Props) => {
   const pin = useSelector((state: DefaultRootState) => state.pin);
 
   const changeHandler = (val: ValueType | null | ValueType[]) => {
-    setAnswer(val);
+    validate(i);
+    setValue(val);
     if (question.data) {
       dispatch(updatePin({
         ...pin,
         [question.data]: val,
       }));
+    }
+    if (setAnswer !== undefined) {
+      const answer = question.answers?.find((one) => {
+        return one.value === val;
+      })
+      setAnswer(answer);
     }
   };
 
@@ -40,7 +49,7 @@ const DropDown = ({ question, setAnswer }: Props) => {
           value={value}
           items={items}
           setOpen={setOpen}
-          setValue={() => setValue}
+          setValue={setValue}
           setItems={() => setItems}
           onChangeValue={(val: ValueType | null | ValueType[]) => changeHandler(val)}
           style={{

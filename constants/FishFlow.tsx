@@ -36,7 +36,7 @@ const notes: IQuestionPage = {
       data: 'photo',
     },
   ],
-  next: undefined,
+  next: null,
 };
 
 const fishDead2: IQuestionPage = {
@@ -113,8 +113,7 @@ const fishDead2: IQuestionPage = {
       ],
     },
   ],
-  next: 'notes',
-  prev: 'fishDead1',
+  next: notes,
 };
 
 const fishDead1: IQuestionPage = {
@@ -134,8 +133,7 @@ const fishDead1: IQuestionPage = {
       label: 'How many fish have you found?',
     },
   ],
-  next: 'fishDead2',
-  prev: 'fish1',
+  next: fishDead2,
 };
 
 const fishAlive1: IQuestionPage = {
@@ -155,8 +153,7 @@ const fishAlive1: IQuestionPage = {
       label: 'How many fish have you found?',
     },
   ],
-  next: 'notes',
-  prev: 'fish1',
+  next: notes,
 };
 
 const fish1: IQuestionPage = {
@@ -172,19 +169,18 @@ const fish1: IQuestionPage = {
           data: 'fish_status',
           value: 'live',
           label: 'Alive',
-          next: 'fishAlive1',
+          next: fishAlive1,
         },
         {
           uid: '4d2b3c',
           data: 'fish_status',
           value: 'carcass',
           label: 'Dead',
-          next: 'fishDead1',
+          next: fishDead1,
         },
       ],
     },
   ],
-  prev: 'fishOrRedd',
 };
 
 const redd2: IQuestionPage = {
@@ -204,8 +200,7 @@ const redd2: IQuestionPage = {
       label: 'How many fish have you found?',
     },
   ],
-  next: 'notes',
-  prev: 'redd1',
+  next: notes,
 };
 
 const redd1: IQuestionPage = {
@@ -219,7 +214,7 @@ const redd1: IQuestionPage = {
         {
           uid: '2b2b3c',
           label: 'Yes',
-          next: 'redd2',
+          next: redd2,
         },
         {
           uid: '2c2b3c',
@@ -460,7 +455,7 @@ const covidSafety: IQuestion = {
 }
 
 const questionnaire: IQuestionnaire = {
-  start: fishOrRedd,
+  start: fishAlive1,
   questionPages: {
     fishOrRedd,
     fish1,
@@ -486,5 +481,10 @@ const questionnaire: IQuestionnaire = {
 };
 
 
-redd1['prev'] = questionnaire.questionPages.fishOrRedd
+redd1['prev'] = questionnaire.questionPages.fishOrRedd;
+redd2['prev'] = questionnaire.questionPages.redd1;
+fish1['prev'] = questionnaire.questionPages.fishOrRedd;
+fishAlive1['prev'] = questionnaire.questionPages.fish1;
+fishDead1['prev'] = questionnaire.questionPages.fish1;
+fishDead2['prev'] = questionnaire.questionPages.fishDead1;
 export default questionnaire;

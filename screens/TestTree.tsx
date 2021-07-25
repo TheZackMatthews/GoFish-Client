@@ -25,12 +25,7 @@ interface Props {
 const TestTree = ({ navigation }: Props) => {
   const [question, setQuestion] = useState(questionnaire.start);
   const [answer, setAnswer] = useState<IAnswer | undefined>(undefined);
-  const theme = useTheme();
-  const pin = useSelector((state: DefaultRootState) => state.pin);
-  const dispatch = useDispatch();
-
-  console.log(question);
-
+  console.log(question.validation)
   const validate = (i: number) => {
     const newValidate = question.validation;
     newValidate[i] = true;
@@ -44,8 +39,19 @@ const TestTree = ({ navigation }: Props) => {
     if (question.validation.includes(false)) {
       Alert.alert('Alert!', 'Please select an option for each question.')
     } else {
-      if (question.next) setQuestion(question.next);
-      else if (answer !== undefined && answer.next) setQuestion(answer.next)
+      if (question.next) {
+        if (!question.next.prev) {
+          let newNext = question.next;
+          newNext.prev = question;
+          setQuestion(newNext)
+        } else setQuestion(question.next)
+      } else if (answer !== undefined && answer.next) {
+        if (!answer.next.prev) {
+          let newNext = answer.next;
+          newNext.prev = question;
+          setQuestion(newNext);
+        } else setQuestion(answer.next)
+      }
     }
   };
 
@@ -75,14 +81,17 @@ const TestTree = ({ navigation }: Props) => {
         return (
           <DropDown
             question={oneQuestion}
+            setAnswer={oneQuestion.next ? undefined : setAnswer}
+            validate={validate}
+            i={i}
           />
         );
       case 'inputNumber':
         return (
           <NumberInput
-            // answer={}
-            // setAnswer={}
-            
+            question={oneQuestion}
+            validate={validate}
+            i={i}
           />
         );
       case 'inputString':
@@ -133,20 +142,6 @@ const TestTree = ({ navigation }: Props) => {
       )}
     </SafeAreaView>
   );
-};
-
-TestTree.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  }),
-};
-
-TestTree.defaultProps = {
-  navigation: {
-    navigate: () => null,
-    goBack: () => this.navigate('Profile'),
-  },
 };
 
 export default TestTree;

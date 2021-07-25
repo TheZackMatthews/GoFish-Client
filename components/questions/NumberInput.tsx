@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,28 +8,32 @@ import { IQuestion } from '../../interfaces/flow';
 
 interface Props {
   question: IQuestion,
-  answer: string,
-  setAnswer: React.Dispatch<React.SetStateAction<string>>,
+  validate: (i: number) => void,
+  i: number,
 }
 
-const NumberInput = ({ question, answer, setAnswer }: Props): JSX.Element => {
+// There is no 'setAnswer' from the parent because there is no conditional
+// rendering of the next page based on a number input.
+const NumberInput = ({ question, validate, i }: Props): JSX.Element => {
   const dispatch = useDispatch();
   const pin = useSelector((state: DefaultRootState) => state.pin);
+  const [input, setInput] = useState<string>('0');
 
   const changeHandler = (number: string) => {
-    setAnswer(number);
+    validate(i);
     if (question.data) {
       dispatch(updatePin({
         ...pin,
-        [question.data]: answer,
+        [question.data]: number,
       }));
     }
+    setInput(number);
   };
   return (
     <View>
       <TextInput
         keyboardType="numeric"
-        value={answer}
+        value={input}
         onChangeText={(number) => changeHandler(number)}
       />
     </View>
