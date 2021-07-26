@@ -6,6 +6,8 @@ import {
   ScrollView,
   Text,
   View,
+  Platform,
+  BackHandler,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -20,7 +22,7 @@ import {
   WaterConditions,
   ViewingConditions,
 } from '../constants/WaterAir';
-import styles from '../styles/UserStyles';
+import { styles } from '../styles/UserStyles';
 import { SIZES } from '../constants/Theme';
 import { DefaultRootState } from '../interfaces/state';
 import renderItem from '../components/questions/Item';
@@ -42,6 +44,17 @@ const SpawnerProfile = ({ navigation }: Props) => {
   const [visibilityModal, setVisibilityModal] = useState<boolean>(false);
   const [viewingModal, setViewingModal] = useState<boolean>(false);
   const iconColor = '#001a1a';
+
+  const handleBackButton = () => true;
+
+  // The following function disables android's back button
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+  }, []);
+
+  useEffect(() => BackHandler.removeEventListener('hardwareBackPress', handleBackButton), []);
+
+  console.log(visit);
 
   useEffect(() => {
     if (!user.uid) {

@@ -51,7 +51,7 @@ const SignIn = ({ navigation }: Props) => {
         <View style={styles.view}>
           {!!errorM && <Text>{errorM}</Text>}
           <TextInput
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => setEmail(text.trim())}
             value={email}
             label="Email"
           />

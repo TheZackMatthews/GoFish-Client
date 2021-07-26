@@ -15,6 +15,7 @@ const OneAnswer = ({
   question, form, setForm,
 }: Props) => {
   const list = [
+    { label: 'Unknown', value: 'unknown' },
     { label: 'Chinook', value: 'chinook' },
     { label: 'Coho', value: 'coho' },
     { label: 'Sockeye', value: 'sockeye' },

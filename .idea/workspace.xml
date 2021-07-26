@@ -9,8 +9,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8502b92-c20f-44ea-a75c-264152f6a989" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,12 +69,16 @@
     </state>
     <state x="764" y="225" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620878754927" />
     <state x="1701" y="375" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.30.3440.1410@0.30.3440.1410" timestamp="1620679428197" />
-    <state x="296" y="131" width="1199" height="591" key="AVDManager" timestamp="1621190865514">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="805" y="453" width="624" height="701" key="#com.intellij.unscramble.UnscrambleDialog" timestamp="1623109113385">
+      <screen x="0" y="30" width="3440" height="1410" />
+    </state>
+    <state x="805" y="453" width="624" height="701" key="#com.intellij.unscramble.UnscrambleDialog/0.30.3440.1410@0.30.3440.1410" timestamp="1623109113385" />
+    <state x="1169" y="160" width="1200" height="800" key="AVDManager" timestamp="1623541746920">
+      <screen x="0" y="30" width="3440" height="1410" />
     </state>
     <state x="296" y="131" width="1199" height="591" key="AVDManager/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1621190865514" />
     <state x="296" y="131" width="1199" height="591" key="AVDManager/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1621091250423" />
-    <state x="530" y="208" width="1200" height="800" key="AVDManager/0.30.3440.1410@0.30.3440.1410" timestamp="1620687613027" />
+    <state x="1169" y="160" width="1200" height="800" key="AVDManager/0.30.3440.1410@0.30.3440.1410" timestamp="1623541746920" />
     <state x="1138" y="320" key="AndroidProcessChooserDialog" timestamp="1620878694449">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
