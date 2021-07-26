@@ -139,7 +139,7 @@ export const saveVisit = (fieldVisit: StateVisit) => async (dispatch: Dispatch<D
       });
     return dispatch({
       type: SAVE_VISIT,
-      payload: '',
+      payload: defaultVisit,
     });
   } catch (error) {
     console.log(error);

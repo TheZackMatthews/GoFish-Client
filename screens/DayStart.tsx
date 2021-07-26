@@ -43,7 +43,7 @@ const DayStart = ({ navigation }: Props) => {
 
   useEffect(() => {
     setLoading(false);
-    dispatch(getUser());
+    if (!user) dispatch(getUser());
     dispatch(removeVisit())
   }, []);
 
@@ -142,11 +142,15 @@ const DayStart = ({ navigation }: Props) => {
   };
 
   if (!user.uid) {
-    return (<View>
-      <Button onPress={() => navigation.navigate('SignIn')}>
-        Sign In
-      </Button>
-    </View>)
+    return (
+      <SafeAreaView>
+        <View>
+          <Button onPress={() => navigation.navigate('SignIn')}>
+            Sign In
+          </Button>
+        </View>
+      </SafeAreaView>
+    )
   }
 
   return !loading ? (

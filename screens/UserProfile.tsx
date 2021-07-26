@@ -6,17 +6,16 @@ import {
   Text,
   View,
   FlatList,
+  SafeAreaView,
 } from 'react-native';
 import {
-  Title, Button, List, Avatar,
-  useTheme,
+  Title, Button, List, Avatar, useTheme,
 } from 'react-native-paper';
 import { logOutUser, getUser } from '../redux/actions/userActions';
 import styles from '../styles/UserStyles';
 import { SIZES } from '../constants/Theme';
 import { AppDispatch } from '../redux/store';
 import { StateUser, DefaultRootState, StateVisit, StateCache } from '../interfaces/state';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   navigation: {
@@ -40,7 +39,7 @@ const UserProfile = ({ navigation }: Props) => {
   const cache: StateCache = useSelector((state: DefaultRootState) => state.cache);
 
   useEffect(() => {
-    dispatch(getUser());
+    if (!user) dispatch(getUser());
   }, []);
 
   const submitHandler = async (): Promise<any> => {
@@ -87,7 +86,7 @@ const UserProfile = ({ navigation }: Props) => {
   );
 
   return user.uid ? (
-    <SafeAreaView>
+    // <SafeAreaView>
     <KeyboardAvoidingView behavior="height" style={styles.container}>
       <ScrollView>
         <View style={styles.headContainer}>
@@ -210,7 +209,7 @@ const UserProfile = ({ navigation }: Props) => {
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
-    </SafeAreaView>
+    // </SafeAreaView>
   ) : (
     <SafeAreaView>
     <View style={{ margin: 100 }}>
