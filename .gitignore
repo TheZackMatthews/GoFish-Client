@@ -22,3 +22,9 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 .expo
+.env.json
+
+# vim
+*.swp
+*.swo
+*.*~
