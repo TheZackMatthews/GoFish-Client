@@ -184,13 +184,13 @@ const UserProfile = ({ navigation }: Props) => {
               Projects
             </List.Subheader>
             <List.Item
-              title="Chinook Salmon Monitoring"
+              title="Spawner Survey: 2020"
               style={{ width: 350 }}
               onPress={() => navigationFunc('DayStart')}
               left={() => <List.Icon color={theme.colors.primary} icon="fish" />}
             />
             <List.Item
-              title="Vegetation Monitoring"
+              title="Spawner Survey: 2021"
               onPress={() => navigationFunc('Profile')}
               left={() => <List.Icon color={theme.colors.primary} icon="tree-outline" />}
             />
