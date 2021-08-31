@@ -44,7 +44,7 @@ https://github.com/TheZackMatthews/GoFish-Supervisor
 - Next.js
 - Firebase
 ## Credits
-Created as a thesis project for Codeworks Remote EST 2021
+
 - Antti Mölsä 
     https://github.com/anttim1
 - Zack Matthews
