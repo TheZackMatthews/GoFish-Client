@@ -1,6 +1,25 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    backgroundColor: '#F5FCFF',
+    flex: 1,
+
+    // Android requiers padding to avoid overlapping
+    // with content and autocomplete
+    paddingTop: 50,
+
+    // Make space for the default top bar
+    ...Platform.select({
+      web: {
+        marginTop: 0,
+      },
+      default: {
+        marginTop: 25,
+      },
+    }),
+  },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'space-around',

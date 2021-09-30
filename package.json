@@ -14,7 +14,10 @@
     "@react-native-firebase/storage": "^11.4.1",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
+    "@types/react-native-dotenv": "^0.2.0",
+    "@types/react-redux": "^7.1.16",
     "axios": "^0.21.1",
+    "dayjs": "^1.10.5",
     "dotenv": "^9.0.0",
     "expo": "~41.0.1",
     "expo-camera": "^11.0.3",
@@ -51,10 +54,19 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "remote-redux-devtools": "^0.5.16",
+    "ts-node": "^10.0.0",
     "unimodules-permissions-interface": "^6.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@types/jest": "^26.0.23",
+    "@types/lodash": "^4.14.170",
+    "@types/react": "^17.0.9",
+    "@types/react-native": "^0.64.10",
+    "@types/react-native-autocomplete-input": "^4.0.1",
+    "@types/react-native-vector-icons": "^6.4.6",
+    "@types/react-test-renderer": "^17.0.1",
+    "@types/redux-logger": "^3.0.8",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "eslint": "^7.26.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -66,7 +78,8 @@
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier-eslint": "^12.0.0",
     "react-devtools": "^4.13.2",
-    "react-native-dotenv": "^2.5.5"
+    "react-native-dotenv": "^2.5.5",
+    "typescript": "^4.3.2"
   },
   "private": true
 }

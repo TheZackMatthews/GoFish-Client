@@ -1,6 +1,6 @@
 import { DefaultTheme } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
-import { SIZES, FONTS, COLORS } from '../constants/theme';
+import { SIZES, FONTS, COLORS } from '../constants/Theme';
 
 export const appStyles = StyleSheet.create({
   container: {
