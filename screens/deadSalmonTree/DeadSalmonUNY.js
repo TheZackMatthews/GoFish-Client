@@ -7,7 +7,7 @@ import styles from '../../styles/QuestionStyles';
 
 const DeadSalmonUNY = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const question = 'Does it have red/purple virtical bars on body?';
+  const question = 'Does it have red/purple vertical bars on body?';
   const answer1 = 'Yes';
   const answer2 = 'No';
 

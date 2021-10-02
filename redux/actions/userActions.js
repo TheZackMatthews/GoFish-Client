@@ -52,6 +52,8 @@ export const logOutUser = (setErrorM) => (dispatch) => {
 
 // create user action
 export const createUser = (signUp, setErrorM) => (dispatch) => {
+  console.log('creating user...');
+  firebaseClient();
   const { email, password } = signUp;
   return firebase
     .auth()
@@ -102,7 +104,7 @@ export const getUser = () => (dispatch) => {
 export const updateProfile = (editUser, setErrorM) => async (dispatch) => {
   firebaseClient();
   const user = firebase.auth().currentUser;
-  user.updateProfile({
+  user?.updateProfile({
     displayName: editUser.displayName,
   })
     .then(() => dispatch({
@@ -173,7 +175,6 @@ export const updatePassword = (password, setErrorM) => (dispatch) => {
 export const sendPasswordReset = (email, setErrorM) => (dispatch) => {
   firebaseClient();
   firebase.auth().sendPasswordResetEmail(email)
-    .then(() => console.log('email sent'))
     .catch((error) => setErrorM(error.message));
   return dispatch({
     type: PASSWORD_RESET,

@@ -7,7 +7,7 @@ import styles from '../../styles/QuestionStyles';
 
 const DeadSalmonUNNY = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const question = 'Is salmon in a streem associated with a lake?';
+  const question = 'Is salmon in a stream associated with a lake?';
   const answer1 = 'Yes';
   const answer2 = 'No';
 

@@ -6,7 +6,6 @@ import {
   ScrollView,
   Text,
   View,
-  Platform,
   BackHandler,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -68,10 +67,10 @@ const SpawnerProfile = ({ navigation }) => {
     } else {
       console.log('error', result);
     }
-    // });
   };
 
   const saveHandler = () => {
+    console.log('saving data...');
     setLoading(true);
     sendToRedux();
   };

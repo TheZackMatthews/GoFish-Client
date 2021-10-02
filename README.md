@@ -12,7 +12,7 @@ https://github.com/TheZackMatthews/GoFish-API
 https://github.com/TheZackMatthews/GoFish-Supervisor
 
 > GoFish-API
-  
+
     PORT = 3001
     HOST = localhost
     DBCONNECTIONURL = <amazon AWS server address>
@@ -28,6 +28,7 @@ https://github.com/TheZackMatthews/GoFish-Supervisor
     FB_storageBucket=<Firebase Database URL>
     FB_messagingSenderId=<Firebase ID>
     FB_appId=<Firebase Client ID>
+    API=<URL of GoFish-API>
 
 ## Technology Used
 ##### GoFish Client
@@ -45,7 +46,7 @@ https://github.com/TheZackMatthews/GoFish-Supervisor
 - Firebase
 ## Credits
 Created as a thesis project for Codeworks Remote EST 2021
-- Antti Mölsä 
+- Antti Mölsä
     https://github.com/anttim1
 - Zack Matthews
     https://github.com/TheZackMatthews

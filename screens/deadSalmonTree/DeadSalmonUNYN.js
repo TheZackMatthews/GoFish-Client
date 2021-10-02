@@ -7,7 +7,7 @@ import styles from '../../styles/QuestionStyles';
 
 const DeadSalmonUNYN = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const question = 'Does it have black gum?';
+  const question = 'Does it have black gums?';
   const answer1 = 'Yes';
   const answer2 = 'No';
 

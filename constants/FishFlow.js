@@ -84,8 +84,8 @@ questionnaire.fishDead2 = {
     {
       uid: '10a2b3c',
       type: questionTypes.buttons,
-      label: 'What gender is it?',
-      data: 'gender',
+      label: 'What sex is it?',
+      data: 'sex',
       answers: [
         {
           uid: '10b2b3c',

@@ -9,11 +9,11 @@ const DeadSockeye = ({ navigation }) => (
   <View style={styles.container}>
     <Card>
       <Card.Title title="Sockeye" subtitle="" />
-      <Card.Cover source={sockeye.sockeyeFemale} />
+      <Card.Cover source={sockeye.normal} />
     </Card>
     <Button
       mode="contained"
-      onPress={() => navigation.navigate('DeadFish1')}
+      onPress={() => navigation.navigate('Fish1')}
     >
       Main Page
     </Button>

@@ -8,16 +8,16 @@ const PreviewButtons = ({ savePhoto, retakePicture }) => (
   <View style={styles.btnContainer}>
     <View style={styles.twoBtnBorder}>
       <Button
-        onPress={savePhoto}
-        mode="contained"
-      >
-        Save
-      </Button>
-      <Button
         mode="contained"
         onPress={retakePicture}
       >
         Retake
+      </Button>
+      <Button
+        onPress={savePhoto}
+        mode="contained"
+      >
+        Save
       </Button>
     </View>
   </View>

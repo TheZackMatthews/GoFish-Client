@@ -14,7 +14,7 @@ const Fish1 = ({ navigation }) => {
   if (!user) dispatch(getUser());
   const pin = useSelector((state) => state.pin);
   const [selected, setSelected] = useState(null);
-  const question = 'Is it alive or dead?';
+  const question = 'Is the fish alive or dead?';
   const answer1 = 'Alive';
   const answer2 = 'Dead';
 

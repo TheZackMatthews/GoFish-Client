@@ -9,11 +9,11 @@ const DeadChinook = ({ navigation }) => (
   <View style={styles.container}>
     <Card>
       <Card.Title title="Chinook" subtitle="Check for black gum" />
-      <Card.Cover source={chinook.chinookFemale} />
+      <Card.Cover source={chinook.normal} />
     </Card>
     <Button
       mode="contained"
-      onPress={() => navigation.navigate('DeadFish1')}
+      onPress={() => navigation.navigate('Fish1')}
     >
       Main Page
     </Button>

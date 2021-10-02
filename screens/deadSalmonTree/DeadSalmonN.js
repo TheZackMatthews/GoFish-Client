@@ -7,7 +7,7 @@ import styles from '../../styles/QuestionStyles';
 
 const DeadSalmonN = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const question = 'Does salmon have small eye and bright red body?';
+  const question = 'Does salmon have small eyes and bright red body?';
   const answer1 = 'Yes';
   const answer2 = 'No';
 

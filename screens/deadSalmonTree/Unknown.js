@@ -11,7 +11,7 @@ const Unknown = ({ navigation }) => (
     </Card>
     <Button
       mode="contained"
-      onPress={() => navigation.navigate('DeadFish1')}
+      onPress={() => navigation.navigate('Fish1')}
     >
       Main Page
     </Button>

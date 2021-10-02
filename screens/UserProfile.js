@@ -19,7 +19,6 @@ import { SIZES } from '../constants/theme';
 function UserProfile({ navigation }) {
   const [errorM, setErrorM] = useState('');
   const theme = useTheme();
-  console.log(theme);
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
@@ -136,7 +135,7 @@ function UserProfile({ navigation }) {
           >
             Edit Info
           </Button>
-          <Button
+          {/* <Button
             style={{ width: SIZES.width * 0.4 }}
             onPress={() => navigationFunc('Preferences')}
             mode="contained"
@@ -144,7 +143,7 @@ function UserProfile({ navigation }) {
             color={theme.colors.light}
           >
             Preferences
-          </Button>
+          </Button> */}
         </View>
         {cache && (cache.length > 0)
             && (
@@ -165,15 +164,10 @@ function UserProfile({ navigation }) {
               Projects
             </List.Subheader>
             <List.Item
-              title="Chinook Salmon Monitoring"
+              title="Skagit Salmon Observation"
               style={{ width: 350 }}
               onPress={() => navigationFunc('DayStart')}
               left={() => <List.Icon color={theme.colors.primary} icon="fish" />}
-            />
-            <List.Item
-              title="Vegetation Monitoring"
-              onPress={() => navigationFunc('Profile')}
-              left={() => <List.Icon color={theme.colors.primary} icon="tree-outline" />}
             />
           </List.Section>
         </View>

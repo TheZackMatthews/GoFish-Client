@@ -11,13 +11,13 @@ import styles from '../../styles/QuestionStyles';
 const FishDead2 = ({ navigation }) => {
   const [fork, setFork] = useState(null);
   const [fin, setFin] = useState(null);
-  const [gender, setGender] = useState(null);
+  const [sex, setGender] = useState(null);
   const [spawn, setSpawn] = useState(null);
 
   const navigationHandler = (direction) => {
     if (direction === 'back') {
       navigation.navigate('FishDead1');
-    } else if (fork && fin && gender && spawn) {
+    } else if (fork && fin && sex && spawn) {
       navigation.navigate('Notes');
     } else {
       Alert.alert('Please answer all the questions!');
@@ -55,7 +55,7 @@ const FishDead2 = ({ navigation }) => {
           choose={setSpawn}
         />
         <TwoAnswer
-          question="What gender is it?"
+          question="What sex is it?"
           answer1="Male"
           answer2="Female"
           choose={setGender}

@@ -22,7 +22,7 @@ import BackNext from '../components/questions/BackNext';
 
 import { creekList } from '../assets/creeknames.json';
 
-const safetyAgreement = 'I certify that all team members report no Covid-19 symptoms and have all required PPE including face masks (to be worn when team members are within 6 feet of each other) and high visibility vests';
+const safetyAgreement = 'I certify that all team members report no Covid-19 symptoms and have all required PPE and high visibility vests';
 
 // TODO: We should probably prevent them from continuing if dispatch(initializeFieldVisit) fails
 

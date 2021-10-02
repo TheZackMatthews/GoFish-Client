@@ -9,11 +9,11 @@ const DeadCoho = ({ navigation }) => (
   <View style={styles.container}>
     <Card>
       <Card.Title title="Coho" subtitle="White mouth, green/red body" />
-      <Card.Cover source={coho.cohoFemale} />
+      <Card.Cover source={coho.normal} />
     </Card>
     <Button
       mode="contained"
-      onPress={() => navigation.navigate('DeadFish1')}
+      onPress={() => navigation.navigate('Fish1')}
     >
       Main Page
     </Button>

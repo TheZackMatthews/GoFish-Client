@@ -7,7 +7,7 @@ import styles from '../../styles/QuestionStyles';
 
 const DeadSalmon1 = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const question = 'Does salmon has spots on dorsan and caudal fin?';
+  const question = 'Does salmon has spots on dorsal and caudal fin?';
   const answer1 = 'Yes';
   const answer2 = 'No';
   const answer3 = 'Tail Damaged';

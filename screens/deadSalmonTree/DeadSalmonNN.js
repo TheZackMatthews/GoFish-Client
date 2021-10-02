@@ -7,7 +7,7 @@ import styles from '../../styles/QuestionStyles';
 
 const DeadSalmonNN = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const question = 'Does salmon have big eye, big teeth, and virtical bars on body that are red/purple?';
+  const question = 'Does salmon have big eye, big teeth, and vertical bars on body that are red/purple?';
   const answer1 = 'Yes';
   const answer2 = 'No';
 
