@@ -1,12 +1,13 @@
 {
   "expo": {
+    "owner": "thezackmatthews",
     "name": "gofish-client",
     "slug": "gofish-client",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/GoFishLogo2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
